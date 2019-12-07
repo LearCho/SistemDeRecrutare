@@ -7,25 +7,31 @@
     ViewBag.Title = "Locuri de munca - Aplica";
 }
 
-    <div class="jumbotron">
-        <h1>Aplica la jobul mult visat</h1>
-        <p class="lead">Gaseste-ti locul de munca potrivit din anunturile postate de angajatori</p>
+<div class="jumbotron">
+    <h1>Aplica la jobul mult visat</h1>
+    <p class="lead">Gaseste-ti locul de munca potrivit din anunturile postate de angajatori</p>
 
-        @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-        {
-    <div class="col-md-10">
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        <div class="row">
+            <div class="col-md-1"></div>
 
-        @Html.TextBoxFor(m => m.Job_cautat, new { @class = "form-control" })
-        <div class="img-cauta-job" align="justify">
-            <img src="~/Content/Img/search1.png" alt="Cauta joburi" height="32" width="32">
+            <div class="col-md-3">
+                @Html.TextBoxFor(m => m.Job_cautat, new { @class = "form-control", placeholder = "Cuvinte cheie" })
+            </div>
+            <div align="justify" class="col-md-1">
+                <img src="~/Content/Img/search1.png" alt="Cauta joburi" height="29" width="31">
+            </div>
+            <div class="col-md-5">
+                <a href="https://asp.net" class="btn btn-primary btn-lg" onclick="">Cauta joburi &raquo;</a>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-1"></div>
         </div>
-    </div>
-            <a href="https://asp.net" class="btn btn-primary btn-lg" onclick="">Cauta joburi &raquo;</a>
-
-        }
+    }
 
 
-    </div>
+</div>
 
 
 

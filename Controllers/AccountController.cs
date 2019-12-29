@@ -99,7 +99,7 @@ namespace SistemRecrutare.Controllers
             // Require that the user has already logged in via username/password or external login
             if (!await SignInManager.HasBeenVerifiedAsync())
             {
-                return View("Error");
+                return View("Eroare");
             }
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
@@ -189,7 +189,7 @@ namespace SistemRecrutare.Controllers
         {
             if (userId == null || code == null)
             {
-                return View("Error");
+                return View("Eroare");
             }
             var result = await UserManager.ConfirmEmailAsync(userId, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Eroare");

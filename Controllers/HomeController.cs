@@ -56,7 +56,7 @@ namespace SistemRecrutare.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Pagina de contact.";
 
             return View();
         }

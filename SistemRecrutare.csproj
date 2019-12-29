@@ -46,9 +46,26 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MySql.Data, Version=8.0.18.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\MySQL\Connector NET 8.0\Assemblies\v4.5.2\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data.EntityFramework, Version=8.0.18.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\MySQL\Connector NET 8.0\Assemblies\v4.5.2\MySql.Data.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="MySQL.Utility">
+      <HintPath>..\..\..\..\..\Program Files (x86)\MySQL\MySQL for Visual Studio 1.2\Dependencies\MySQL.Utility.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Web, Version=8.0.18.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\MySQL\Connector NET 8.0\Assemblies\v4.5.2\MySql.Web.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -168,7 +185,26 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DBController.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DBController.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\DBController.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DBController.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\DBController.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DBController.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\job.cs">
+      <DependentUpon>DBController.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -180,11 +216,14 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\JobModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Img\back.png" />
+    <Content Include="Content\Img\back2.png" />
     <Content Include="Content\Img\background1.jpg" />
     <Content Include="Content\Img\background2.jpg" />
     <Content Include="Content\Img\background3.jpg" />
@@ -200,6 +239,9 @@
     <Content Include="Content\Img\cv2.jpg" />
     <Content Include="Content\Img\cv2.png" />
     <Content Include="Content\Img\ist1.png" />
+    <Content Include="Content\Img\lista.png" />
+    <Content Include="Content\Img\page-border.png" />
+    <Content Include="Content\Img\page-border2.jpg" />
     <Content Include="Content\Img\platform1.jpg" />
     <Content Include="Content\Img\platform2.jpg" />
     <Content Include="Content\Img\platform3.jpg" />
@@ -207,12 +249,29 @@
     <Content Include="Content\Img\platform5.jpg" />
     <Content Include="Content\Img\search1.png" />
     <Content Include="Content\style-desktop.css" />
+    <Content Include="Controllers\DBController.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DBController.edmx</DependentUpon>
+      <LastGenOutput>DBController.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Controllers\DBController.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DBController.edmx</DependentUpon>
+      <LastGenOutput>DBController.cs</LastGenOutput>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="Controllers\DBController.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DBController.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Controllers\DBController.edmx.diagram">
+      <DependentUpon>DBController.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -258,6 +317,8 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Job\Lista.cshtml" />
+    <Content Include="Views\Job\Creare.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -278,7 +339,11 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201911162227579_InitialCreate.resx">
       <DependentUpon>201911162227579_InitialCreate.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

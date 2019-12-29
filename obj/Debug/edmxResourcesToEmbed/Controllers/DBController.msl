@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DB_sistem_recrutareModelStoreContainer" CdmEntityContainer="DB_Models">
+    <EntitySetMapping Name="jobs">
+      <EntityTypeMapping TypeName="DB_sistem_recrutareModel.job">
+        <MappingFragment StoreEntitySet="job">
+          <ScalarProperty Name="id_job" ColumnName="id_job" />
+          <ScalarProperty Name="denumire_job" ColumnName="denumire_job" />
+          <ScalarProperty Name="cod_job" ColumnName="cod_job" />
+          <ScalarProperty Name="data_expirare_job" ColumnName="data_expirare_job" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

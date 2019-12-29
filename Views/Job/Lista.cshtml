@@ -1,0 +1,57 @@
+﻿@model System.Data.DataTable 
+    @*Tabel cu joburi*@
+@{
+    ViewBag.Title = "Joburi";
+}
+
+    <div class="row" style="background-color:#f5f0f0">
+        <h2 class="titlu">Joburi</h2>
+
+        <table class="table table-bordered table-striped table-page-position">
+            <tr>
+                <th>Nr. crt</th>
+                <th>Denumire Job</th>
+                <th>Cod </th>
+                <th>Data Limita/Expirare</th>
+            </tr>
+
+            @*date tabel*@
+            @for (int i = 0; i < Model.Rows.Count; i++)
+            {
+                <tr>
+                    <td>@(i + 1)</td>
+                    <td>@Model.Rows[i][1]</td>
+                    <td>@Model.Rows[i][2]</td>
+                    <td>@Model.Rows[i][3]</td>
+                </tr>
+            }
+        </table>
+
+        <a href="@Url.Action("Creare","Job")">
+            <input type="button" class="button btn-default" value="Adauga Job" style="color:darkcyan"/>
+        </a>        
+        </div>
+
+
+@*------------------css---------------------*@
+<style type="text/css">
+    .button {
+    position: relative;
+    margin-top: 1%;
+    margin-left: 40%;
+    margin-bottom: 2%;
+    font-family:'Berlin Sans FB';
+    background-color:white;
+    }
+
+    .titlu{
+        margin-left: 40%;
+        margin-bottom: 2%;
+        font-family:'Berlin Sans FB';
+    }
+
+    .table-page-position{
+        margin-left: 0.15%;
+        margin-right: 0.8%;
+    }
+</style>

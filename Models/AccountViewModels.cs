@@ -29,7 +29,7 @@ namespace SistemRecrutare.Models
         public string Provider { get; set; }
 
         [Required]
-        [Display(Name = "Code")]
+        [Display(Name = "Cod")]
         public string Code { get; set; }
         public string ReturnUrl { get; set; }
 
@@ -65,12 +65,12 @@ namespace SistemRecrutare.Models
      // Cont nou / Register
     public class ContNouViewModel   
     {
-        [Required]
+        [Required(ErrorMessage = "Campul E-mail este obligatoriu.")]
         [EmailAddress]
         [Display(Name = "E-mail")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Campul Parola este obligatoriu.")]
         [StringLength(100, ErrorMessage = "{0} trebuie sa aiba cel putin {2} caractere.", MinimumLength = 4)]
         [DataType(DataType.Password)]
         [Display(Name = "Parola")]
@@ -81,31 +81,29 @@ namespace SistemRecrutare.Models
         [Compare("Parola", ErrorMessage = "Parolele introduse nu corespund.")]
         public string ConfirmaParola { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Campul Prenume este obligatoriu.")]
         [Display(Name = "Prenume")]
         public string Prenume { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Campul Nume este obligatoriu.")]
         [Display(Name = "Nume")]
         public string Nume { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Campul Oras este obligatoriu.")]
         [Display(Name = "Oras")]
         public string Oras { get; set; }
 
-        [Required]
         [Display(Name = "Telefon")]
         public string Telefon { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Campul Data nasterii este obligatoriu.")]
         [Display(Name = "Data nasterii")]
         public string Data_nasterii { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Campul Sex este obligatoriu.")]
         [Display(Name = "Sex")]
         public string Sex { get; set; }
 
-        [Required]
         [Display(Name = "Domenii in care vreau sa lucrez")]
         public string Domenii_lucru { get; set; }
     }

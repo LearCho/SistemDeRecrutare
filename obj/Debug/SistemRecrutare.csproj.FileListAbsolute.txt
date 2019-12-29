@@ -210,3 +210,13 @@ C:\Users\Asus\source\repos\SistemDeRecrutare\obj\Debug\SistemRecrutare.csproj.Ge
 C:\Users\Asus\source\repos\SistemDeRecrutare\obj\Debug\SistemRecrutare.csproj.CopyComplete
 C:\Users\Asus\source\repos\SistemDeRecrutare\obj\Debug\SistemRecrutare.dll
 C:\Users\Asus\source\repos\SistemDeRecrutare\obj\Debug\SistemRecrutare.pdb
+C:\Users\Asus\source\repos\SistemDeRecrutare\bin\MySql.Data.dll
+C:\Users\Asus\source\repos\SistemDeRecrutare\bin\MySql.Data.EntityFramework.dll
+C:\Users\Asus\source\repos\SistemDeRecrutare\bin\MySQL.Utility.dll
+C:\Users\Asus\source\repos\SistemDeRecrutare\bin\MySql.Web.dll
+C:\Users\Asus\source\repos\SistemDeRecrutare\bin\Google.Protobuf.dll
+C:\Users\Asus\source\repos\SistemDeRecrutare\bin\BouncyCastle.Crypto.dll
+C:\Users\Asus\source\repos\SistemDeRecrutare\bin\Renci.SshNet.dll
+C:\Users\Asus\source\repos\SistemDeRecrutare\bin\MySql.Data.xml
+C:\Users\Asus\source\repos\SistemDeRecrutare\bin\MySql.Data.EntityFramework.xml
+C:\Users\Asus\source\repos\SistemDeRecrutare\bin\MySql.Web.xml

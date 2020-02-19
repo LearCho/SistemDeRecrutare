@@ -9,11 +9,17 @@ namespace SistemRecrutare.Models
     public class JobModel
     {
         public int nrcrt { get; set; }
+        public int id_job { get; set; }
+
         [DisplayName("Denumire Job")]
         public string denumire_job {get; set;}
         [DisplayName("Cod")]
         public string cod_job {get; set;}
         [DisplayName("Data expirare")]
-        public string data_expirare {get; set;}
+        public string data_expirare { get; set; }
+        [DisplayName("Angajator")]
+        public string angajator { get; set; }
+        [DisplayName("Imagine Descriptiva")]
+        public string imagine_job { get; set; }
     }
 }

@@ -3,39 +3,77 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>@ViewBag.Title - Platforma de recrutare</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
-    <style> 
-        /*imagine de fundal pagini */
-        .corp {
+    @*--------------------------------------------------------------*@
+    @*------------------------------Css-----------------------------*@
+    <style>
+        .corp { /* img fundal pagini */
             background-image: url(/Content/Img/platform5.jpg);
             background-size: 1600px 1650px;
             background-repeat: no-repeat;
         }
 
-        /*sectiuni pagina principala*/
-        .col-md-4 {
-        padding-top: 20px;
-        padding-bottom: 15px;
-        margin-right: 10px;
-        margin-bottom: 10px;
-        margin-left: 6px;
-        margin-right: 6px;
-        color: inherit;
-        background-color: #eeeeee;
+        .col-md-4 { /* sectiuni pagina principala */
+            padding-top: 20px;
+            padding-bottom: 15px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            margin-left: 6px;
+            margin-right: 6px;
+            color: inherit;
+            background-color: white;
         }
 
-        .img-cauta-job{
-              margin-left: 15 px;
-
+        .img-cauta-job {
+            margin-left: 15px;
         }
+
+        a.imagn { /* imagine acasa*/
+            background: url(~/Content/Img/home2.png);
+            margin-left: 2%;
+        } 
+
+        .page-footer { /* footer */
+            background-color: transparent;
+            padding-bottom: 20px;
+            color: black;
+            font-size: small;
+        }
+
+        .nav { /* a doua bara de sus */
+            background-color: white;
+            font-weight:bold;
+        }
+
+        .navbar-inverse {
+            background-color: white
+        }
+
+        .navbar-new { /* bara sus */
+            background-color: white;
+            border-color: #080808;
+            color: dimgrey;
+            font-weight: bold;
+        }
+
+            .navbar-new:hover { /* bara sus */
+                font-size: 101%;
+                color: dimgrey;
+            }
     </style>
+    @*--------------------------------------------------------------*@
+
 </head>
 
 <body class="corp">
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-new navbar navbar-fixed-top">
+        @*<div class="col-md-2">
+            <img src="~/Content/Img/home2.png" alt="Cauta joburi" height="57" width="68">
+        </div>*@
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -43,13 +81,60 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Sistem de recrutare", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+
+                @Html.ActionLink(" ", "Index", "Home", new { area = "" }, new { @class = "imagn" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+
                     <li>@Html.ActionLink("Acasa", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Joburi", "Joburi", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+
+                    <li class="nav-item">
+                        @*Pagina Joburi*@
+                        <a href="@Url.Action("Lista","Job")" title="Joburi">
+                            <img src="~/Content/Img/jobs2.png" alt="Joburi" height="30" width="32" />
+                            Joburi
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        @*Pagina Cariera*@
+                        <a href="@Url.Action("Cariera","Home")" title="Cariera">
+                            <img src="~/Content/Img/career1.png" alt="Cariera" height="29" width="31" />
+                            Cariera
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        @*Intrare Profil Utilizator*@
+                        <a class="nav-link" data-toggle="tab" href="#profile">
+                            <img src="~/Content/Img/profile1.png" alt="Profil" height="29" width="31" />
+                            Profil
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        @*Intrare CV*@
+                        <a class="nav-link disabled" href="#">
+                            <img src="~/Content/Img/ist1.png" alt="CV" height="29" width="31" />
+                            CV
+                        </a>
+                    </li>
+                </ul>
+
+
+                <ul class="nav nav-tabs">            
+                  @*  <li class="nav-item dropdown">
+                        //Something dunno yet
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Something</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Action1</a>
+                            <a class="dropdown-item" href="#">Action2</a>
+                            <a class="dropdown-item" href="#">Action3</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Separated link</a>
+                        </div>
+                    </li>*@
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -57,34 +142,11 @@
     </div>
 
 
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#home">Home</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#profile">Profile</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link disabled" href="#">Disabled</a>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Separated link</a>
-            </div>
-        </li>
-    </ul>
-
-
-    <div class="container body-content">
+    <div class="container body-content">  @*Div Footer*@
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Sistem de recrutare</p>
+        <footer class="page-footer">
+            <p>&copy; @DateTime.Now.Year – Sistem de recrutare – Toate drepturile rezervate</p>
         </footer>
     </div>
 

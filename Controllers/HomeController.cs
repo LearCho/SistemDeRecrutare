@@ -49,14 +49,14 @@ namespace SistemRecrutare.Controllers
 
         public ActionResult Joburi()
         {
-            ViewBag.Message = "Cauta cele mai noi joburi";
+            ViewBag.Message = "Gaseste cele mai noi joburi";
 
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult Cariera()
         {
-            ViewBag.Message = "Pagina de contact.";
+            ViewBag.Message = "Pagina de cariere";
 
             return View();
         }

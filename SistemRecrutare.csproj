@@ -72,6 +72,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -183,6 +184,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\SqlController.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DBController.Context.cs">
@@ -235,10 +237,15 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bridge-theme.css" />
     <Content Include="Content\Img\briefcase.png" />
+    <Content Include="Content\Img\career1.png" />
     <Content Include="Content\Img\cv1.jpg" />
     <Content Include="Content\Img\cv2.jpg" />
     <Content Include="Content\Img\cv2.png" />
+    <Content Include="Content\Img\home1.png" />
+    <Content Include="Content\Img\home2.png" />
     <Content Include="Content\Img\ist1.png" />
+    <Content Include="Content\Img\jobs1.png" />
+    <Content Include="Content\Img\jobs2.png" />
     <Content Include="Content\Img\lista.png" />
     <Content Include="Content\Img\page-border.png" />
     <Content Include="Content\Img\page-border2.jpg" />
@@ -247,6 +254,7 @@
     <Content Include="Content\Img\platform3.jpg" />
     <Content Include="Content\Img\platform4.jpg" />
     <Content Include="Content\Img\platform5.jpg" />
+    <Content Include="Content\Img\profile1.png" />
     <Content Include="Content\Img\search1.png" />
     <Content Include="Content\style-desktop.css" />
     <Content Include="Controllers\DBController.Context.tt">
@@ -295,7 +303,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Joburi.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Cariera.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -319,9 +327,11 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Job\Lista.cshtml" />
     <Content Include="Views\Job\Creare.cshtml" />
+    <Content Include="Views\Job\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Sql\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -371,6 +381,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
+      <UserProperties content_4bootstrap_1css_1map__JsonSchema="http://json.schemastore.org/tsd" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

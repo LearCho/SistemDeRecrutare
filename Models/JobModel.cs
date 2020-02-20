@@ -20,6 +20,8 @@ namespace SistemRecrutare.Models
         [DisplayName("Angajator")]
         public string angajator { get; set; }
         [DisplayName("Imagine Descriptiva")]
-        public string imagine_job { get; set; }
+        public byte[] imagine_job { get; set; }
+        [DisplayName("Despre Job")]
+        public string descriere_job { get; set; }
     }
 }

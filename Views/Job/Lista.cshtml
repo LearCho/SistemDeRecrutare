@@ -7,32 +7,65 @@
 <div class="row" style="background-color:white">
     <h2 class="titlu">Joburi</h2>
 
+    <div style="overflow-x:auto;">
     <table class="table table-bordered table-striped table-page-position">
         <tr>
-            <th>Nr. crt</th>
-            <th>Denumire Job</th>
-            <th>Cod </th>
-            <th>Data Limita/Expirare</th>
-            <th>Angajator</th>
+            <th style="font-family:'Comic Sans MS'">Nr. crt</th>
+            <th style="font-family:'Comic Sans MS'">Denumire Job</th>
+            <th style="font-family:'Comic Sans MS'">Cod </th>
+            <th style="font-family:'Comic Sans MS'">Data Limita/Expirare Job</th>
+            <th style="font-family:'Comic Sans MS'">Angajator</th>
             <th> </th>
         </tr>
 
         @*date tabel*@
         @for (int i = 0; i < Model.Rows.Count; i++)
         {
-    <tr>
-        <td>@(i + 1)</td>
-        <td>@Model.Rows[i][1]</td>
-        <td>@Model.Rows[i][2]</td>
-        <td>@Model.Rows[i][3]</td>
-        <td>@Model.Rows[i][4]</td>
-        <td>@Model.Rows[i][5]</td>
-        <td>
-            <a href="@Url.Action("Edit","Job", new { @cod_job = Model.Rows[i][2]})">Editeza</a>
-        </td>
-    </tr>
-        }
+            <tr style="max-height: 120px;">
+                <td style="max-width: 8px;">@(i + 1).</td>
+                <td style="max-width: 120px;">
+                    @Model.Rows[i][1]
+                    <div style="overflow-x:auto;">
+                    <table>
+                        <tr>
+                            <td style="font-weight:normal; font-size:small; font-family:'Comic Sans MS'">
+                                Despre
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="max-width: 130px;">
+                                <span id="dots">...</span>
+                                <span id="more">@Model.Rows[i][6]</span>
+                                <button style="background-color:white; opacity:0.8;" onclick="afiseazaDescriereJob()" id="BtnDescriereJob">Citeste</button>
+                            </td>
+                        </tr>
+                    </table>
+                    </div>
+                </td>
+                <td style="max-width: 100px;">@Model.Rows[i][2]</td>
+                <td style="max-width: 90px;">@Model.Rows[i][3]</td>
+                <td style="max-width: 130px;">@Model.Rows[i][4]</td>
+                <td>
+                    @if (Model.Rows[i][5].ToString() != "")
+                    {
+                        var base64 = Convert.ToBase64String((byte[])Model.Rows[i][5]);
+                        var imgsrc = string.Format("data::image/jpg;base64,{0}", base64);
+                        
+                        <img src='@imgsrc' style="max-width:150px; max-height:150px" class="imageclass" />
+                        }
+                    else
+                    {
+                        <img src="~/Content/Img/jobs1.png" style="max-width:150px; max-height:150px" class="imageclass" />
+                    }
+                </td>
+                      
+                <td style="max-width: 110px;"> @* coloana editare *@
+                <a href="@Url.Action("Edit","Job", new { @cod_job = Model.Rows[i][2]})">Editeza</a>
+                 </td>
+            </tr>
+         }
     </table>
+    </div>
 
     <a href="@Url.Action("Creare","Job")">
         <input type="button" class="button btn-default" value="Adauga Job" style="color:darkcyan" />
@@ -58,8 +91,37 @@
         font-family: 'Berlin Sans FB';
     }
 
+    @* tabel *@
     .table-page-position {
         margin-left: 0.15%;
         margin-right: 0.8%;
     }
+
+    @* imagine job *@
+    .imageclass{
+        max-width: 100%;
+        border-radius: 1px;
+    }
 </style>
+
+<script>
+         @* descriere job *@
+    function afiseazaDescriereJob() 
+    {
+        var puncte = document.getElementById("dots");
+        var descriere = document.getElementById("more");
+        var btnText = document.getElementById("BtnDescriereJob");
+
+        if (puncte.style.display === "none")
+        {
+            puncte.style.display = "inline";
+            btnText.innerHTML = "Mai mult";
+            descriere.style.display = "none";
+        } 
+        else {
+            puncte.style.display = "none";
+            btnText.innerHTML = "Mai putin";
+            descriere.style.display = "inline";
+        }
+     }
+</script>

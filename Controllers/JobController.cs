@@ -5,8 +5,10 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data;
 using System.Data.SqlClient;
+using System.Configuration;
 using System.Security;
 using System.Windows;
+using System.Text;
 
 namespace SistemRecrutare.Controllers
 {
@@ -61,7 +63,7 @@ namespace SistemRecrutare.Controllers
                 {
                     sqlCon.Open();
                     string query = "INSERT INTO dbo.job VALUES(@denumire_job, @cod_job, @data_expirare_job, @angajator," +
-                        " @imagine_job)";
+                        " @imagine_job, @descriere_job)";
                     SqlCommand sql_cmd = new SqlCommand(query, sqlCon);
                     //DataSet dataSet = new DataSet();
                     //DataTable dataTable;
@@ -72,6 +74,8 @@ namespace SistemRecrutare.Controllers
                     sql_cmd.Parameters.AddWithValue("@data_expirare_job", jobModel.data_expirare);
                     sql_cmd.Parameters.AddWithValue("@angajator", jobModel.angajator);
                     sql_cmd.Parameters.AddWithValue("@imagine_job", jobModel.imagine_job);
+                    sql_cmd.Parameters.AddWithValue("@descriere_job", jobModel.descriere_job);
+
                     sql_cmd.ExecuteNonQuery();
                 }
 
@@ -100,7 +104,8 @@ namespace SistemRecrutare.Controllers
                 {
                     sqlCon.Open();
                     string query1 = "SELECT id_job, denumire_job AS 'DENUMIRE JOB', cod_job AS 'COD', data_expirare_job AS" +
-                        "'DATA EXPIRARE', angajator AS 'ANGAJATOR', imagine_job AS ' ' FROM dbo.job WHERE cod_job=@cod_job";
+                        "'DATA EXPIRARE', angajator AS 'ANGAJATOR', imagine_job AS ' ', descriere_job AS 'DESPRE' FROM" +
+                        " dbo.job WHERE cod_job=@cod_job";
                     SqlDataAdapter sqlData = new SqlDataAdapter(query1, sqlCon);
                     sqlData.SelectCommand.Parameters.AddWithValue("@cod_job", cod_job);
                     sqlData.Fill(dataTable_Job);
@@ -113,7 +118,9 @@ namespace SistemRecrutare.Controllers
                     jobModel.cod_job = dataTable_Job.Rows[0][2].ToString();
                     jobModel.data_expirare = DateTime.Parse(dataTable_Job.Rows[0][3].ToString()).ToShortDateString();
                     jobModel.angajator = dataTable_Job.Rows[0][4].ToString();
-                    jobModel.imagine_job = dataTable_Job.Rows[0][5].ToString();
+                    jobModel.imagine_job = (byte[])(dataTable_Job.Rows[0][5]);
+                    jobModel.descriere_job = dataTable_Job.Rows[0][6].ToString();
+
                     return View(jobModel);
                 }
                 else

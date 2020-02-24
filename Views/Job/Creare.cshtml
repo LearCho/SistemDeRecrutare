@@ -4,8 +4,14 @@
     ViewBag.Title = "Administrare - Creare job";
 }
 
+ @*row mare*@
 <div class="row" style="background-color:white">
     @*row 1*@
+    <div class="row">
+       <br /><br />
+   </div>
+
+    @*row 2*@
     <div class="row">
         <div class="col-md-5"></div>
         <div class="col-md-5">
@@ -13,7 +19,7 @@
         </div>
     </div>
 
-    @*row 2*@
+    @*row 3*@
     <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-9">
@@ -25,7 +31,7 @@
         </div>
     </div>
 
-    @*row 3*@
+    @*row 4*@
     <div class="row">
         <div class="col-md-5"></div>
         <div class="col-md-5">
@@ -33,87 +39,98 @@
         </div>
     </div>
 
-    @*row 4*@
+    @*row 5*@
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-9">
 
-            @using (Html.BeginForm())
+            @using (Html.BeginForm("Creare", "Job", FormMethod.Post, new
+            {
+                enctype =
+            "multipart/form-data"
+            }))
             {
                 @Html.AntiForgeryToken()
-            <div class="form-horizontal">
-                <hr />
+                <div class="form-horizontal">
+                    <hr />
 
-                @* adaugare campuri: *@
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @* adaugare campuri: *@
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                @* Denumire Job *@
-                <div class="form-group">
-                    @Html.LabelFor(model => model.denumire_job, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.denumire_job, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.denumire_job, "", new { @class = "text-danger" })
+                    @* Denumire Job *@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.denumire_job, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.denumire_job, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.denumire_job, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @* Cod *@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cod_job, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.cod_job, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.cod_job, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @* Data Expirare *@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.data_expirare, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.data_expirare, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.data_expirare, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @* Angajator *@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.angajator, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.angajator, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.angajator, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @* Imagine Descriptiva *@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.imagine_job, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <input type="file" name="imagine" />
+                        </div>
+                    </div>
+
+                    @* Descriere/Despre *@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.descriere_job, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.descriere_job, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.descriere_job, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @* Creeaza job *@
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Creeaza" class="button btn btn-default" />
+                        </div>
                     </div>
                 </div>
-
-                @* Cod *@
-                <div class="form-group">
-                    @Html.LabelFor(model => model.cod_job, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.cod_job, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.cod_job, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                @* Data Expirare *@
-                <div class="form-group">
-                    @Html.LabelFor(model => model.data_expirare, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.data_expirare, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.data_expirare, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                @* Angajator *@
-                <div class="form-group">
-                    @Html.LabelFor(model => model.angajator, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.angajator, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.angajator, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                @* Imagine Descriptiva *@
-                <div class="form-group">
-                    @Html.LabelFor(model => model.imagine_job, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.imagine_job, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.imagine_job, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                @* creeaza job *@
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Creeaza" class="button btn btn-default" />
-                    </div>
-                </div>
-            </div>
             }
         </div>
     </div>
 
 </div>
 
-@*--------------------------------------------------*@
-@*-----------------------css------------------------*@
+@*------------------------------------------------------------*@
+@*-----------------------------css----------------------------*@
 <style type="text/css">
     .button {
         position: relative;
         margin-top: 1%;
         margin-left: 10%;
         margin-bottom: 2%;
-        /*font-family: 'Berlin Sans FB';*/
         background-color: white;
         color: darkcyan;
     }

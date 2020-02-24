@@ -6,56 +6,111 @@
     ViewBag.Title = "Locuri de munca - Aplica";
 }
 
-<div class="jumbotron">
-    <h1>Aplica la jobul mult visat</h1>
-    <p class="lead">Gaseste-ti locul de munca potrivit din anunturile postate de angajatori</p>
-
-    @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-    {
-        <div class="row">
-            <div class="col-md-1"></div>
-
-            <div class="col-md-3">
-                @Html.TextBoxFor(m => m.Job_cautat, new { @class = "form-control", placeholder = "Cuvinte cheie" })
-            </div>
-            <div align="justify" class="col-md-1">
-                <img src="~/Content/Img/search1.png" alt="Cauta joburi" height="29" width="31">
-            </div>
-            <div class="col-md-5">
-                <a href="https://asp.net" class="btn btn-primary btn-lg" onclick="">Cauta job &raquo;</a>
-            </div>
-            <div class="col-md-1"></div>
-            <div class="col-md-1"></div>
+   @* Imagine homepage cu text *@
+    <div class="homepage-front-image">
+        <img src="~/Content/Img/front1.png" alt="platforma" height="520" width="1140">
+        <div class="text-on-img">
+            <h1>Aplica la jobul mult visat</h1>
+            <h3>
+                Gaseste locul de munca potrivit pentru tine in anunturile
+                postate de angajatori
+            </h3>
+            @* Cauta Job *@
+            <input type="text" name="search" placeholder="Cuvinte cheie">
         </div>
-    }
-</div>
+    </div>
+ 
+ <div class="jumbotron">       
+        <div class="row">
+            <div class="col-md-10">
+            </div>
+        </div>       
+        <p class="lead"> </p>
 
+        @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            <div class="row">
+                <div class="col-md-1"></div>
 
-<div class="row">
-    @*<div class="col-md-12">
-        <h2>ROW 1</h2>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>*@
+                @* Cauta Job *@
+                <div class="col-md-3">
+                    @*@Html.TextBoxFor(m => m.Job_cautat, new { @class = "form-control", placeholder = "Cuvinte cheie" })*@
+                </div>
 
-    @*<div class="col-md-4">
-        <h2>ROW 2</h2>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>*@
+                <div align="justify" class="col-md-1">
+                    @*<img src="~/Content/Img/search1.png" alt="Cauta joburi" height="29" width="31">*@
+                </div>
 
-    @*<div class="col-md-4">
-        <h2>ROW 3</h2>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>*@
-</div>
+                <div class="col-md-5">
+                    @*<a href="#" class="btn btn-primary btn-lg" onclick="">Cauta job &raquo;</a>*@
+                </div>
 
+                <div class="col-md-1"></div>
+                <div class="col-md-1"></div>
+            </div>
+        }
+    </div>
 
+@*<div class="row">
+    <div class="col-md-8"></div>
+    <div class="col-md-4"></div>
+</div>*@
+
+@*-----------------------------------------------------------------*@
+@*--------------------------------css------------------------------*@
 <style type="text/css">
-        .jumbotron {
-            background-image: url('~/content/img/page-border2.jpg');
-            background-color:white;
-        }
+    .jumbotron {
+        background-color: white;
+    }
 
-        .col-md-12{
-            background-color:white;
-        }
+    .col-md-12 {
+        background-color: white;
+    } 
+
+     @* imagine homepage *@
+    .homepage-front-image{
+        position: relative;
+        text-align: center;
+        color: white;
+    }
+
+    .homepage-front-image .text-on-img{
+        position: absolute; /* background text */
+        bottom: 0; /* at the bottom */
+        background: rgb(0, 0, 0); /* fallback color */
+        background: rgba(0, 0, 0, 0.3); /* black background, 0.3 opacity */
+        color: #f1f1f1; 
+        width: 100%; 
+        padding: 70px; 
+    }
+   
+    @* text on img *@
+    .text-on-img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);    
+        font-family: Consolas, monospace;
+}    
+    @* search *@
+    input[type=text] {
+        width: 180px;
+        height: 5px;
+        box-sizing: border-box;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        background-color: white;
+        opacity: 0.9;
+        background-position: 10px 10px; 
+        background-repeat: no-repeat;
+        padding: 12px 20px 12px 40px;
+        -webkit-transition: width 0.4s ease-in-out;
+        transition: width 0.4s ease-in-out;
+    }
+    
+    input[type=text]:focus {
+        width: 100%;
+}
+
 </style>

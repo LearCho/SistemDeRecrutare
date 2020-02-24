@@ -9,6 +9,7 @@ using System.Configuration;
 using System.Security;
 using System.Windows;
 using System.Text;
+using System.IO;
 
 namespace SistemRecrutare.Controllers
 {
@@ -20,7 +21,7 @@ namespace SistemRecrutare.Controllers
 
         // GET: Job/Lista
         [HttpGet]
-        public ActionResult Lista()
+        public ActionResult Lista() // afiseaza joburi in dataTable
         {
             DataTable dataTable_Job = new DataTable();
             try
@@ -46,6 +47,12 @@ namespace SistemRecrutare.Controllers
             return View();
         }
 
+        // varifica daca contine fisier sau nu
+        public bool ExistaFisier(HttpPostedFileBase file)
+        {
+            return (file != null && file.ContentLength > 0) ? true : false;
+        }
+
         // GET: Job/Creare
         [HttpGet]
         public ActionResult Creare()
@@ -59,9 +66,21 @@ namespace SistemRecrutare.Controllers
         {
             try
             {
+                // upload imagine in bd
+                foreach (string upload in Request.Files)
+                {
+                    if (!ExistaFisier(Request.Files[upload]))
+                        continue;
+                    Stream fileStream = Request.Files[upload].InputStream;
+                    int lungimeFisier = Request.Files[upload].ContentLength;
+                    jobModel.imagine_job = new byte[lungimeFisier];
+                    fileStream.Read(jobModel.imagine_job, 0, lungimeFisier);
+                }
+
                 using (SqlConnection sqlCon = new SqlConnection(connectionString))
                 {
                     sqlCon.Open();
+
                     string query = "INSERT INTO dbo.job VALUES(@denumire_job, @cod_job, @data_expirare_job, @angajator," +
                         " @imagine_job, @descriere_job)";
                     SqlCommand sql_cmd = new SqlCommand(query, sqlCon);
@@ -78,13 +97,13 @@ namespace SistemRecrutare.Controllers
 
                     sql_cmd.ExecuteNonQuery();
                 }
-
-                return RedirectToAction("Lista");
             }
             catch
             {
                 return Content("<script language='javascript' type='text/javascript'>alert ('A aparut o eroare la introducerea datelor! ');</script>");
-            }
+            }  
+            
+            return RedirectToAction("Lista");          
         }
 
         // GET: Job/Edit/5

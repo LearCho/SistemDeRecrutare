@@ -56,11 +56,19 @@
     </div>
 
     @* Imagine Descriptiva *@
+<div class="form-group">
+    @Html.LabelFor(model => model.imagine_job, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        <input type="file" name="imagine" />
+    </div>
+</div>
+
+    @* Descriere/Despre *@
     <div class="form-group">
-        @Html.LabelFor(model => model.imagine_job, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.descriere_job, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.imagine_job, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.imagine_job, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.descriere_job, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.descriere_job, "", new { @class = "text-danger" })
         </div>
     </div>
 

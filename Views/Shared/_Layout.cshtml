@@ -12,9 +12,10 @@
     @*------------------------------Css-----------------------------*@
     <style>
         .corp { /* img fundal pagini */
-            background-image: url(/Content/Img/platform5.jpg);
+            background-color:whitesmoke; 
+            /*background-image: url(/Content/Img/blue1.png);
             background-size: 1600px 1650px;
-            background-repeat: no-repeat;
+            background-repeat: no-repeat;*/
         }
 
         .col-md-4 { /* sectiuni pagina principala */
@@ -33,7 +34,7 @@
         }
 
         a.imagn { /* imagine acasa*/
-            background: url(~/Content/Img/home2.png);
+            background-image: url(~/Content/Img/home2.png);
             margin-left: 2%;
         } 
 
@@ -45,53 +46,64 @@
         }
 
         .nav { /* a doua bara de sus */
-            background-color: white;
+            background-color: transparent;
             font-weight:bold;
+            opacity:0.88;
+            color:white;
         }
 
         .navbar-inverse {
-            background-color: white
+            background-color: white;
+            opacity:0.88;
+
         }
 
         .navbar-new { /* bara sus */
             background-color: white;
-            border-color: #080808;
-            color: dimgrey;
+            /*background-image: url(/Content/Img/purple1.png);*/
+            border-color: whitesmoke;
+            color: white;
             font-weight: bold;
+            height: 95px;
         }
 
-            .navbar-new:hover { /* bara sus */
-                font-size: 101%;
-                color: dimgrey;
-            }
+        .navbar-new:hover { /* bara sus */
+            font-size: 101%;
+            color:Highlight;
+        }
+
+        .nav-link-white {
+            color: darkslategrey;
+        }
+        
     </style>
     @*--------------------------------------------------------------*@
-
 </head>
 
 <body class="corp">
     <div class="navbar-new navbar navbar-fixed-top">
-        @*<div class="col-md-2">
-            <img src="~/Content/Img/home2.png" alt="Cauta joburi" height="57" width="68">
-        </div>*@
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+        <div class="col-md-2">
+            <img src="~/Content/Img/work1.png" alt="Cauta joburi" height="60" width="70">
+        </div>
 
+        <div class="container">
+            <div class="navbar-header">       
                 @Html.ActionLink(" ", "Index", "Home", new { area = "" }, new { @class = "imagn" })
             </div>
+
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-
-                    <li>@Html.ActionLink("Acasa", "Index", "Home")</li>
+                    @*Acasa*@
+                    <li class="nav-item">
+                        @*@Html.ActionLink("Acasa", "Index", "Home")*@
+                        <a class="nav-link-white" href="@Url.Action("Index","Home")" title="Acasa">
+                            Acasă
+                        </a>
+                    </li>
 
                     <li class="nav-item">
                         @*Pagina Joburi*@
-                        <a href="@Url.Action("Lista","Job")" title="Joburi">
+                        <a class="nav-link-white" href="@Url.Action("Lista","Job")" title="Joburi">
                             <img src="~/Content/Img/jobs2.png" alt="Joburi" height="30" width="32" />
                             Joburi
                         </a>
@@ -99,15 +111,15 @@
 
                     <li class="nav-item">
                         @*Pagina Cariera*@
-                        <a href="@Url.Action("Cariera","Home")" title="Cariera">
+                        <a class="nav-link-white" href="@Url.Action("Cariera","Home")" title="Cariera">
                             <img src="~/Content/Img/career1.png" alt="Cariera" height="29" width="31" />
-                            Cariera
+                            Carieră
                         </a>
                     </li>
 
                     <li class="nav-item">
                         @*Intrare Profil Utilizator*@
-                        <a class="nav-link" data-toggle="tab" href="#profile">
+                        <a class="nav-link-white" data-toggle="tab" href="#profile">
                             <img src="~/Content/Img/profile1.png" alt="Profil" height="29" width="31" />
                             Profil
                         </a>
@@ -115,37 +127,23 @@
 
                     <li class="nav-item">
                         @*Intrare CV*@
-                        <a class="nav-link disabled" href="#">
+                        <a class="nav-link-white" href="#">
                             <img src="~/Content/Img/ist1.png" alt="CV" height="29" width="31" />
                             CV
                         </a>
                     </li>
-                </ul>
+                </ul>                
 
-
-                <ul class="nav nav-tabs">            
-                  @*  <li class="nav-item dropdown">
-                        //Something dunno yet
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Something</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Action1</a>
-                            <a class="dropdown-item" href="#">Action2</a>
-                            <a class="dropdown-item" href="#">Action3</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Separated link</a>
-                        </div>
-                    </li>*@
-                </ul>
+                @*Logare*@
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
 
-
     <div class="container body-content">  @*Div Footer*@
         @RenderBody()
         <hr />
-        <footer class="page-footer">
+        <footer class="page-footer">            
             <p>&copy; @DateTime.Now.Year – Sistem de recrutare – Toate drepturile rezervate</p>
         </footer>
     </div>

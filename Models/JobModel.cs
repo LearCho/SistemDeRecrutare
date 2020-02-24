@@ -10,7 +10,6 @@ namespace SistemRecrutare.Models
     {
         public int nrcrt { get; set; }
         public int id_job { get; set; }
-
         [DisplayName("Denumire Job")]
         public string denumire_job {get; set;}
         [DisplayName("Cod")]
@@ -21,6 +20,7 @@ namespace SistemRecrutare.Models
         public string angajator { get; set; }
         [DisplayName("Imagine Descriptiva")]
         public byte[] imagine_job { get; set; }
+        public HttpPostedFileBase cale_imagine_job { get; set; }
         [DisplayName("Despre Job")]
         public string descriere_job { get; set; }
     }

@@ -245,11 +245,11 @@
     <Content Include="Content\Img\front1.png" />
     <Content Include="Content\Img\home1.png" />
     <Content Include="Content\Img\home2.png" />
+    <Content Include="Content\Img\home3.png" />
     <Content Include="Content\Img\ist1.png" />
     <Content Include="Content\Img\jobs1.png" />
     <Content Include="Content\Img\jobs2.png" />
     <Content Include="Content\Img\lista.png" />
-    <Content Include="Content\Img\page-border.png" />
     <Content Include="Content\Img\page-border2.jpg" />
     <Content Include="Content\Img\platform1.jpg" />
     <Content Include="Content\Img\platform2.jpg" />

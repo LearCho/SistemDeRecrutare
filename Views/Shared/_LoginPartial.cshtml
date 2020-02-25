@@ -3,20 +3,47 @@
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Iesi din Cont</a></li>
-    </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                @Html.ActionLink("Salut, " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            </li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Iesi din Cont</a></li>
+        </ul>
     }
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Cont Nou", "ContNou", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Intră in Cont", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
+<ul class="nav navbar-nav navbar-right">
+    @* Buton Inregistrare Cont Nou *@
+    <li>
+        <%= @Html.ActionLink("Cont Nou", "ContNou", "Account", null, new { @class = "btn-register" }) %>
+    </li>
+    @* Buton Logare *@
+    <li>
+        <%= @Html.ActionLink("Intră în Cont", "Login", "Account", null, new { @class = "btn-register" }) %>
+    </li>
+</ul>
 }
+
+@*----------------------------css--------------------------*@
+<style type="text/css">
+    .btn-register {
+        background-color: mediumpurple;
+        height: 45px;
+        border: none;
+        color: white;
+        padding: 8px 8px;
+        text-align: center;
+        font-size: 14px;
+        margin: -8px 4px;
+        border-radius: 22px;
+        opacity: 1;
+        transition: 0.7s;
+    }
+
+        .btn-register:hover {
+            opacity: 0.6
+        }
+</style>

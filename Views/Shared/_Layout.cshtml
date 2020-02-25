@@ -96,7 +96,8 @@
                     @*Acasa*@
                     <li class="nav-item">
                         @*@Html.ActionLink("Acasa", "Index", "Home")*@
-                        <a class="nav-link-white" href="@Url.Action("Index","Home")" title="Acasa">
+                        <a class="nav-link-white" href="@Url.Action("Index","Home")" title="Acasă">
+                           <img src="~/Content/Img/home3.png" alt="Acasă" height="29" width="31" />
                             Acasă
                         </a>
                     </li>
@@ -104,30 +105,30 @@
                     <li class="nav-item">
                         @*Pagina Joburi*@
                         <a class="nav-link-white" href="@Url.Action("Lista","Job")" title="Joburi">
-                            <img src="~/Content/Img/jobs2.png" alt="Joburi" height="30" width="32" />
+                            <img src="~/Content/Img/jobs2.png" alt="Joburi" height="33" width="34" />
                             Joburi
                         </a>
                     </li>
 
                     <li class="nav-item">
                         @*Pagina Cariera*@
-                        <a class="nav-link-white" href="@Url.Action("Cariera","Home")" title="Cariera">
-                            <img src="~/Content/Img/career1.png" alt="Cariera" height="29" width="31" />
+                        <a class="nav-link-white" href="@Url.Action("Cariera","Home")" title="Carieră">
+                            <img src="~/Content/Img/career1.png" alt="Cariera" height="31" width="32" />
                             Carieră
                         </a>
                     </li>
 
                     <li class="nav-item">
                         @*Intrare Profil Utilizator*@
-                        <a class="nav-link-white" data-toggle="tab" href="#profile">
-                            <img src="~/Content/Img/profile1.png" alt="Profil" height="29" width="31" />
+                        <a class="nav-link-white" data-toggle="tab" href="#profile" title="Profil">
+                            <img src="~/Content/Img/profile1.png" alt="Profil" height="29" width="30" />
                             Profil
                         </a>
                     </li>
 
                     <li class="nav-item">
                         @*Intrare CV*@
-                        <a class="nav-link-white" href="#">
+                        <a class="nav-link-white" href="#cv" title="CV">
                             <img src="~/Content/Img/ist1.png" alt="CV" height="29" width="31" />
                             CV
                         </a>
@@ -144,7 +145,7 @@
         @RenderBody()
         <hr />
         <footer class="page-footer">            
-            <p>&copy; @DateTime.Now.Year – Sistem de recrutare – Toate drepturile rezervate</p>
+            <p>&copy; @DateTime.Now.Year – Sistem de recrutare – LC</p>
         </footer>
     </div>
 

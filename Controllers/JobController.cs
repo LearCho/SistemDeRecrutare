@@ -48,6 +48,7 @@ namespace SistemRecrutare.Controllers
         }
 
         // varifica daca contine fisier sau nu
+        [NonAction]
         public bool ExistaFisier(HttpPostedFileBase file)
         {
             return (file != null && file.ContentLength > 0) ? true : false;
@@ -66,7 +67,7 @@ namespace SistemRecrutare.Controllers
         {
             try
             {
-                // upload imagine in bd
+                // upload imagine in baza de date
                 foreach (string upload in Request.Files)
                 {
                     if (!ExistaFisier(Request.Files[upload]))

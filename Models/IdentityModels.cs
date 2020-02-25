@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 
 namespace SistemRecrutare.Models
 {
@@ -13,8 +14,8 @@ namespace SistemRecrutare.Models
         public string nume { get; set; }
         public string oras { get; set; }
         public string nr_tel { get; set; }
-        public string data_nasterii { get; set; }
-        public string sex { get; set; }
+        public DateTime data_nasterii { get; set; }
+        public Sex_Utilizator sex { get; set; }
         public string domeniu_lucru { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace SistemRecrutare.Models
 {
@@ -63,49 +64,59 @@ namespace SistemRecrutare.Models
     }
 
      // Cont nou / Register
-    public class ContNouViewModel   
+    public class ContNouViewModel   // Inregistrare Utilizator
     {
-        [Required(ErrorMessage = "Campul E-mail este obligatoriu.")]
         [EmailAddress]
-        [Display(Name = "E-mail")]
+        [Display(Name = "Email* :")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Campul E-mail este obligatoriu.")]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Campul Parola este obligatoriu.")]
         [StringLength(100, ErrorMessage = "{0} trebuie sa aiba cel putin {2} caractere.", MinimumLength = 4)]
         [DataType(DataType.Password)]
-        [Display(Name = "Parola")]
+        [Display(Name = "Parola* :")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Parola este obligatoriu.")]
         public string Parola { get; set; }
 
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Rescrie parola trebuie sa contina parola setata anterior.")]
         [DataType(DataType.Password)]
-        [Display(Name = "Rescrie parola")]
+        [Display(Name = "Rescrie parola* :")]
         [Compare("Parola", ErrorMessage = "Parolele introduse nu corespund.")]
         public string ConfirmaParola { get; set; }
 
-        [Required(ErrorMessage = "Campul Prenume este obligatoriu.")]
-        [Display(Name = "Prenume")]
+        [Display(Name = "Prenume* :")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Prenume este obligatoriu.")]
         public string Prenume { get; set; }
 
-        [Required(ErrorMessage = "Campul Nume este obligatoriu.")]
-        [Display(Name = "Nume")]
+        [Display(Name = "Nume* :")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Nume este obligatoriu.")]
         public string Nume { get; set; }
 
-        [Required(ErrorMessage = "Campul Oras este obligatoriu.")]
-        [Display(Name = "Oras")]
+        [Display(Name = "Oras* :")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Oras este obligatoriu.")]
         public string Oras { get; set; }
 
-        [Display(Name = "Telefon")]
+        [Display(Name = "Telefon :")]
         public string Telefon { get; set; }
 
-        [Required(ErrorMessage = "Campul Data nasterii este obligatoriu.")]
-        [Display(Name = "Data nasterii")]
-        public string Data_nasterii { get; set; }
+        [Display(Name = "Data nasterii* :")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Data nasterii este obligatoriu.")]
+        public DateTime Data_nasterii { get; set; }
 
+        [Display(Name = "Sex* :")]
         [Required(ErrorMessage = "Campul Sex este obligatoriu.")]
-        [Display(Name = "Sex")]
-        public string Sex { get; set; }
+        public Sex_Utilizator Sex { get; set; }
 
-        [Display(Name = "Domenii in care vreau sa lucrez")]
+        [Display(Name = "Domenii in care vreau sa lucrez :")]
         public string Domenii_lucru { get; set; }
+    }
+
+    public enum Sex_Utilizator {  // valori lista dropDown
+        Barbat,
+        Femeie,
+        Altul
     }
 
     public class ResetPasswordViewModel

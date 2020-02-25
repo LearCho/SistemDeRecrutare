@@ -137,7 +137,7 @@ namespace SistemRecrutare.Controllers
         //
         // GET: /Account/ContNou
         [AllowAnonymous]
-        public ActionResult ContNou()
+        public ActionResult ContNou()  // Inregistrare Utilizator
         {
             return View();
         }
@@ -147,7 +147,7 @@ namespace SistemRecrutare.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ContNou(ContNouViewModel model)
+        public async Task<ActionResult> ContNou(ContNouViewModel model) 
         {
             if (ModelState.IsValid)
             {

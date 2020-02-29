@@ -63,8 +63,14 @@ namespace SistemRecrutare.Models
         public bool RememberMe { get; set; }
     }
 
-     // Cont nou / Register
-    public class ContNouViewModel   // Inregistrare Utilizator
+    [MetadataType(typeof(Utilizator_fromViewModel))]
+    public class Utilizator_fromViewModel  // clasa pentru confirmarea parolei
+    {
+        public string Confirma_parola { get; set; }
+    }
+
+    // Cont nou / Register
+    public class ContNouViewModel   // Utilizator ViewModel
     {
         [EmailAddress]
         [Display(Name = "Email* :")]
@@ -73,24 +79,24 @@ namespace SistemRecrutare.Models
         public string Email { get; set; }
 
         [StringLength(100, ErrorMessage = "{0} trebuie sa aiba cel putin {2} caractere.", MinimumLength = 4)]
-        [DataType(DataType.Password)]
         [Display(Name = "Parola* :")]
+        [DataType(DataType.Password)] //tip parola
         [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Parola este obligatoriu.")]
         public string Parola { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Rescrie parola trebuie sa contina parola setata anterior.")]
-        [DataType(DataType.Password)]
-        [Display(Name = "Rescrie parola* :")]
-        [Compare("Parola", ErrorMessage = "Parolele introduse nu corespund.")]
+        //[Required(AllowEmptyStrings = false, ErrorMessage = "Campul Rescrie parola trebuie sa contina parola setata anterior.")]
+        [DataType(DataType.Password)]  
+        [Display(Name = "Confirma parola* :")]
+        [Compare("Parola", ErrorMessage = "Confirma parola. Parolele introduse nu corespund.")]
         public string ConfirmaParola { get; set; }
-
-        [Display(Name = "Prenume* :")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Prenume este obligatoriu.")]
-        public string Prenume { get; set; }
 
         [Display(Name = "Nume* :")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Nume este obligatoriu.")]
         public string Nume { get; set; }
+
+        [Display(Name = "Prenume* :")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Prenume este obligatoriu.")]
+        public string Prenume { get; set; }
 
         [Display(Name = "Oras* :")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Oras este obligatoriu.")]
@@ -111,9 +117,11 @@ namespace SistemRecrutare.Models
 
         [Display(Name = "Domenii in care vreau sa lucrez :")]
         public string Domenii_lucru { get; set; }
+        public bool verificare_email { get; set; } //////---
+        public Guid cod_activare { get; set; } //////----
     }
 
-    public enum Sex_Utilizator {  // valori lista dropDown
+    public enum Sex_Utilizator {  // valori lista dropDown Sex Utilizator
         Barbat,
         Femeie,
         Altul

@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using SistemRecrutare.Models;
+using System.Data.SqlClient;
 
 namespace SistemRecrutare.Controllers
 {
@@ -52,7 +53,220 @@ namespace SistemRecrutare.Controllers
             }
         }
 
-        //
+
+        // ------------ Inregistrare Utilizator ---------- //
+
+        [NonAction]   // verificare daca exista deja email-ul
+        public bool existaEmail(string email_id)
+        {
+            using (SqlConnection sqlCon = new SqlConnection(JobController.connectionString))
+            {
+                sqlCon.Open();
+
+                string query = "SELECT * FROM dbo.utilizator WHERE email = @email";
+                SqlCommand sql_cmd = new SqlCommand(query, sqlCon);
+                sql_cmd.Parameters.AddWithValue("@email", email_id);
+
+                SqlDataReader sqlData = sql_cmd.ExecuteReader();
+
+                if (sqlData.HasRows)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        // GET: /Account/ContNou
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult ContNou()
+        {
+            return View();
+        }
+
+        // POST: /Account/ContNou           
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ContNou([Bind(Exclude = "verificare_email, cod_activare")] ContNouViewModel cont_user)
+        {
+            bool status = false;
+            string message = "";
+
+            if (ModelState.IsValid) // validare model
+            {
+                #region --- exista email ---
+                if (existaEmail(cont_user.Email) == true)
+                {
+                    ModelState.AddModelError("ExistaEmail", "Adresa de email exista deja");
+                    return View(cont_user);
+                }
+                #endregion
+
+                #region --- cod activare ---
+                cont_user.cod_activare = Guid.NewGuid();
+                #endregion
+
+                #region --- hashing parola ---
+                cont_user.Parola = CriptareParola.Hash(cont_user.Parola);
+                cont_user.ConfirmaParola = CriptareParola.Hash(cont_user.ConfirmaParola);
+                #endregion
+                cont_user.verificare_email = false;
+
+                #region --- salvare in baza de date ---
+                using (SqlConnection sqlCon = new SqlConnection(JobController.connectionString))
+                {
+                    sqlCon.Open();
+
+                    string query = "INSERT INTO dbo.utilizator VALUES(@email, @parola, @nume_utilizator, " +
+                                            " @prenume_utilizator, @oras, @telefon, @data_nasterii, " +
+                                            " @sex, @domenii_lucru, @verificare_email, @cod_activare)"; 
+                    SqlCommand sql_cmd = new SqlCommand(query, sqlCon);
+                    sql_cmd.Parameters.AddWithValue("@email", cont_user.Email);
+                    sql_cmd.Parameters.AddWithValue("@parola", cont_user.Parola);
+                    sql_cmd.Parameters.AddWithValue("@nume_utilizator", cont_user.Nume);
+                    sql_cmd.Parameters.AddWithValue("@prenume_utilizator", cont_user.Prenume);
+                    sql_cmd.Parameters.AddWithValue("@oras", cont_user.Oras);
+                    sql_cmd.Parameters.AddWithValue("@telefon", cont_user.Telefon);
+                    sql_cmd.Parameters.AddWithValue("@data_nasterii", cont_user.Data_nasterii);
+                    sql_cmd.Parameters.AddWithValue("@sex", cont_user.Sex);
+                    sql_cmd.Parameters.AddWithValue("@domenii_lucru", cont_user.Domenii_lucru);
+                    sql_cmd.Parameters.AddWithValue("@verificare_email", cont_user.verificare_email);
+                    sql_cmd.Parameters.AddWithValue("@cod_activare", cont_user.cod_activare);
+
+                    sql_cmd.ExecuteNonQuery();
+                }
+                #endregion
+
+
+                //var utilizator = new Utilizator
+                //{
+                //    //UserName = model.Email,
+                //    email = cont_nou.Email,
+                //    parola = cont_nou.Parola,
+                //    nume_utilizator = cont_nou.Nume,
+                //    prenume_utilizator = cont_nou.Prenume,
+                //    oras = cont_nou.Oras,
+                //    nr_tel = cont_nou.Telefon,
+                //    data_nasterii = cont_nou.Data_nasterii,
+                //    sex = cont_nou.Sex,
+                //    domenii_lucru = cont_nou.Domenii_lucru
+                //};
+                //var result = await UserManager.CreateAsync(utilizator, cont_nou.Parola);
+                //if (result.Succeeded)
+                //{
+                //    await SignInManager.SignInAsync(utilizator, isPersistent: false, rememberBrowser: false);
+
+                //    // Send an email with this link
+                //    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                //    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                //    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                //    return RedirectToAction("Index", "Home");
+                //}
+                //AddErrors(result);
+            }
+
+            else
+                message = "Cererea nu a putut fi efectuata";
+
+            return View(cont_user);
+        }
+
+        // GET: /Account/SendCode
+        [AllowAnonymous]
+        public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
+        {
+            var userId = await SignInManager.GetVerifiedUserIdAsync();
+            if (userId == null)
+            {
+                return View("Error");
+            }
+            var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
+            var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
+            return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
+        }
+
+        // POST: /Account/SendCode
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SendCode(SendCodeViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            // Generate the token and send it
+            if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
+            {
+                return View("Error");
+            }
+            return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
+        }
+
+        // --------- Verificare Cod pentru Utilizator --------
+        // GET: /Account/VerifyCode
+        [AllowAnonymous]
+        public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
+        {
+            // Require that the user has already logged in via username/password or external login
+            if (!await SignInManager.HasBeenVerifiedAsync())
+            {
+                return View("Eroare");
+            }
+            return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
+        }
+
+        // POST: /Account/VerifyCode
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> VerifyCode(VerifyCodeViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            //The following code protects for brute force attacks against the two factor codes.
+
+            //If a user enters incorrect codes for a specified amount of time then the user account
+
+            //will be locked out for a specified amount of time.
+            // You can configure the account lockout settings in IdentityConfig
+           var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
+            switch (result)
+            {
+                case SignInStatus.Success:
+                    return RedirectToLocal(model.ReturnUrl);
+                case SignInStatus.LockedOut:
+                    return View("Lockout");
+                case SignInStatus.Failure:
+                default:
+                    ModelState.AddModelError("", "Cod invalid.");
+                    return View(model);
+            }
+        }
+       
+
+      // --------------- Confirmare Email --------------
+        // GET: /Account/ConfirmEmail
+        [AllowAnonymous]
+        public async Task<ActionResult> ConfirmEmail(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return View("Eroare");
+            }
+            var result = await UserManager.ConfirmEmailAsync(userId, code);
+            return View(result.Succeeded ? "ConfirmEmail" : "Eroare");
+        }
+
+
+      // -------------- Logare Utilizator -------------
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
@@ -61,7 +275,6 @@ namespace SistemRecrutare.Controllers
             return View();
         }
 
-        //
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
@@ -91,111 +304,8 @@ namespace SistemRecrutare.Controllers
             }
         }
 
-        //
-        // GET: /Account/VerifyCode
-        [AllowAnonymous]
-        public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
-        {
-            // Require that the user has already logged in via username/password or external login
-            if (!await SignInManager.HasBeenVerifiedAsync())
-            {
-                return View("Eroare");
-            }
-            return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
-        }
-
-        //
-        // POST: /Account/VerifyCode
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> VerifyCode(VerifyCodeViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            // The following code protects for brute force attacks against the two factor codes. 
-            // If a user enters incorrect codes for a specified amount of time then the user account 
-            // will be locked out for a specified amount of time. 
-            // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return RedirectToLocal(model.ReturnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Cod invalid.");
-                    return View(model);
-            }
-        }
-
-        //
-        // GET: /Account/ContNou
-        [AllowAnonymous]
-        public ActionResult ContNou()  // Inregistrare Utilizator
-        {
-            return View();
-        }
-
-        //
-        // POST: /Account/ContNou           
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ContNou(ContNouViewModel model) 
-        {
-            if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser { 
-                    UserName = model.Email,
-                    Email = model.Email,
-                    prenume = model.Prenume,
-                    nume = model.Nume,
-                    oras = model.Oras,
-                    nr_tel = model.Telefon,
-                    data_nasterii = model.Data_nasterii,
-                    sex = model.Sex,
-                    domeniu_lucru = model.Domenii_lucru
-                };
-                var result = await UserManager.CreateAsync(user, model.Parola);
-                if (result.Succeeded)
-                {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("Index", "Home");
-                }
-                AddErrors(result);
-            }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
-        }
-
-        //
-        // GET: /Account/ConfirmEmail
-        [AllowAnonymous]
-        public async Task<ActionResult> ConfirmEmail(string userId, string code)
-        {
-            if (userId == null || code == null)
-            {
-                return View("Eroare");
-            }
-            var result = await UserManager.ConfirmEmailAsync(userId, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Eroare");
-        }
-
-        //
+    
+      // ------------ Logare: Parola Uitata ------------
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
         public ActionResult ForgotPassword()
@@ -203,7 +313,6 @@ namespace SistemRecrutare.Controllers
             return View();
         }
 
-        //
         // POST: /Account/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
@@ -219,7 +328,6 @@ namespace SistemRecrutare.Controllers
                     return View("ForgotPasswordConfirmation");
                 }
 
-                // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
                 // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
@@ -247,7 +355,6 @@ namespace SistemRecrutare.Controllers
             return code == null ? View("Error") : View();
         }
 
-        //
         // POST: /Account/ResetPassword
         [HttpPost]
         [AllowAnonymous]
@@ -290,41 +397,6 @@ namespace SistemRecrutare.Controllers
         {
             // Request a redirect to the external login provider
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
-        }
-
-        //
-        // GET: /Account/SendCode
-        [AllowAnonymous]
-        public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
-        {
-            var userId = await SignInManager.GetVerifiedUserIdAsync();
-            if (userId == null)
-            {
-                return View("Error");
-            }
-            var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
-            var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
-            return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
-        }
-
-        //
-        // POST: /Account/SendCode
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SendCode(SendCodeViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
-
-            // Generate the token and send it
-            if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
-            {
-                return View("Error");
-            }
-            return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
         }
 
         //
@@ -377,7 +449,7 @@ namespace SistemRecrutare.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new Utilizator { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

@@ -15,9 +15,9 @@ namespace SistemRecrutare.Controllers
 {
     public class JobController : Controller
     {
-        string connectionString = @"Data Source = (local)\SQLINSTANCE; 
-                                  Initial Catalog = DB_sistem_recrutare;
-                                  Integrated Security = true";
+        public static string connectionString = @"Data Source = (local)\SQLINSTANCE; 
+                                       Initial Catalog = DB_sistem_recrutare;
+                                       Integrated Security = true";
 
         // GET: Job/Lista
         [HttpGet]
@@ -125,7 +125,7 @@ namespace SistemRecrutare.Controllers
                     sqlCon.Open();
                     string query1 = "SELECT id_job, denumire_job AS 'DENUMIRE JOB', cod_job AS 'COD', data_expirare_job AS" +
                         "'DATA EXPIRARE', angajator AS 'ANGAJATOR', imagine_job AS ' ', descriere_job AS 'DESPRE' FROM" +
-                        " dbo.job WHERE cod_job=@cod_job";
+                        " dbo.job WHERE cod_job = @cod_job";
                     SqlDataAdapter sqlData = new SqlDataAdapter(query1, sqlCon);
                     sqlData.SelectCommand.Parameters.AddWithValue("@cod_job", cod_job);
                     sqlData.Fill(dataTable_Job);

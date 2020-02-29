@@ -11,16 +11,20 @@
 
     <div style="overflow-x:auto;">
         <table class="table table-bordered table-striped table-page-position">
-            <tr>
-                <th >Nr. crt</th>
-                <th >Denumire Job</th>
-                <th >Cod </th>
-                <th >Data Limita/Expirare Job</th>
-                <th >Angajator</th>
-                <th> </th>
-            </tr>
+            <thead>
+                <tr>
+                    <th class="tabel-job-header">Nr. crt</th>
+                    <th class="tabel-job-header">Denumire Job</th>
+                    <th class="tabel-job-header">Cod </th>
+                    <th class="tabel-job-header">Data Limita/Expirare Job</th>
+                    <th class="tabel-job-header">Angajator</th>
+                    <th class="tabel-job-header"> </th>
+                    <th class="tabel-job-header"> </th>
+                </tr>
+            </thead>
 
-            @*date tabel*@
+            @*body tabel*@
+        <tbody>
             @for (int i = 0; i < Model.Rows.Count; i++)
             {
                 <tr style="max-height: 120px;">
@@ -65,7 +69,9 @@
                     </td>
                 </tr>
             }
+        </tbody>
         </table>
+
     </div>
 
     <a href="@Url.Action("Creare","Job")">
@@ -98,8 +104,10 @@
         margin-right: 0.8%;
     }
 
-    th{
-        font-family:'Comic Sans MS';
+    .tabel-job-header{
+        background-color: rebeccapurple;
+        color: white;
+        font-size: 18px;
     }
 
     @* imagine job *@

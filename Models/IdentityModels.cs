@@ -7,26 +7,30 @@ using System;
 
 namespace SistemRecrutare.Models
 {
-    // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
-    public class ApplicationUser : IdentityUser
+    //  clasa Utilizator
+    public class Utilizator : IdentityUser //nu folosesc IdentityUser momentan
     {
-        public string prenume { get; set; }
-        public string nume { get; set; }
+        public string email { get; set; }
+        public string parola { get; set; }
+        public string nume_utilizator { get; set; }
+        public string prenume_utilizator { get; set; }
         public string oras { get; set; }
         public string nr_tel { get; set; }
-        public DateTime data_nasterii { get; set; }
+        public DateTime? data_nasterii { get; set; } 
         public Sex_Utilizator sex { get; set; }
-        public string domeniu_lucru { get; set; }
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
+        public string domenii_lucru { get; set; }
+        public bool verificare_email { get; set; } //////---
+        public Guid cod_activare { get; set; } //////----
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<Utilizator> manager)
         {
         // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
         var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Add custom user claims here
             return userIdentity;
-        }
+        }  // nope
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<Utilizator>
     {
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

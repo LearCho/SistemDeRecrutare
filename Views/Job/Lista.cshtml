@@ -4,85 +4,118 @@
     ViewBag.Title = "Joburi";
 }
 
-<div class="row" style="background-color:white">
-    <br /><br />
-    <h2 class="titlu">Joburi</h2>
-    <br />
+    <div class="row" style="background-color:white">
+        <br /><br />
+        <h2 class="titlu">Joburi</h2>
+        <br />
 
-    <div style="overflow-x:auto;">
-        <table class="table table-bordered table-striped table-page-position">
-            <thead>
-                <tr>
-                    <th class="tabel-job-header">Nr. crt</th>
-                    <th class="tabel-job-header">Denumire Job</th>
-                    <th class="tabel-job-header">Cod </th>
-                    <th class="tabel-job-header">Data Limita/Expirare Job</th>
-                    <th class="tabel-job-header">Angajator</th>
-                    <th class="tabel-job-header"> </th>
-                    <th class="tabel-job-header"> </th>
-                </tr>
-            </thead>
+        @* 1. vedere admin *@
 
-            @*body tabel*@
-        <tbody>
-            @for (int i = 0; i < Model.Rows.Count; i++)
-            {
-                <tr style="max-height: 120px;">
-                    <td style="max-width: 8px;">@(i + 1).</td>
-                    <td style="max-width: 120px;">
-                        @Model.Rows[i][1]
-                        <div style="overflow-x:auto;">
-                            <table>
-                                <tr>
-                                    <td style="font-weight:normal; font-size:small; font-family:'Comic Sans MS'">
-                                        Despre
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="max-width: 130px;">
-                                        @Model.Rows[i][6]
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </td>
-                    <td style="max-width: 100px;">@Model.Rows[i][2]</td>
-                    <td style="max-width: 90px;">@Model.Rows[i][3]</td>
-                    <td style="max-width: 130px;">@Model.Rows[i][4]</td>
-                    <td>
-                        @if (Model.Rows[i][5].ToString() != "")
-                        {
-                            var base64 = Convert.ToBase64String((byte[])Model.Rows[i][5]);
-                            var imgsrc = string.Format("data::image/jpg;base64,{0}", base64);
 
-                            <img src='@imgsrc' style="max-width:150px; max-height:150px" class="imageclass" />
-                        }
-                        else
-                        {
-                            <img src="~/Content/Img/jobs1.png" style="max-width:150px; max-height:150px" class="imageclass" />
-                        }
-                    </td>
+        <div style="overflow-x:auto;">
+            <table class="table table-bordered table-striped table-page-position">
+                <thead>
+                    <tr>
+                        <th class="tabel-job-header">Nr. crt</th>
+                        <th class="tabel-job-header">Denumire Job</th>
+                        <th class="tabel-job-header">Cod </th>
+                        <th class="tabel-job-header">Data Limita/Expirare Job</th>
+                        <th class="tabel-job-header">Angajator</th>
+                        <th class="tabel-job-header"> </th>
+                        <th class="tabel-job-header"> </th>
+                    </tr>
+                </thead>
 
-                    <td style="max-width: 110px;">
-                        @* coloana editare *@
-                        <a href="@Url.Action("Edit","Job", new { @cod_job = Model.Rows[i][2]})">Editeza</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-        </table>
+                @*body tabel*@
+                <tbody>
+                    @for (int i = 0; i < Model.Rows.Count; i++)
+                    {
+                        <tr style="max-height: 120px;">
+                            <td style="max-width: 8px;">@(i + 1).</td>
+                            <td style="max-width: 120px;">
+                                @Model.Rows[i][1]
+                                <div style="overflow-x:auto;">
+                                    <table>
+                                        <tr>
+                                            <td style="font-weight:normal; font-size:small; font-family:'Comic Sans MS'">
+                                                Despre
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="max-width: 130px;">
+                                                @Model.Rows[i][6]
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                            <td style="max-width: 100px;">@Model.Rows[i][2]</td>
+                            <td style="max-width: 90px;">@Model.Rows[i][3]</td>
+                            <td style="max-width: 130px;">@Model.Rows[i][4]</td>
+                            <td>
+                                @if (Model.Rows[i][5].ToString() != "")
+                                {
+                                    var base64 = Convert.ToBase64String((byte[])Model.Rows[i][5]);
+                                    var imgsrc = string.Format("data::image/jpg;base64,{0}", base64);
+
+                                    <img src='@imgsrc' style="max-width:150px; max-height:150px" class="imageclass" />
+                                }
+                                else
+                                {
+                                    <img src="~/Content/Img/jobs1.png" style="max-width:150px; max-height:150px" class="imageclass" />
+                                }
+                            </td>
+
+                            <td style="max-width: 110px;">
+                                @* coloana editare *@
+                                <a href="@Url.Action("Edit","Job", new { @cod_job = Model.Rows[i][2]})">Editeza</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+
+        <a href="@Url.Action("Creare","Job")">
+            <input type="button" class="button btn-default" value="Adauga Job" style="color:darkcyan" />
+        </a>
+
+
+
+
+        @* 2. vedere utilizator -- pag dif *@
+
+        <br />
+
+        @for (int i = 0; i < Model.Rows.Count; i++)
+        {
+            <div class="job col-lg-6" style="height:520px">
+                @if (Model.Rows[i][5].ToString() != "")
+                {
+                    var base64 = Convert.ToBase64String((byte[])Model.Rows[i][5]);
+                    var imgsrc = string.Format("data::image/jpg;base64,{0}", base64);
+
+                    <img src='@imgsrc' style="max-width:270px; max-height:270px" class="imageclass" />
+                }
+                else
+                {
+                    <img src="~/Content/Img/jobs1.png" style="max-width:270px; max-height:270px" class="imageclass" />
+                }
+                <h1> @Model.Rows[i][1]</h1>
+                <p class="angajator">@Model.Rows[i][4]</p>
+                <p>@Model.Rows[i][3]</p>
+                <p class="descriere">@Model.Rows[i][6]</p>
+                <p><button>Aplica</button></p>
+            </div>
+        }
 
     </div>
 
-    <a href="@Url.Action("Creare","Job")">
-        <input type="button" class="button btn-default" value="Adauga Job" style="color:darkcyan" />
-    </a>
-</div>
 
-
-@*------------------------------------------------------------*@
-@*-----------------------------css----------------------------*@
-<style type="text/css">
+  @*------------------------------------------------------------*@
+  @*-----------------------------css----------------------------*@
+ <style type="text/css">
     .button {
         position: relative;
         margin-top: 1%;
@@ -115,8 +148,52 @@
         max-width: 100%;
         border-radius: 1px;
     }
-</style>
-@*------------------------------------------------------------*@
 
-<script>
-</script>
+
+     @* vedere utilizator job *@
+
+    .job {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        max-width: 300px;
+        margin: auto;
+        text-align: center;
+        font-family: arial;
+        transition: 0.3s;
+    }
+
+    .job:hover{
+          box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+
+    .angajator {
+          color: grey;
+          font-size: 22px;
+          height: 30px;
+    }
+    
+    .descriere {
+        height: 50px;
+     }
+  
+  .job button {
+  border: none;
+  outline: 0;
+  padding: 12px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+  }
+
+  .job button:hover {
+      opacity: 0.7;
+  }
+
+ </style>
+ @*------------------------------------------------------------*@
+
+ <script>
+
+ </script>

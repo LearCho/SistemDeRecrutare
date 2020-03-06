@@ -332,9 +332,10 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Job\Lista.cshtml" />
+    <Content Include="Views\Job\ListaAdmin.cshtml" />
     <Content Include="Views\Job\Creare.cshtml" />
-    <Content Include="Views\Job\Edit.cshtml" />
+    <Content Include="Views\Job\Editare.cshtml" />
+    <Content Include="Views\Job\ListaUtilizator.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,121 @@
+﻿@model System.Data.DataTable
+@* Joburi -- vedere utilizator *@
+
+@{
+    ViewBag.Title = "Joburi";
+}
+
+<div class="row" style="background-color:white">
+    <br /><br />
+    <h2 class="titlu">Joburi</h2>
+    <br />
+
+    <div class="wrapper-centru">
+        @for (int i = 1; i <= Model.Rows.Count; i++)
+        {
+            <div class="job" style="height:520px; display:inline-block;">
+                @if (Model.Rows[i - 1][5].ToString() != "")
+                {
+                    var base64 = Convert.ToBase64String((byte[])Model.Rows[i - 1][5]);
+                    var imgsrc = string.Format("data::image/jpg;base64,{0}", base64);
+
+                    <img src='@imgsrc' style="max-width:270px; max-height:200px" class="imageclass" />
+                }
+                else
+                {
+                    <img src="~/Content/Img/jobs1.png" style="max-width:270px; max-height:200px" class="imageclass" />
+                }
+                <h1 style="color:darkcyan"> @Model.Rows[i - 1][1]</h1>
+                <p class="angajator">@Model.Rows[i - 1][4]</p>
+                <p class="data">@Model.Rows[i - 1][3]</p>
+                <p class="descriere">@Model.Rows[i - 1][6]</p><br />
+                <p><button>Aplica</button></p>
+            </div>
+
+            if (i != 0 && i % 3 == 0)
+            {
+                <hr />
+            }
+        }
+
+    </div>
+    </div>
+
+
+@*------------------------------------------------------------*@
+@*-----------------------------css----------------------------*@
+<style type="text/css">
+
+    .titlu {
+        margin-left: 45%;
+        margin-bottom: 2%;
+        font-family: 'Berlin Sans FB';       
+    }
+
+    @* imagine job *@
+    .imageclass{
+        max-width: 100%;
+        border-radius: 1px;
+    }
+
+     @* continut *@
+    .wrapper-centru{
+        text-align:center;
+        padding-left:30px;
+        padding-right:30px;
+    }
+
+     @* div job *@
+    .job {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        width: 320px;
+        margin-left: 9px;
+        margin-right: 9px;
+        text-align: center;
+        font-family: arial;
+        transition: 0.3s;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 45px;
+        padding-bottom: 45px;
+    }
+
+    .job:hover{
+          box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+
+    .angajator {
+          color: orangered;
+          font-size: 22px;
+          height: 25px;
+    }
+
+     .data {
+          height: 12px;
+          color: gray;
+    }
+
+    .descriere {
+        height: 50px;
+     }
+
+    .job button {
+        border: none;
+        outline: 0;
+        padding: 8px;
+        color: white;
+        background-color: orangered;
+        text-align: center;
+        cursor: pointer;
+        width: 50%;
+        font-size: 18px;
+        border-radius: 12px;
+    }
+
+     .job button:hover {
+         opacity: 0.88;
+     }
+
+</style>
+@*-------------------------------------------------------------*@
+

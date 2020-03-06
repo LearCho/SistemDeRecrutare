@@ -19,9 +19,9 @@ namespace SistemRecrutare.Controllers
                                        Initial Catalog = DB_sistem_recrutare;
                                        Integrated Security = true";
 
-        // GET: Job/Lista
+        // GET: Job/ListaAdmin
         [HttpGet]
-        public ActionResult Lista() // afiseaza joburi in dataTable
+        public ActionResult ListaAdmin() // afiseaza joburi in dataTable
         {
             DataTable dataTable_Job = new DataTable();
             try
@@ -104,11 +104,11 @@ namespace SistemRecrutare.Controllers
                 return Content("<script language='javascript' type='text/javascript'>alert ('A aparut o eroare la introducerea datelor! ');</script>");
             }  
             
-            return RedirectToAction("Lista");          
+            return RedirectToAction("ListaAdmin");          
         }
 
-        // GET: Job/Edit/5
-        public ActionResult Edit(string cod_job = "")
+        // GET: Job/Editare/5
+        public ActionResult Editare(string cod_job = "")
         {
             try
             {
@@ -144,7 +144,7 @@ namespace SistemRecrutare.Controllers
                     return View(jobModel);
                 }
                 else
-                    return RedirectToAction("Lista");
+                    return RedirectToAction("ListaAdmin");
             }
             catch
             {
@@ -152,14 +152,14 @@ namespace SistemRecrutare.Controllers
             }
         }
 
-        // POST: Job/Edit/5
+        // POST: Job/Editare/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Editare(int id, FormCollection collection)
         {
             try
             {
                 // TODO: Add update logic here
-                return RedirectToAction("Lista");
+                return RedirectToAction("ListaAdmin");
             }
             catch
             {
@@ -187,6 +187,28 @@ namespace SistemRecrutare.Controllers
             {
                 return View();
             }
+        }
+
+        // GET: Job/ListaUtilizator
+        [HttpGet]
+        public ActionResult ListaUtilizator() // afiseaza joburi pentru vedere utilizator
+        {
+            DataTable dataTable_Job = new DataTable();
+            try
+            {
+                using (SqlConnection sqlCon = new SqlConnection(connectionString))
+                {
+                    sqlCon.Open();
+                    SqlDataAdapter sqlDataA = new SqlDataAdapter("SELECT * FROM dbo.job", sqlCon);
+                    sqlDataA.Fill(dataTable_Job);
+                }
+            }
+            catch (SqlException exc)
+            {
+                throw new InvalidOperationException("Datele nu au putut fi citite.", exc);
+            }
+
+            return View(dataTable_Job);
         }
     }
 }

@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DB_sistem_recrutareModelStoreContainer" CdmEntityContainer="DBModels">
+    <EntitySetMapping Name="domeniu_lucru">
+      <EntityTypeMapping TypeName="DB_sistem_recrutareModel.domeniu_lucru">
+        <MappingFragment StoreEntitySet="domeniu_lucru">
+          <ScalarProperty Name="id_domeniu" ColumnName="id_domeniu" />
+          <ScalarProperty Name="denumire_domeniu" ColumnName="denumire_domeniu" />
+          <ScalarProperty Name="id_utilizator" ColumnName="id_utilizator" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="jobs">
+      <EntityTypeMapping TypeName="DB_sistem_recrutareModel.job">
+        <MappingFragment StoreEntitySet="job">
+          <ScalarProperty Name="id_job" ColumnName="id_job" />
+          <ScalarProperty Name="denumire_job" ColumnName="denumire_job" />
+          <ScalarProperty Name="cod_job" ColumnName="cod_job" />
+          <ScalarProperty Name="data_expirare_job" ColumnName="data_expirare_job" />
+          <ScalarProperty Name="angajator" ColumnName="angajator" />
+          <ScalarProperty Name="imagine_job" ColumnName="imagine_job" />
+          <ScalarProperty Name="descriere_job" ColumnName="descriere_job" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="utilizators">
+      <EntityTypeMapping TypeName="DB_sistem_recrutareModel.utilizator">
+        <MappingFragment StoreEntitySet="utilizator">
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="parola" ColumnName="parola" />
+          <ScalarProperty Name="nume_utilizator" ColumnName="nume_utilizator" />
+          <ScalarProperty Name="prenume_utilizator" ColumnName="prenume_utilizator" />
+          <ScalarProperty Name="oras" ColumnName="oras" />
+          <ScalarProperty Name="telefon" ColumnName="telefon" />
+          <ScalarProperty Name="data_nasterii" ColumnName="data_nasterii" />
+          <ScalarProperty Name="sex" ColumnName="sex" />
+          <ScalarProperty Name="verificare_email" ColumnName="verificare_email" />
+          <ScalarProperty Name="cod_activare" ColumnName="cod_activare" />
+          <ScalarProperty Name="id_utilizator" ColumnName="id_utilizator" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="cvs">
+      <EntityTypeMapping TypeName="DB_sistem_recrutareModel.cv">
+        <MappingFragment StoreEntitySet="cv">
+          <ScalarProperty Name="id_cv" ColumnName="id_cv" />
+          <ScalarProperty Name="cod_cv" ColumnName="cod_cv" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

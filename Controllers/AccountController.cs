@@ -10,6 +10,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using SistemRecrutare.Models;
 using System.Data.SqlClient;
+using System.Collections.Generic;
+using System.Data;
 
 namespace SistemRecrutare.Controllers
 {
@@ -76,6 +78,7 @@ namespace SistemRecrutare.Controllers
                 return false;
             }
         }
+      
 
         // GET: /Account/ContNou
         [HttpGet]
@@ -89,7 +92,7 @@ namespace SistemRecrutare.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult ContNou([Bind(Exclude = "verificare_email, cod_activare")] ContNouViewModel cont_user)
+        public ActionResult ContNou([Bind(Exclude = "verificare_email, cod_activare")] ContNouModel cont_user)
         {
             bool status = false;
             string message = "";
@@ -99,7 +102,7 @@ namespace SistemRecrutare.Controllers
                 #region --- exista email ---
                 if (existaEmail(cont_user.Email) == true)
                 {
-                    ModelState.AddModelError("ExistaEmail", "Adresa de email exista deja");
+                    ModelState.AddModelError("ExistaEmail", "Adresa de e-mail exista deja");
                     return View(cont_user);
                 }
                 #endregion
@@ -119,9 +122,11 @@ namespace SistemRecrutare.Controllers
                 {
                     sqlCon.Open();
 
+                    List<Domenii_Lucru_Utilizator> domenii = new List<Domenii_Lucru_Utilizator>();
+
                     string query = "INSERT INTO dbo.utilizator VALUES(@email, @parola, @nume_utilizator, " +
                                             " @prenume_utilizator, @oras, @telefon, @data_nasterii, " +
-                                            " @sex, @domenii_lucru, @verificare_email, @cod_activare)"; 
+                                            " @sex, @verificare_email, @cod_activare)"; 
                     SqlCommand sql_cmd = new SqlCommand(query, sqlCon);
                     sql_cmd.Parameters.AddWithValue("@email", cont_user.Email);
                     sql_cmd.Parameters.AddWithValue("@parola", cont_user.Parola);
@@ -130,42 +135,14 @@ namespace SistemRecrutare.Controllers
                     sql_cmd.Parameters.AddWithValue("@oras", cont_user.Oras);
                     sql_cmd.Parameters.AddWithValue("@telefon", cont_user.Telefon);
                     sql_cmd.Parameters.AddWithValue("@data_nasterii", cont_user.Data_nasterii);
-                    sql_cmd.Parameters.AddWithValue("@sex", cont_user.Sex);
-                    sql_cmd.Parameters.AddWithValue("@domenii_lucru", cont_user.Domenii_lucru);
+                    sql_cmd.Parameters.AddWithValue("@sex", Convert.ToByte(cont_user.Sex));
+                    //sql_cmd.Parameters.AddWithValue("@domenii_lucru", cont_user.Domenii_lucru);
                     sql_cmd.Parameters.AddWithValue("@verificare_email", cont_user.verificare_email);
                     sql_cmd.Parameters.AddWithValue("@cod_activare", cont_user.cod_activare);
 
                     sql_cmd.ExecuteNonQuery();
                 }
                 #endregion
-
-
-                //var utilizator = new Utilizator
-                //{
-                //    //UserName = model.Email,
-                //    email = cont_nou.Email,
-                //    parola = cont_nou.Parola,
-                //    nume_utilizator = cont_nou.Nume,
-                //    prenume_utilizator = cont_nou.Prenume,
-                //    oras = cont_nou.Oras,
-                //    nr_tel = cont_nou.Telefon,
-                //    data_nasterii = cont_nou.Data_nasterii,
-                //    sex = cont_nou.Sex,
-                //    domenii_lucru = cont_nou.Domenii_lucru
-                //};
-                //var result = await UserManager.CreateAsync(utilizator, cont_nou.Parola);
-                //if (result.Succeeded)
-                //{
-                //    await SignInManager.SignInAsync(utilizator, isPersistent: false, rememberBrowser: false);
-
-                //    // Send an email with this link
-                //    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                //    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                //    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                //    return RedirectToAction("Index", "Home");
-                //}
-                //AddErrors(result);
             }
 
             else

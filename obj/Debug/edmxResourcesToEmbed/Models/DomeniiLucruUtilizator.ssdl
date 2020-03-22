@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DB_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="domeniu_lucru">
+    <Key>
+      <PropertyRef Name="id_domeniu" />
+    </Key>
+    <Property Name="id_domeniu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="denumire_domeniu" Type="varchar" MaxLength="64" />
+    <Property Name="email_utilizator" Type="varchar" MaxLength="64" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="DB_ModelStoreContainer">
+    <EntitySet Name="domeniu_lucru" EntityType="Self.domeniu_lucru" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

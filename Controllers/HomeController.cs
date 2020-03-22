@@ -19,9 +19,6 @@ namespace SistemRecrutare.Controllers
             return View();
         }
 
-
-
-
         // GET: /Home/CautaJobCuvantCheie
         [AllowAnonymous]
         public ActionResult CautaJobCuvantCheie()
@@ -41,11 +38,8 @@ namespace SistemRecrutare.Controllers
                 
             }
 
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
-
-
 
         public ActionResult Joburi()
         {

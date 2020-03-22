@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DB_Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="domeniu_lucru">
+    <Key>
+      <PropertyRef Name="id_domeniu" />
+    </Key>
+    <Property Name="id_domeniu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="denumire_domeniu" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="email_utilizator" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="DomeniiLucruEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="domeniu_lucru" EntityType="Self.domeniu_lucru" />
+  </EntityContainer>
+</Schema>

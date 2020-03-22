@@ -20,7 +20,7 @@ namespace SistemRecrutare.Models
         public string angajator { get; set; }
         [DisplayName("Imagine Descriptiva")]
         public byte[] imagine_job { get; set; }
-        public HttpPostedFileBase cale_imagine_job { get; set; }
+       // public HttpPostedFileBase cale_imagine_job { get; set; }
         [DisplayName("Despre Job")]
         public string descriere_job { get; set; }
     }

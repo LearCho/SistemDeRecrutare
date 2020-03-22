@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DB_ModelStoreContainer" CdmEntityContainer="DomeniiLucruEntities">
+    <EntitySetMapping Name="domeniu_lucru">
+      <EntityTypeMapping TypeName="DB_Model.domeniu_lucru">
+        <MappingFragment StoreEntitySet="domeniu_lucru">
+          <ScalarProperty Name="id_domeniu" ColumnName="id_domeniu" />
+          <ScalarProperty Name="denumire_domeniu" ColumnName="denumire_domeniu" />
+          <ScalarProperty Name="email_utilizator" ColumnName="email_utilizator" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

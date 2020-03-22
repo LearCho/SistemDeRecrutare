@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DB_sistem_recrutareModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="domeniu_lucru">
+    <Key>
+      <PropertyRef Name="id_domeniu" />
+    </Key>
+    <Property Name="id_domeniu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="denumire_domeniu" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="id_utilizator" Type="Int32" />
+    <NavigationProperty Name="utilizator" Relationship="Self.FK_domeniu_lucru_utilizator" FromRole="domeniu_lucru" ToRole="utilizator" />
+  </EntityType>
+  <EntityType Name="job">
+    <Key>
+      <PropertyRef Name="id_job" />
+    </Key>
+    <Property Name="id_job" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="denumire_job" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="cod_job" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="data_expirare_job" Type="DateTime" Precision="0" />
+    <Property Name="angajator" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+    <Property Name="imagine_job" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="descriere_job" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="utilizator">
+    <Key>
+      <PropertyRef Name="id_utilizator" />
+    </Key>
+    <Property Name="email" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="parola" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="nume_utilizator" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="prenume_utilizator" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="oras" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="telefon" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+    <Property Name="data_nasterii" Type="DateTime" Precision="3" />
+    <Property Name="sex" Type="Boolean" Nullable="false" />
+    <Property Name="verificare_email" Type="Boolean" Nullable="false" />
+    <Property Name="cod_activare" Type="Guid" />
+    <Property Name="id_utilizator" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="domeniu_lucru" Relationship="Self.FK_domeniu_lucru_utilizator" FromRole="utilizator" ToRole="domeniu_lucru" />
+  </EntityType>
+  <EntityType Name="cv">
+    <Key>
+      <PropertyRef Name="id_cv" />
+      <PropertyRef Name="cod_cv" />
+    </Key>
+    <Property Name="id_cv" Type="Int32" Nullable="false" />
+    <Property Name="cod_cv" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_domeniu_lucru_utilizator">
+    <End Role="utilizator" Type="Self.utilizator" Multiplicity="0..1" />
+    <End Role="domeniu_lucru" Type="Self.domeniu_lucru" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="utilizator">
+        <PropertyRef Name="id_utilizator" />
+      </Principal>
+      <Dependent Role="domeniu_lucru">
+        <PropertyRef Name="id_utilizator" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DBModels" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="domeniu_lucru" EntityType="Self.domeniu_lucru" />
+    <EntitySet Name="jobs" EntityType="Self.job" />
+    <EntitySet Name="utilizators" EntityType="Self.utilizator" />
+    <EntitySet Name="cvs" EntityType="Self.cv" />
+    <AssociationSet Name="FK_domeniu_lucru_utilizator" Association="Self.FK_domeniu_lucru_utilizator">
+      <End Role="utilizator" EntitySet="utilizators" />
+      <End Role="domeniu_lucru" EntitySet="domeniu_lucru" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

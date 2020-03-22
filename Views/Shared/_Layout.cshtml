@@ -6,13 +6,17 @@
 
     <title>@ViewBag.Title - Platforma de recrutare</title>
     @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+
     @Scripts.Render("~/bundles/modernizr")
+
+
 
     @*--------------------------------------------------------------*@
     @*------------------------------Css-----------------------------*@
-    <style>
+    <style type="text/css">
         .corp { /* img fundal pagini */
-            background-color:whitesmoke; 
+            background-color: whitesmoke;
             /*background-image: url(/Content/Img/blue1.png);
             background-size: 1600px 1650px;
             background-repeat: no-repeat;*/
@@ -36,7 +40,7 @@
         a.imagn { /* imagine acasa*/
             background-image: url(~/Content/Img/home2.png);
             margin-left: 2%;
-        } 
+        }
 
         .page-footer { /* footer */
             background-color: transparent;
@@ -47,15 +51,14 @@
 
         .nav { /* a doua bara de sus */
             background-color: transparent;
-            font-weight:bold;
-            opacity:0.88;
-            color:white;
+            font-weight: bold;
+            opacity: 0.88;
+            color: white;
         }
 
         .navbar-inverse {
             background-color: white;
-            opacity:0.88;
-
+            opacity: 0.88;
         }
 
         .navbar-new { /* bara sus */
@@ -67,15 +70,14 @@
             height: 95px;
         }
 
-        .navbar-new:hover { /* bara sus */
-            font-size: 101%;
-            color:Highlight;
-        }
+            .navbar-new:hover { /* bara sus */
+                font-size: 101%;
+                color: Highlight;
+            }
 
         .nav-link-white {
             color: darkslategrey;
         }
-        
     </style>
     @*--------------------------------------------------------------*@
 </head>
@@ -87,7 +89,7 @@
         </div>
 
         <div class="container">
-            <div class="navbar-header">       
+            <div class="navbar-header">
                 @Html.ActionLink(" ", "Index", "Home", new { area = "" }, new { @class = "imagn" })
             </div>
 
@@ -97,7 +99,7 @@
                     <li class="nav-item">
                         @*@Html.ActionLink("Acasa", "Index", "Home")*@
                         <a class="nav-link-white" href="@Url.Action("Index","Home")" title="Acasă">
-                           <img src="~/Content/Img/home3.png" alt="Acasă" height="29" width="31" />
+                            <img src="~/Content/Img/home3.png" alt="Acasă" height="29" width="31" />
                             Acasă
                         </a>
                     </li>
@@ -133,7 +135,7 @@
                             CV
                         </a>
                     </li>
-                </ul>                
+                </ul>
 
                 @*Logare*@
                 @Html.Partial("_LoginPartial")
@@ -141,16 +143,17 @@
         </div>
     </div>
 
-    <div class="container body-content">  @*Div Footer*@
+    <div class="container body-content">
+        @*Div Footer*@
         @RenderBody()
         <hr />
-        <footer class="page-footer">            
+        <footer class="page-footer">
             <p>&copy; @DateTime.Now.Year – Sistem de recrutare – LC</p>
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
 </body>
 </html>

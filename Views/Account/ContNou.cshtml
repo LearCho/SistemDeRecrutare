@@ -1,152 +1,177 @@
 ﻿@using SistemRecrutare.Models
-@model ContNouViewModel
+
+@model ContNouModel
+
 @{
     ViewBag.Title = "Cont nou";
 }
 
-    <div class="row" style="background-color:white">
-        <br /><br />
-        <h2 class="titlu">@ViewBag.Title</h2>
+  @* plugin multiselect & chosen jquery *@
+<link rel="stylesheet" href="//cdn.jsdelivr.net/chosen/1.1.0/chosen.css" />
+<link rel="stylesheet" href="~/Content/chosen.min.css" />
 
-        @* inregistrare efectuata cu succes - mesaj *@
-        @if (ViewBag.Status != null && Convert.ToBoolean(ViewBag.Status) == true)
+<script type="text/javascript" src="//cdn.jsdelivr.net/chosen/1.1.0/chosen.jquery.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="~/Scripts/chosen.jquery.min.js"></script>
+
+
+<div class="row" style="background-color:white">
+    <br /><br />
+    <h2 class="titlu">@ViewBag.Title</h2>
+
+    @* inregistrare efectuata cu succes - mesaj *@
+    @if (ViewBag.Status != null && Convert.ToBoolean(ViewBag.Status) == true)
+    {
+        if (ViewBag.Message != null)
         {
-            if (ViewBag.Message != null)
-            {
-                <div class="alert alert-success">
-                    <strong>Succes!</strong>@ViewBag.Message
-                </div>
-            }
+            <div class="alert alert-success">
+                <strong>Succes!</strong>@ViewBag.Message
+            </div>
         }
+    }
 
-        @* inregistrare neefectuata - form si mesaj de eroare *@
-        else
+    @* inregistrare neefectuata - form si mesaj de eroare *@
+    else
+    {
+        using (Html.BeginForm("ContNou", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
-            using (Html.BeginForm("ContNou", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                <h4 class="subtitlu">Inregistreaza-te pentru a incepe sa creezi un CV</h4>
-                <hr />
+            @Html.AntiForgeryToken()
+            <h4 class="subtitlu">Inregistreaza-te pentru a incepe sa creezi un CV</h4>
+            <hr />
 
-                <div class="aliniament-cp">
-                    @*@Html.ValidationSummary("", new { @class = "text-danger" })  sumar erori*@ 
+            <div class="aliniament-cp">
+                @*@Html.ValidationSummary("", new { @class = "text-danger" })  sumar erori*@
 
-                    @* E-mail *@
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Email, new { @class = "col-md-5 control-label" })
-                        <div class="col-md-7">
-                            @Html.TextBoxFor(m => m.Email, new {placeholder = "Email", @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                            @Html.ValidationMessage("ExistaEmail", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    @* Parola *@
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Parola, new { @class = "col-md-5 control-label" })
-                        <div class="col-md-7">
-                            @Html.PasswordFor(m => m.Parola, new {placeholder = "Introduceti Parola", @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Parola, "", new { @class = "text-danger" })
-
-                        </div>
-                    </div>
-
-                    @* Confirmare Parola  *@
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.ConfirmaParola, new { @class = "col-md-5 control-label" })
-                        <div class="col-md-7">
-                            @Html.PasswordFor(m => m.ConfirmaParola, new {placeholder = "Confirmare Parola", @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.ConfirmaParola, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    @* Prenume *@
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Prenume, new { @class = "col-md-5 control-label" })
-                        <div class="col-md-7">
-                            @Html.TextBoxFor(m => m.Prenume, new {placeholder = "Prenume", @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Prenume, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    @* Nume *@
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Nume, new { @class = "col-md-5 control-label" })
-                        <div class="col-md-7">
-                            @Html.TextBoxFor(m => m.Nume, new {placeholder = "Nume", @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Nume, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    @* Oraș *@
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Oras, new { @class = "col-md-5 control-label" })
-                        <div class="col-md-7">
-                            @Html.TextBoxFor(m => m.Oras, new {placeholder = "Orasul in care locuiti", @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Oras, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    @* Telefon *@
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Telefon, new { @class = "col-md-5 control-label" })
-                        <div class="col-md-7">
-                            @Html.TextBoxFor(m => m.Telefon, new {placeholder = "Telefon", @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Telefon, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    @* Data Nașterii *@
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Data_nasterii, new { @class = "col-md-5 control-label" })
-                        <div class="col-md-7">
-                            @Html.EditorFor(m => m.Data_nasterii, new {placeholder = "Data Nasterii", @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Data_nasterii, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    @* Sex *@
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Sex, new { @class = "col-md-5 control-label" })
-                        <div class="col-md-7">
-                            @*@Html.TextBoxFor(m => m.Sex, new { @class = "form-control" })*@
-                            @Html.DropDownList("Sex", new SelectList(Enum.GetValues(typeof(Sex_Utilizator))), "Alege",
-                        new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Sex, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    @* Domenii de Lucru *@
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Domenii_lucru, new { @class = "col-md-5 control-label" })
-                        <div class="col-md-7">
-                            @Html.TextBoxFor(m => m.Domenii_lucru, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Domenii_lucru, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-
-                @* Creare Cont *@
+                @* E-mail *@
                 <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" class="btn btn-default button" value="Creeaza cont" />
+                    @Html.LabelFor(m => m.Email, new { @class = "col-md-5 control-label" })
+                    <div class="col-md-7">
+                        @Html.TextBoxFor(m => m.Email, new { placeholder = "Email", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        @Html.ValidationMessage("ExistaEmail", new { @class = "text-danger" })
                     </div>
                 </div>
-            }
 
-            if (ViewBag.Message != null)
-            {
-                <div class="alert alert-danger">
-                    <strong>Eroare!</strong>@ViewBag.Message
+                @* Parola *@
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Parola, new { @class = "col-md-5 control-label" })
+                    <div class="col-md-7">
+                        @Html.PasswordFor(m => m.Parola, new { placeholder = "Introduceti Parola", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Parola, "", new { @class = "text-danger" })
+
+                    </div>
                 </div>
-            }
+
+                @* Confirmare Parola  *@
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ConfirmaParola, new { @class = "col-md-5 control-label" })
+                    <div class="col-md-7">
+                        @Html.PasswordFor(m => m.ConfirmaParola, new { placeholder = "Confirmare Parola", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ConfirmaParola, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @* Prenume *@
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Prenume, new { @class = "col-md-5 control-label" })
+                    <div class="col-md-7">
+                        @Html.TextBoxFor(m => m.Prenume, new { placeholder = "Prenume", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Prenume, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @* Nume *@
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Nume, new { @class = "col-md-5 control-label" })
+                    <div class="col-md-7">
+                        @Html.TextBoxFor(m => m.Nume, new { placeholder = "Nume", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Nume, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @* Oraș *@
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Oras, new { @class = "col-md-5 control-label" })
+                    <div class="col-md-7">
+                        @Html.TextBoxFor(m => m.Oras, new { placeholder = "Orasul in care locuiti", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Oras, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @* Telefon *@
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Telefon, new { @class = "col-md-5 control-label" })
+                    <div class="col-md-7">
+                        @Html.TextBoxFor(m => m.Telefon, new { placeholder = "Telefon", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Telefon, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @* Data Nașterii *@
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Data_nasterii, new { @class = "col-md-5 control-label" })
+                    <div class="col-md-7">
+                        @Html.EditorFor(m => m.Data_nasterii, new { placeholder = "Data Nasterii", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Data_nasterii, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @* Sex *@
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Sex, new { @class = "col-md-5 control-label" })
+                    <div class="col-md-7">
+                        @*@Html.TextBoxFor(m => m.Sex, new { @class = "form-control" })*@
+                        @Html.DropDownList("Sex", new SelectList(Enum.GetValues(typeof(Sex_Utilizator))), "Alege",
+                    new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Sex, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @* Domenii de Lucru *@
+                <div class="form-group">
+                    @*@Html.LabelFor(m => m.Domenii_lucru, new { @class = "col-md-5 control-label" })*@
+                    @Html.Label("Domenii :", new { @class = "col-md-5 control-label" })
+                    <div class="col-md-7">
+
+                        @*@Html.DropDownList("Domenii de Lucru", "-- Selectare domenii de Lucru --")*@
+
+                        @*@Html.ValidationMessageFor(m => m.Domenii_lucru, "", new { @class = "text-danger" })*@
+
+                        @*@RenderPage("/Views/Shared/_LoginPartial.cshtml")*@
+                        <select class="form-control chosen-select" multiple="">
+                            <option>opt1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option></option>
+                            <option></option>
+                        </select>
+
+                    </div>
+                </div>
+            </div>
+
+            @* Creare Cont *@
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" class="btn btn-default button" value="Creeaza cont" />
+                </div>
+            </div>
         }
 
-        @* spre Login *@
-        <div>
-            @Html.ActionLink("Intra in Cont", "Login", "Account")
-        </div>
+        if (ViewBag.Message != null)
+        {
+            <div class="alert alert-danger">
+                <strong>Eroare!</strong>@ViewBag.Message
+            </div>
+        }
+    }
+
+    @* spre Login *@
+    <div>
+        @Html.ActionLink("Intra in Cont", "Login", "Account")
     </div>
+</div>
 
 
 @section Scripts {
@@ -162,12 +187,12 @@
         font-family: 'Berlin Sans FB';
     }
 
-     .subtitlu {
+    .subtitlu {
         margin-left: 37%;
         margin-bottom: 2%;
         font-family: 'Berlin Sans FB';
     }
-    
+
     .button {
         position: relative;
         margin-top: 1%;
@@ -175,7 +200,7 @@
         margin-bottom: 2%;
         font-family: 'Berlin Sans FB';
         background-color: white;
-        color:darkcyan;
+        color: darkcyan;
     }
 
     /*aliniament-cp {
@@ -184,7 +209,11 @@
         margin-bottom: 2%;
     }*/
 
-     .row{
+    .row {
         opacity: 0.9;
     }
 </style>
+
+<script type="text/javascript">
+    $('.chosen-select').chosen();
+</script>

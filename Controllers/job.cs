@@ -18,5 +18,8 @@ namespace SistemRecrutare.Controllers
         public string denumire_job { get; set; }
         public string cod_job { get; set; }
         public Nullable<System.DateTime> data_expirare_job { get; set; }
+        public string angajator { get; set; }
+        public byte[] imagine_job { get; set; }
+        public string descriere_job { get; set; }
     }
 }

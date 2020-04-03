@@ -69,8 +69,8 @@ namespace SistemRecrutare.Models
         public string Confirma_parola { get; set; }
     }
 
-    // Cont nou / Register
-    public class ContNouModel   // Cont Utilizator Model
+    // Cont nou Angajat/ Register
+    public class ContNouAngajatModel   // Cont Utilizator Model
     {
         [EmailAddress]
         [Display(Name = "Email* :")]

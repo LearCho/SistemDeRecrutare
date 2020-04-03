@@ -251,7 +251,6 @@
     <Content Include="Content\Img\background1.png" />
     <Content Include="Content\Img\background3.jpg" />
     <Content Include="Content\Img\background4.png" />
-    <Content Include="Content\Img\background5.jpg" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -333,7 +332,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Joburi.cshtml" />
     <Content Include="Views\Home\Cariera.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
@@ -343,7 +341,7 @@
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\ContNou.cshtml" />
+    <Content Include="Views\Account\ContNouAngajat.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\SendCode.cshtml" />
@@ -361,6 +359,8 @@
     <Content Include="Views\Job\Editare.cshtml" />
     <Content Include="Views\Job\ListaUtilizator.cshtml" />
     <Content Include="Views\Domenii_Lucru_Utilizator\Arata_Domenii_Utilizator.cshtml" />
+    <Content Include="Views\Account\Inregistrare.cshtml" />
+    <Content Include="Views\Account\ContNouAngajator.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

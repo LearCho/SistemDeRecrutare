@@ -1,6 +1,6 @@
 ﻿@using SistemRecrutare.Models
 
-@model ContNouModel
+@model ContNouAngajatModel
 
 @{
     ViewBag.Title = "Cont nou";
@@ -33,7 +33,7 @@
     @* inregistrare neefectuata - form si mesaj de eroare *@
     else
     {
-        using (Html.BeginForm("ContNou", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        using (Html.BeginForm("ContNouAngajat", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
             @Html.AntiForgeryToken()
             <h4 class="subtitlu">Inregistreaza-te pentru a incepe sa creezi un CV</h4>
@@ -132,21 +132,47 @@
                     @*@Html.LabelFor(m => m.Domenii_lucru, new { @class = "col-md-5 control-label" })*@
                     @Html.Label("Domenii :", new { @class = "col-md-5 control-label" })
                     <div class="col-md-7">
-
-                        @*@Html.DropDownList("Domenii de Lucru", "-- Selectare domenii de Lucru --")*@
-
                         @*@Html.ValidationMessageFor(m => m.Domenii_lucru, "", new { @class = "text-danger" })*@
 
-                        @*@RenderPage("/Views/Shared/_LoginPartial.cshtml")*@
                         <select class="form-control chosen-select" multiple="">
-                            <option>opt1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option></option>
-                            <option></option>
+                            <option disabled> Selecteaza domenii </option>
+                            <option>Achizitii - Logistica</option>
+                            <option>Administratie - Stiinte politice</option>
+                            <option>Agricultura</option>
+                            <option>Altele</option>
+                            <option>Arhitectura - Design - Proiectare</option>
+                            <option>Asigurari - Intermedieri financiare</option>
+                            <option>Banci</option>
+                            <option>Chimie - Petrochimie</option>
+                            <option>Constructii</option>
+                            <option>Contabilitate - Finante</option>
+                            <option>Cotrolul calitatii</option>
+                            <option>Customer support - Client service</option>
+                            <option>Educatie - Training</option>
+                            <option>Farmacie - Medicina</option>
+                            <option>Fundatii - Voluntariat - ONG</option>
+                            <option>Imobiliare - Real Estate</option>
+                            <option>Import-Export</option>
+                            <option>Inginerie</option>
+                            <option>Internet - eCommerce</option>
+                            <option>Internship</option>
+                            <option>IT Hardware</option>
+                            <option>IT Software</option>
+                            <option>Juridic</option>
+                            <option>Management - Consultanta</option>
+                            <option>Marketing</option>
+                            <option>Media - Jurnalism</option>
+                            <option>Productie</option>
+                            <option>Publicitate - Agentii publicitate</option>
+                            <option>Radio - Televiziune</option>
+                            <option>Relatii Publice</option>
+                            <option>Resurse Umane</option>
+                            <option>Secretariat - Administrativ</option>
+                            <option>Telecomunicatii</option>
+                            <option>Transporturi</option>
+                            <option>Turism</option>
+                            <option>Vanzari</option>
                         </select>
-
                     </div>
                 </div>
             </div>
@@ -179,7 +205,7 @@
 }
 
 
-@*----------------------------css--------------------------*@
+@*------------------------------css----------------------------*@
 <style type="text/css">
     .titlu {
         margin-left: 46%;
@@ -214,6 +240,7 @@
     }
 </style>
 
+ @* selectare domenii *@
 <script type="text/javascript">
     $('.chosen-select').chosen();
 </script>

@@ -58,6 +58,13 @@ namespace SistemRecrutare.Controllers
 
         // ------------ Inregistrare Utilizator ---------- //
 
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Inregistrare()
+        {
+            return View();
+        }
+
         [NonAction]   // verificare daca exista deja email-ul
         public bool existaEmail(string email_id)
         {
@@ -83,16 +90,16 @@ namespace SistemRecrutare.Controllers
         // GET: /Account/ContNou
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult ContNou()
+        public ActionResult ContNouAngajat()
         {
             return View();
         }
 
-        // POST: /Account/ContNou           
+        // POST: /Account/ContNouAngajat           
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult ContNou([Bind(Exclude = "verificare_email, cod_activare")] ContNouModel cont_user)
+        public ActionResult ContNouAngajat([Bind(Exclude = "verificare_email, cod_activare")] ContNouAngajatModel cont_user)
         {
             bool status = false;
             string message = "";

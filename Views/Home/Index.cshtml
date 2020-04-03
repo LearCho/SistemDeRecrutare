@@ -1,61 +1,56 @@
 ﻿
 @model SistemRecrutare.Models.CautaJobCuvantCheieModel
 
-
 @{
     ViewBag.Title = "Locuri de munca - Aplica";
 }
 
-@* Imagine homepage cu text *@
-<div class="homepage-front-image">
-    <img src="~/Content/Img/front1.png" alt="platforma" height="520" width="1140">
-    <div class="text-on-img">
-        <h1>Aplica la jobul mult visat</h1>
-        <h3>
-            Gaseste locul de munca potrivit pentru tine in anunturile
-            postate de angajatori
-        </h3>
-        @* Cauta Job *@
-        <input type="text" name="search" placeholder="Cuvinte cheie">
-    </div>
-</div>
-
-<div class="jumbotron">
-    <div class="row">
-        <div class="col-md-10">
+    <body style="background-color:white">
+        @* Imagine homepage cu text *@
+        <div class="homepage-front-image">
+            <img src="~/Content/Img/front1.png" alt="platforma-job" height="600" width="1295">
+            <div class="text-on-img">
+                <h1>Aplica la jobul mult visat</h1>
+                <h3>
+                    Gaseste locul de munca potrivit pentru tine in anunturile
+                    postate de angajatori
+                </h3>
+                @* Cauta Job *@
+                <input type="text" name="search" placeholder="Cuvinte cheie">
+            </div>
         </div>
-    </div>
-    <p class="lead"> </p>
 
-    @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-    {
-        <div class="row">
-            <div class="col-md-1"></div>
-
-            @* Cauta Job *@
-            <div class="col-md-3">
-                @*@Html.TextBoxFor(m => m.Job_cautat, new { @class = "form-control", placeholder = "Cuvinte cheie" })*@
+        <div class="jumbotron">
+            <div class="row">
+                <div class="col-md-10">
+                </div>
             </div>
+            <p class="lead"> </p>
 
-            <div align="justify" class="col-md-1">
-                @*<img src="~/Content/Img/search1.png" alt="Cauta joburi" height="29" width="31">*@
-            </div>
+            @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                <div class="row">
+                    <div class="col-md-1"></div>
 
-            <div class="col-md-5">
-                @*<a href="#" class="btn btn-primary btn-lg" onclick="">Cauta job &raquo;</a>*@
-            </div>
+                    @* Cauta Job *@
+                    <div class="col-md-3">
+                        @*@Html.TextBoxFor(m => m.Job_cautat, new { @class = "form-control", placeholder = "Cuvinte cheie" })*@
+                    </div>
 
-            <div class="col-md-1"></div>
-            <div class="col-md-1"></div>
+                    <div align="justify" class="col-md-1">
+                        @*<img src="~/Content/Img/search1.png" alt="Cauta joburi" height="29" width="31">*@
+                    </div>
+
+                    <div class="col-md-5">
+                        @*<a href="#" class="btn btn-primary btn-lg" onclick="">Cauta job &raquo;</a>*@
+                    </div>
+
+                    <div class="col-md-1"></div>
+                    <div class="col-md-1"></div>
+                </div>
+            }
         </div>
-    }
-</div>
-
-@*<div class="row">
-        <div class="col-md-8"></div>
-        <div class="col-md-4"></div>
-    </div>*@
-
+    </body>
 @*-----------------------------------------------------------------*@
 @*--------------------------------css------------------------------*@
 <style type="text/css">
@@ -72,15 +67,16 @@
         position: relative;
         text-align: center;
         color: white;
+        left: -80px;
     }
 
     .homepage-front-image .text-on-img{
         position: absolute; /* background text */
-        bottom: 0; /* at the bottom */
+        bottom: 0; 
         background: rgb(0, 0, 0); /* fallback color */
         background: rgba(0, 0, 0, 0.3); /* black background, 0.3 opacity */
         color: #f1f1f1;
-        width: 100%;
+        width: 113.45%;
         padding: 70px;
     }
 
@@ -88,10 +84,11 @@
     .text-on-img {
         position: absolute;
         top: 50%;
-        left: 50%;
+        left: 56.9%;
         transform: translate(-50%, -50%);
         font-family: Consolas, monospace;
-}
+    }
+
     @* search *@
     input[type=text] {
         width: 180px;

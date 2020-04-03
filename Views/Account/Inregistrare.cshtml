@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "Inregistrare";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<body style="background-color:white;">
+
+    <div class="row">
+        <div class="col-md-4"></div>
+
+        <div class="col-md-6">
+            <img src="~/Content/Img/work2.png" style="width:340px; height:340px; padding-top:50px;" />
+            <h3 style="color:darkcyan; padding-left:40px; font-family:Calibri; font-weight:bold;">Inregistreaza un cont pentru</h3>
+            <br />
+            <ul class="nav navbar-nav navbar-right">
+                @* Inregistrare Cont Nou Aplicant *@
+                <li class="alegere-cont">
+                    @Html.ActionLink("APLICANT", "ContNouAngajat", "Account", null, new { @class = "btn-register1" })
+                </li>
+                @* Inregistrare Cont Nou Angajator *@
+                <li class="alegere-cont">
+                    @Html.ActionLink("ANGAJATOR", "ContNouAngajat", "Account", null, new { @class = "btn-register1" })
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-md-2"></div>
+    </div>
+</body>
+
+
+@*------------------------------css----------------------------*@
+<style type="text/css">
+     .btn-register1 {
+        background-color: transparent;
+        height: 40px;
+        border: none;
+        font-weight:bolder;
+        color: rebeccapurple;
+        padding: 8px 8px;
+        text-align: center;
+        font-size: 38px;
+        margin: -5px 4px;
+        border-radius: 22px;
+        opacity: 0.95;
+        transition: 0.7s;
+    }
+
+        .alegere-cont {
+            left: -100px;
+            padding-top: 20px;
+            padding-bottom: 170px;
+        }
+
+        .alegere-cont:hover {
+            color: darkcyan;
+        }
+</style>

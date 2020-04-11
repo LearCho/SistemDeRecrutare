@@ -7,19 +7,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SistemRecrutare.Controllers
+namespace SistemRecrutare.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class job
+    public partial class cv
     {
-        public int id_job { get; set; }
-        public string denumire_job { get; set; }
-        public string cod_job { get; set; }
-        public Nullable<System.DateTime> data_expirare_job { get; set; }
-        public string angajator { get; set; }
-        public byte[] imagine_job { get; set; }
-        public string descriere_job { get; set; }
+        public int id_cv { get; set; }
+        public string cod_cv { get; set; }
     }
 }

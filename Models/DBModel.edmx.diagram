@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8d85cabc15774036b55bcc0dd62788b4" Name="Diagram1">
+        <EntityTypeShape EntityType="DB_recrutareModel.job" Width="1.5" PointX="0.5" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_recrutareModel.cv" Width="1.5" PointX="4" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_recrutareModel.domeniu_lucru" Width="1.5" PointX="2.75" PointY="0.5" />
+        <EntityTypeShape EntityType="DB_recrutareModel.utilizator" Width="1.5" PointX="0.5" PointY="0.5" />
+        <EntityTypeShape EntityType="DB_recrutareModel.utilizator_domeniu_leg" Width="1.5" PointX="2.25" PointY="3.75" />
+        <AssociationConnector Association="DB_recrutareModel.FK_domeniu" />
+        <AssociationConnector Association="DB_recrutareModel.FK_utilizator" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -67,5 +67,13 @@
       <End Role="utilizator" EntitySet="utilizators" />
       <End Role="domeniu_lucru" EntitySet="domeniu_lucru" />
     </AssociationSet>
+    <EntitySet Name="sexes" EntityType="DB_sistem_recrutareModel.sex" />
   </EntityContainer>
+  <EntityType Name="sex">
+    <Key>
+      <PropertyRef Name="id_sex" />
+    </Key>
+    <Property Name="id_sex" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="denumire_sex" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+  </EntityType>
 </Schema>

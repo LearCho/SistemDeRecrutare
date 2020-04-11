@@ -7,17 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SistemRecrutare.Controllers
+namespace SistemRecrutare.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class domeniu_lucru
+    public partial class job
     {
-        public int id_domeniu { get; set; }
-        public string denumire_domeniu { get; set; }
-        public Nullable<int> id_utilizator { get; set; }
-    
-        public virtual utilizator utilizator { get; set; }
+        public int id_job { get; set; }
+        public string denumire_job { get; set; }
+        public string cod_job { get; set; }
+        public Nullable<System.DateTime> data_expirare_job { get; set; }
+        public string angajator { get; set; }
+        public byte[] imagine_job { get; set; }
+        public string descriere_job { get; set; }
     }
 }

@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DB_recrutareModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="job">
+    <Key>
+      <PropertyRef Name="id_job" />
+    </Key>
+    <Property Name="id_job" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="denumire_job" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="cod_job" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="data_expirare_job" Type="DateTime" Precision="0" />
+    <Property Name="angajator" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+    <Property Name="imagine_job" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="descriere_job" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="cv">
+    <Key>
+      <PropertyRef Name="id_cv" />
+      <PropertyRef Name="cod_cv" />
+    </Key>
+    <Property Name="id_cv" Type="Int32" Nullable="false" />
+    <Property Name="cod_cv" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="DBrecrutare" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="jobs" EntityType="Self.job" />
+    <EntitySet Name="cvs" EntityType="Self.cv" />
+    <EntitySet Name="domeniu_lucru" EntityType="DB_recrutareModel.domeniu_lucru" />
+    <EntitySet Name="utilizators" EntityType="DB_recrutareModel.utilizator" />
+    <EntitySet Name="utilizator_domeniu_leg" EntityType="DB_recrutareModel.utilizator_domeniu_leg" />
+    <AssociationSet Name="FK_domeniu" Association="DB_recrutareModel.FK_domeniu">
+      <End Role="domeniu_lucru" EntitySet="domeniu_lucru" />
+      <End Role="utilizator_domeniu_leg" EntitySet="utilizator_domeniu_leg" />
+    </AssociationSet>
+    <AssociationSet Name="FK_utilizator" Association="DB_recrutareModel.FK_utilizator">
+      <End Role="utilizator" EntitySet="utilizators" />
+      <End Role="utilizator_domeniu_leg" EntitySet="utilizator_domeniu_leg" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="domeniu_lucru">
+    <Key>
+      <PropertyRef Name="id_domeniu" />
+    </Key>
+    <Property Name="id_domeniu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="denumire_domeniu" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="utilizator_domeniu_leg" Relationship="DB_recrutareModel.FK_domeniu" FromRole="domeniu_lucru" ToRole="utilizator_domeniu_leg" />
+  </EntityType>
+  <EntityType Name="utilizator">
+    <Key>
+      <PropertyRef Name="id_utilizator" />
+    </Key>
+    <Property Name="email" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="parola" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="nume_utilizator" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="prenume_utilizator" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="oras" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="telefon" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+    <Property Name="data_nasterii" Type="DateTime" Precision="3" />
+    <Property Name="sex" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+    <Property Name="verificare_email" Type="Boolean" Nullable="false" />
+    <Property Name="cod_activare" Type="Guid" />
+    <Property Name="id_utilizator" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="utilizator_domeniu_leg" Relationship="DB_recrutareModel.FK_utilizator" FromRole="utilizator" ToRole="utilizator_domeniu_leg" />
+  </EntityType>
+  <EntityType Name="utilizator_domeniu_leg">
+    <Key>
+      <PropertyRef Name="id_utilizator" />
+      <PropertyRef Name="id_domeniu" />
+    </Key>
+    <Property Name="id_utilizator" Type="Int32" Nullable="false" />
+    <Property Name="id_domeniu" Type="Int32" Nullable="false" />
+    <Property Name="camp" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="domeniu_lucru" Relationship="DB_recrutareModel.FK_domeniu" FromRole="utilizator_domeniu_leg" ToRole="domeniu_lucru" />
+    <NavigationProperty Name="utilizator" Relationship="DB_recrutareModel.FK_utilizator" FromRole="utilizator_domeniu_leg" ToRole="utilizator" />
+  </EntityType>
+  <Association Name="FK_domeniu">
+    <End Type="DB_recrutareModel.domeniu_lucru" Role="domeniu_lucru" Multiplicity="1" />
+    <End Type="DB_recrutareModel.utilizator_domeniu_leg" Role="utilizator_domeniu_leg" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="domeniu_lucru">
+        <PropertyRef Name="id_domeniu" />
+      </Principal>
+      <Dependent Role="utilizator_domeniu_leg">
+        <PropertyRef Name="id_domeniu" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_utilizator">
+    <End Type="DB_recrutareModel.utilizator" Role="utilizator" Multiplicity="1" />
+    <End Type="DB_recrutareModel.utilizator_domeniu_leg" Role="utilizator_domeniu_leg" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="utilizator">
+        <PropertyRef Name="id_utilizator" />
+      </Principal>
+      <Dependent Role="utilizator_domeniu_leg">
+        <PropertyRef Name="id_utilizator" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

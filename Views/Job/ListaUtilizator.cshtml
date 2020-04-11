@@ -7,7 +7,7 @@
 
 <div class="row" style="background-color:white">
     <br /><br />
-    <h2 class="titlu">Joburi</h2>
+    <h2 class="titlu">JOBURI</h2>
     <br />
 
     <div class="wrapper-centru">
@@ -19,11 +19,11 @@
                     var base64 = Convert.ToBase64String((byte[])Model.Rows[i - 1][5]);
                     var imgsrc = string.Format("data::image/jpg;base64,{0}", base64);
 
-                    <img src='@imgsrc' style="max-width:270px; max-height:200px" class="imageclass" />
+                    <img src='@imgsrc' style="max-width:240px; max-height:170px" class="imageclass" />
                 }
                 else
                 {
-                    <img src="~/Content/Img/jobs1.png" style="max-width:270px; max-height:200px" class="imageclass" />
+                    <img src="~/Content/Img/jobs1.png" style="max-width:240px; max-height:170px" class="imageclass" />
                 }
                 <h1 style="color:darkcyan"> @Model.Rows[i - 1][1]</h1>
                 <p class="angajator">@Model.Rows[i - 1][4]</p>
@@ -49,7 +49,9 @@
     .titlu {
         margin-left: 45%;
         margin-bottom: 2%;
-        font-family: 'Berlin Sans FB';       
+        font-family: Calibri;  
+        color: darkslategray;
+        font-weight: bolder;
     }
 
     @* imagine job *@

@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DB_recrutareModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'DB_sistem_recrutare.dbo.cv' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="cv">
+    <Key>
+      <PropertyRef Name="id_cv" />
+      <PropertyRef Name="cod_cv" />
+    </Key>
+    <Property Name="id_cv" Type="int" Nullable="false" />
+    <Property Name="cod_cv" Type="varchar" MaxLength="64" Nullable="false" />
+  </EntityType>
+  <EntityType Name="domeniu_lucru">
+    <Key>
+      <PropertyRef Name="id_domeniu" />
+    </Key>
+    <Property Name="id_domeniu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="denumire_domeniu" Type="varchar" MaxLength="64" />
+  </EntityType>
+  <EntityType Name="job">
+    <Key>
+      <PropertyRef Name="id_job" />
+    </Key>
+    <Property Name="id_job" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="denumire_job" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="cod_job" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="data_expirare_job" Type="date" />
+    <Property Name="angajator" Type="varchar" MaxLength="120" />
+    <Property Name="imagine_job" Type="image" />
+    <Property Name="descriere_job" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="utilizator">
+    <Key>
+      <PropertyRef Name="id_utilizator" />
+    </Key>
+    <Property Name="email" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="parola" Type="nvarchar(max)" />
+    <Property Name="nume_utilizator" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="prenume_utilizator" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="oras" Type="varchar" MaxLength="64" />
+    <Property Name="telefon" Type="varchar" MaxLength="11" />
+    <Property Name="data_nasterii" Type="datetime" />
+    <Property Name="sex" Type="varchar" MaxLength="35" />
+    <Property Name="verificare_email" Type="bit" Nullable="false" />
+    <Property Name="cod_activare" Type="uniqueidentifier" />
+    <Property Name="id_utilizator" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="utilizator_domeniu_leg">
+    <Key>
+      <PropertyRef Name="id_utilizator" />
+      <PropertyRef Name="id_domeniu" />
+    </Key>
+    <Property Name="id_utilizator" Type="int" Nullable="false" />
+    <Property Name="id_domeniu" Type="int" Nullable="false" />
+    <Property Name="camp" Type="varchar" MaxLength="2" />
+  </EntityType>
+  <Association Name="FK_domeniu">
+    <End Role="domeniu_lucru" Type="Self.domeniu_lucru" Multiplicity="1" />
+    <End Role="utilizator_domeniu_leg" Type="Self.utilizator_domeniu_leg" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="domeniu_lucru">
+        <PropertyRef Name="id_domeniu" />
+      </Principal>
+      <Dependent Role="utilizator_domeniu_leg">
+        <PropertyRef Name="id_domeniu" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_utilizator">
+    <End Role="utilizator" Type="Self.utilizator" Multiplicity="1" />
+    <End Role="utilizator_domeniu_leg" Type="Self.utilizator_domeniu_leg" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="utilizator">
+        <PropertyRef Name="id_utilizator" />
+      </Principal>
+      <Dependent Role="utilizator_domeniu_leg">
+        <PropertyRef Name="id_utilizator" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DB_recrutareModelStoreContainer">
+    <EntitySet Name="domeniu_lucru" EntityType="Self.domeniu_lucru" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="job" EntityType="Self.job" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="utilizator" EntityType="Self.utilizator" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="utilizator_domeniu_leg" EntityType="Self.utilizator_domeniu_leg" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="cv" EntityType="Self.cv" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [cv].[id_cv] AS [id_cv], 
+    [cv].[cod_cv] AS [cod_cv]
+    FROM [dbo].[cv] AS [cv]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_domeniu" Association="Self.FK_domeniu">
+      <End Role="domeniu_lucru" EntitySet="domeniu_lucru" />
+      <End Role="utilizator_domeniu_leg" EntitySet="utilizator_domeniu_leg" />
+    </AssociationSet>
+    <AssociationSet Name="FK_utilizator" Association="Self.FK_utilizator">
+      <End Role="utilizator" EntitySet="utilizator" />
+      <End Role="utilizator_domeniu_leg" EntitySet="utilizator_domeniu_leg" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

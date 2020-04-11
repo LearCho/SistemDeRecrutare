@@ -69,6 +69,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\Program Files (x86)\MySQL\Connector NET 8.0\Assemblies\v4.5.2\MySql.Web.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -197,37 +203,10 @@
     <Compile Include="App_Start\SqlController.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\BD.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BD.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\BD.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\BD.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BD.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\cv.cs">
-      <DependentUpon>BD.tt</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\Domenii_Lucru_UtilizatorController.cs" />
-    <Compile Include="Controllers\domeniu_lucru.cs">
-      <DependentUpon>BD.tt</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\job.cs">
-      <DependentUpon>BD.tt</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\utilizator.cs">
-      <DependentUpon>BD.tt</DependentUpon>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -237,15 +216,48 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\cv.cs">
+      <DependentUpon>DBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DBModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DBModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\Domenii_Lucru_Utilizator.cs" />
+    <Compile Include="Models\domeniu_lucru.cs">
+      <DependentUpon>DBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\job.cs">
+      <DependentUpon>DBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\JobModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\utilizator.cs">
+      <DependentUpon>DBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\utilizator_domeniu_leg.cs">
+      <DependentUpon>DBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\chosen.min.css" />
+    <Content Include="Content\Img\acasa.png" />
+    <Content Include="Content\Img\add1.png" />
+    <Content Include="Content\Img\add2.png" />
     <Content Include="Content\Img\back.png" />
     <Content Include="Content\Img\back2.png" />
     <Content Include="Content\Img\background1.png" />
@@ -284,29 +296,30 @@
     <Content Include="Content\Img\work1.png" />
     <Content Include="Content\Img\work2.png" />
     <Content Include="Content\Img\work3.png" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Content\style-desktop.css" />
-    <Content Include="Controllers\BD.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>BD.edmx</DependentUpon>
-      <LastGenOutput>BD.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Controllers\BD.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>BD.edmx</DependentUpon>
-      <LastGenOutput>BD.cs</LastGenOutput>
-    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Models\DBModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DBModel.edmx</DependentUpon>
+      <LastGenOutput>DBModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\DBModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DBModel.edmx</DependentUpon>
+      <LastGenOutput>DBModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="Controllers\BD.edmx">
+    <EntityDeploy Include="Models\DBModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>BD.Designer.cs</LastGenOutput>
+      <LastGenOutput>DBModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Controllers\BD.edmx.diagram">
-      <DependentUpon>BD.edmx</DependentUpon>
+    <Content Include="Models\DBModel.edmx.diagram">
+      <DependentUpon>DBModel.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\chosen.jquery.min.js" />

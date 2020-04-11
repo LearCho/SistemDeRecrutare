@@ -48,5 +48,13 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="sexes">
+      <EntityTypeMapping TypeName="DB_sistem_recrutareModel.sex">
+        <MappingFragment StoreEntitySet="sex">
+          <ScalarProperty Name="denumire_sex" ColumnName="denumire_sex" />
+          <ScalarProperty Name="id_sex" ColumnName="id_sex" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

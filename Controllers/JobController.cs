@@ -10,6 +10,8 @@ using System.Security;
 using System.Windows;
 using System.Text;
 using System.IO;
+using PagedList;
+using PagedList.Mvc;
 
 namespace SistemRecrutare.Controllers
 {
@@ -24,6 +26,8 @@ namespace SistemRecrutare.Controllers
         public ActionResult ListaAdmin() // afiseaza joburi in dataTable
         {
             DataTable dataTable_Job = new DataTable();
+            //TODO : de creat pagini cu PagedList
+
             try
             {
                 using (SqlConnection sqlCon = new SqlConnection(connectionString))
@@ -148,7 +152,7 @@ namespace SistemRecrutare.Controllers
             }
             catch
             {
-                return Content("<script language='javascript' type='text/javascript'>alert ('Ceva nu a functionat corect!');</script>");
+                return Content("<script language='javascript' type='text/javascript'>alert ('Se pare ca ceva nu a functionat corect');</script>");
             }
         }
 
@@ -194,6 +198,7 @@ namespace SistemRecrutare.Controllers
         public ActionResult ListaUtilizator() // afiseaza joburi pentru vedere utilizator
         {
             DataTable dataTable_Job = new DataTable();
+            //TODO : de creat pagini
             try
             {
                 using (SqlConnection sqlCon = new SqlConnection(connectionString))

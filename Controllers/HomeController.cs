@@ -26,7 +26,6 @@ namespace SistemRecrutare.Controllers
             return View();
         }
 
-        //
         // POST: /Home/CautaJobCuvantCheie           
         [HttpPost]
         [AllowAnonymous]
@@ -50,7 +49,7 @@ namespace SistemRecrutare.Controllers
 
         public ActionResult Cariera()
         {
-            ViewBag.Message = "Pagina de cariere";
+            ViewBag.Message = "Cariere";
 
             return View();
         }

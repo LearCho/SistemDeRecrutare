@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Configuration;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -12,6 +13,8 @@ using SistemRecrutare.Models;
 using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Data;
+using System.Net.Mail;
+using System.Net;
 
 namespace SistemRecrutare.Controllers
 {
@@ -68,86 +71,150 @@ namespace SistemRecrutare.Controllers
         [NonAction]   // verificare daca exista deja email-ul
         public bool existaEmail(string email_id)
         {
-            using (SqlConnection sqlCon = new SqlConnection(JobController.connectionString))
+            using (DBrecrutare db = new DBrecrutare())
             {
-                sqlCon.Open();
+                //#region caz submit campuri goale: reumplere lista
+                //UtilizatorViewModel user = new UtilizatorViewModel();
+                //user.DomeniiSelectateIds = new List<int>();
+                //user.ListaDomenii = new SelectList(db.domeniu_lucru.ToList(),
+                //    "id_domeniu", "denumire_domeniu");
+                //#endregion
 
-                string query = "SELECT * FROM dbo.utilizator WHERE email = @email";
-                SqlCommand sql_cmd = new SqlCommand(query, sqlCon);
-                sql_cmd.Parameters.AddWithValue("@email", email_id);
-
-                SqlDataReader sqlData = sql_cmd.ExecuteReader();
-
-                if (sqlData.HasRows)
-                {
-                    return true;
-                }
-                return false;
+                var exista = db.utilizators.Where(u => u.email == email_id).FirstOrDefault();
+                return exista == null ? false : true;          
             }
+            
         }
-      
 
-        // GET: /Account/ContNou
+        [NonAction]  // verificare link prin email
+        public void trimiteLinkVerificareEmail(string email_id, string cod_activare)
+        {
+            string url_verificare = ":/Account/VerificareCont" + cod_activare;
+            var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, url_verificare);
+
+            var email_deLa = new MailAddress("sis.recrutare.utcb@gmail.com", "Sis Recrutare UTCB");
+            var email_pentru = new MailAddress(email_id);
+            var email_deLa_parola = "****"; // parola actuala
+            string email_titlu = "Contul tau a fost creat cu succes!";
+            string body = "<br/><br/> Bine ai venit pe platforma de joburi! <p>Iti uram spor in " +
+                "cautarea celui mai potrivit loc de munca pentru tine! Inca un pas si te poti apuca " +
+                "de treaba :-)</p> <p> Te rugam sa " +
+                "dai click pe link-ul urmator pentru a finaliza iregistrarea : " +
+                "<br/><a href = '" + link + "'>" + link + "</a>";
+
+            var smtp = new SmtpClient // simple mail tr protocol client
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(email_deLa.Address, email_deLa_parola)
+            };
+
+            using (var mesaj = new MailMessage(email_deLa, email_pentru)
+            {
+                Subject = email_titlu,
+                Body = body,
+                IsBodyHtml = true
+            })
+                smtp.Send(mesaj);
+        }
+
+
+        // GET: /Account/ContNouAngajat
         [HttpGet]
         [AllowAnonymous]
         public ActionResult ContNouAngajat()
         {
-            return View();
+            UtilizatorViewModel u = new UtilizatorViewModel();
+ 
+            using (DBrecrutare db = new DBrecrutare())
+            {
+                    u.DomeniiSelectateIds = new List<int>();
+                    u.ListaDomenii = new SelectList(db.domeniu_lucru.ToList(),
+                        "id_domeniu", "denumire_domeniu");
+             
+                //ViewData["DBDomenii"] = u.ListaDomenii;
+            }
+            return View(u);
         }
 
         // POST: /Account/ContNouAngajat           
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult ContNouAngajat([Bind(Exclude = "verificare_email, cod_activare")] ContNouAngajatModel cont_user)
+        public ActionResult ContNouAngajat([Bind(Exclude = "verificare_email, cod_activare")] Models.UtilizatorViewModel cont_user)
         {
-            bool status = false;
+            bool status = false; // status & message merg in viewBag
             string message = "";
 
             if (ModelState.IsValid) // validare model
             {
-                #region --- exista email ---
-                if (existaEmail(cont_user.Email) == true)
+                #region --- verificare email deja existent ---
+                if (existaEmail(cont_user.Utilizator.email) == true)
                 {
-                    ModelState.AddModelError("ExistaEmail", "Adresa de e-mail exista deja");
+                    ModelState.AddModelError("ExistaEmail", "Adresa de e-mail introdusa exista deja");
+                    // caz submit campuri goale: reumplere lista
+                    using (DBrecrutare db = new DBrecrutare())
+                    {
+                        cont_user.DomeniiSelectateIds = new List<int>();
+                        cont_user.ListaDomenii = new SelectList(db.domeniu_lucru.ToList(),
+                            "id_domeniu", "denumire_domeniu");
+                    }
                     return View(cont_user);
                 }
                 #endregion
 
-                #region --- cod activare ---
-                cont_user.cod_activare = Guid.NewGuid();
+                #region --- cod de activare ---
+                cont_user.Utilizator.cod_activare = Guid.NewGuid();
                 #endregion
 
-                #region --- hashing parola ---
-                cont_user.Parola = CriptareParola.Hash(cont_user.Parola);
-                cont_user.ConfirmaParola = CriptareParola.Hash(cont_user.ConfirmaParola);
+                #region --- hashing parola si hashing confirma parola ---
+                cont_user.Utilizator.parola = CriptareParola.Hash(cont_user.Utilizator.parola);
+                cont_user.Utilizator.confirma_parola = CriptareParola.Hash(cont_user.Utilizator.confirma_parola);
                 #endregion
-                cont_user.verificare_email = false;
+                cont_user.Utilizator.verificare_email = false;
 
                 #region --- salvare in baza de date ---
-                using (SqlConnection sqlCon = new SqlConnection(JobController.connectionString))
-                {
-                    sqlCon.Open();
+                using (DBrecrutare db = new DBrecrutare())
+                {             
+                    db.utilizators.Add(cont_user.Utilizator);
+                    db.SaveChanges();
 
-                    List<Domenii_Lucru_Utilizator> domenii = new List<Domenii_Lucru_Utilizator>();
+                    if (cont_user.Utilizator == null) 
+                    {
+                        return View("ContNouAngajat");
+                    }
 
-                    string query = "INSERT INTO dbo.utilizator VALUES(@email, @parola, @nume_utilizator, " +
-                                            " @prenume_utilizator, @oras, @telefon, @data_nasterii, " +
-                                            " @sex, @verificare_email, @cod_activare)"; 
-                    SqlCommand sql_cmd = new SqlCommand(query, sqlCon);
-                    sql_cmd.Parameters.AddWithValue("@email", cont_user.Email);
-                    sql_cmd.Parameters.AddWithValue("@parola", cont_user.Parola);
-                    sql_cmd.Parameters.AddWithValue("@nume_utilizator", cont_user.Nume);
-                    sql_cmd.Parameters.AddWithValue("@prenume_utilizator", cont_user.Prenume);
-                    sql_cmd.Parameters.AddWithValue("@oras", cont_user.Oras);
-                    sql_cmd.Parameters.AddWithValue("@telefon", cont_user.Telefon);
-                    sql_cmd.Parameters.AddWithValue("@data_nasterii", cont_user.Data_nasterii);
-                    sql_cmd.Parameters.AddWithValue("@sex", Convert.ToByte(cont_user.Sex));
-                    //sql_cmd.Parameters.AddWithValue("@domenii_lucru", cont_user.Domenii_lucru);
-                    sql_cmd.Parameters.AddWithValue("@verificare_email", cont_user.verificare_email);
-                    sql_cmd.Parameters.AddWithValue("@cod_activare", cont_user.cod_activare);
+                    if (cont_user.Utilizator != null && cont_user.DomeniiSelectateIds != null) 
+                    {
+                        foreach (var id_selectat in cont_user.DomeniiSelectateIds) //
+                        {
+                            db.utilizator_domeniu_leg.Add(new utilizator_domeniu_leg
+                            {
+                                id_utilizator = cont_user.Utilizator.id_utilizator,
+                                id_domeniu = id_selectat
+                            });
+                        }
+                    }
+                    else
+                    {
+                        db.utilizator_domeniu_leg.Add(new utilizator_domeniu_leg
+                        {
+                            id_utilizator = cont_user.Utilizator.id_utilizator,
+                            id_domeniu = 9 //Altele
+                        });
+                    }
+                    
+                    db.SaveChanges();
 
-                    sql_cmd.ExecuteNonQuery();
+
+                    // trimitere email catre utilizator
+                    //trimiteLinkVerificareEmail(cont_user.Utilizator.email, cont_user.Utilizator.cod_activare.ToString());
+                    message = "Inregistrarea a fost efectuata cu succes. Un link de activare " +
+                        "ti-a fost trimis pe email, la adresa " + cont_user.Utilizator.email;
+                    status = true;
                 }
                 #endregion
             }
@@ -155,104 +222,115 @@ namespace SistemRecrutare.Controllers
             else
                 message = "Cererea nu a putut fi efectuata";
 
+            ViewBag.Mesage = message;
+            ViewBag.Status = status;
+
+            // caz submit campuri goale: reumplere lista
+            using (DBrecrutare db = new DBrecrutare())
+            {
+                cont_user.DomeniiSelectateIds = new List<int>();
+                cont_user.ListaDomenii = new SelectList(db.domeniu_lucru.ToList(),
+                    "id_domeniu", "denumire_domeniu");
+
+            }
             return View(cont_user);
         }
 
         // GET: /Account/SendCode
-        [AllowAnonymous]
-        public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
-        {
-            var userId = await SignInManager.GetVerifiedUserIdAsync();
-            if (userId == null)
-            {
-                return View("Error");
-            }
-            var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
-            var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
-            return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
-        }
+        //[AllowAnonymous]
+        //public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
+        //{
+        //    var userId = await SignInManager.GetVerifiedUserIdAsync();
+        //    if (userId == null)
+        //    {
+        //        return View("Error");
+        //    }
+        //    var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
+        //    var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
+        //    return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
+        //}
 
         // POST: /Account/SendCode
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SendCode(SendCodeViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> SendCode(SendCodeViewModel model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View();
+        //    }
 
-            // Generate the token and send it
-            if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
-            {
-                return View("Error");
-            }
-            return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
-        }
+        //    // Generate the token and send it
+        //    if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
+        //    {
+        //        return View("Error");
+        //    }
+        //    return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
+        //}
 
         // --------- Verificare Cod pentru Utilizator --------
-        // GET: /Account/VerifyCode
-        [AllowAnonymous]
-        public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
-        {
-            // Require that the user has already logged in via username/password or external login
-            if (!await SignInManager.HasBeenVerifiedAsync())
-            {
-                return View("Eroare");
-            }
-            return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
-        }
+        //// GET: /Account/VerifyCode
+        //[AllowAnonymous]
+        //public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
+        //{
+        //    // Require that the user has already logged in via username/password or external login
+        //    if (!await SignInManager.HasBeenVerifiedAsync())
+        //    {
+        //        return View("Eroare");
+        //    }
+        //    return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
+        //}
 
-        // POST: /Account/VerifyCode
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> VerifyCode(VerifyCodeViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+        //// POST: /Account/VerifyCode
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> VerifyCode(VerifyCodeViewModel model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(model);
+        //    }
 
-            //The following code protects for brute force attacks against the two factor codes.
+        //    //The following code protects for brute force attacks against the two factor codes.
 
-            //If a user enters incorrect codes for a specified amount of time then the user account
+        //    //If a user enters incorrect codes for a specified amount of time then the user account
 
-            //will be locked out for a specified amount of time.
-            // You can configure the account lockout settings in IdentityConfig
-           var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return RedirectToLocal(model.ReturnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Cod invalid.");
-                    return View(model);
-            }
-        }
-       
+        //    //will be locked out for a specified amount of time.
+        //    // You can configure the account lockout settings in IdentityConfig
+        //   var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
+        //    switch (result)
+        //    {
+        //        case SignInStatus.Success:
+        //            return RedirectToLocal(model.ReturnUrl);
+        //        case SignInStatus.LockedOut:
+        //            return View("Lockout");
+        //        case SignInStatus.Failure:
+        //        default:
+        //            ModelState.AddModelError("", "Cod invalid.");
+        //            return View(model);
+        //    }
+        //}
 
-      // --------------- Confirmare Email --------------
+
+        // --------------- Confirmare Email --------------
         // GET: /Account/ConfirmEmail
-        [AllowAnonymous]
-        public async Task<ActionResult> ConfirmEmail(string userId, string code)
-        {
-            if (userId == null || code == null)
-            {
-                return View("Eroare");
-            }
-            var result = await UserManager.ConfirmEmailAsync(userId, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Eroare");
-        }
+        //[AllowAnonymous]
+        //public async Task<ActionResult> ConfirmEmail(string userId, string code)
+        //{
+        //    if (userId == null || code == null)
+        //    {
+        //        return View("Eroare");
+        //    }
+        //    var result = await UserManager.ConfirmEmailAsync(userId, code);
+        //    return View(result.Succeeded ? "ConfirmEmail" : "Eroare");
+        //}
 
 
-      // -------------- Logare Utilizator -------------
-        // GET: /Account/Login
-        [AllowAnonymous]
+        // -------------- Logare Utilizator -------------
+        //GET: /Account/Login
+       [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
@@ -288,8 +366,8 @@ namespace SistemRecrutare.Controllers
             }
         }
 
-    
-      // ------------ Logare: Parola Uitata ------------
+
+        // ------------ Logare: Parola Uitata ------------
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
         public ActionResult ForgotPassword()
@@ -451,7 +529,7 @@ namespace SistemRecrutare.Controllers
             return View(model);
         }
 
-        //
+
         // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -461,9 +539,9 @@ namespace SistemRecrutare.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        //
-        // GET: /Account/ExternalLoginFailure
-        [AllowAnonymous]
+
+        //GET: /Account/ExternalLoginFailure
+       [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
         {
             return View();
@@ -549,3 +627,134 @@ namespace SistemRecrutare.Controllers
         #endregion
     }
 }
+
+
+
+
+// inregistrare cont nou fara enity framework & fara selected dropdowns
+
+//[NonAction]   // verificare daca exista deja email-ul
+//public bool existaEmail(string email_id)
+//{
+//    using (SqlConnection sqlCon = new SqlConnection(JobController.connectionString))
+//    {
+//        sqlCon.Open();
+
+//        string query = "SELECT * FROM dbo.utilizator WHERE email = @email";
+//        SqlCommand sql_cmd = new SqlCommand(query, sqlCon);
+//        sql_cmd.Parameters.AddWithValue("@email", email_id);
+
+//        SqlDataReader sqlData = sql_cmd.ExecuteReader();
+
+//        if (sqlData.HasRows)
+//        {
+//            return true;
+//        }
+//        return false;
+//    }
+//}
+
+//// GET: /Account/ContNou
+//[HttpGet]
+//[AllowAnonymous]
+//public ActionResult ContNouAngajat()
+//{
+//    //ViewBag.SexId = new SelectList(db.sexes, "id_sex", "denumire_sex");
+//    ContNouAngajatModel cont_user = new ContNouAngajatModel();
+//    DataTable dataTable_Sexe = new DataTable();
+//    List<Sex_Utilizator> lista_sexe = new List<Sex_Utilizator>();
+
+//    using (SqlConnection sqlCon = new SqlConnection(JobController.connectionString))
+//    {
+//        sqlCon.Open();
+//        string query_genders = "SELECT id_sex, denumire_sex FROM dbo.sex";
+//        SqlDataAdapter sqlData = new SqlDataAdapter(query_genders, sqlCon);
+//        sqlData.Fill(dataTable_Sexe);
+//    }
+
+//    if (dataTable_Sexe.Rows.Count == 1)
+//    {
+//        lista_sexe = (from DataRow row in dataTable_Sexe.Rows
+//                      select new Sex_Utilizator
+//                      {
+//                          Id_Sex = Convert.ToInt32(row["id_sex"]),
+//                          Denumire_Sex = row["denumire_sex"].ToString()
+//                      }).ToList<Sex_Utilizator>();
+//        cont_user.Sexe = lista_sexe;
+//    }
+//    return View();
+//}
+
+//[HttpPost]
+//[AllowAnonymous]
+//[ValidateAntiForgeryToken]
+//public ActionResult ContNouAngajat([Bind(Exclude = "verificare_email, cod_activare")] ContNouAngajatModel cont_user)
+//{
+//    // DBModels db = new DBModels();
+//    bool status = false;
+//    string message = "";
+
+//    if (ModelState.IsValid) // validare model
+//    {
+//        #region --- exista email ---
+//        if (existaEmail(cont_user.Email) == true)
+//        {
+//            ModelState.AddModelError("ExistaEmail", "Adresa de e-mail exista deja");
+//            return View(cont_user);
+//        }
+//        #endregion
+
+//        #region --- cod activare ---
+//        cont_user.cod_activare = Guid.NewGuid();
+//        #endregion
+
+//        #region --- hashing parola ---
+//        cont_user.Parola = CriptareParola.Hash(cont_user.Parola);
+//        cont_user.ConfirmaParola = CriptareParola.Hash(cont_user.ConfirmaParola);
+//        #endregion
+//        cont_user.verificare_email = false;
+
+//        #region --- salvare in baza de date ---
+//        using (SqlConnection sqlCon = new SqlConnection(JobController.connectionString))
+//        {
+//            sqlCon.Open();
+
+//            //List<Domenii_Lucru_Utilizator> domenii = new List<Domenii_Lucru_Utilizator>();
+
+//            string query = "INSERT INTO dbo.utilizator VALUES(@email, @parola, @nume_utilizator, " +
+//                                    " @prenume_utilizator, @oras, @telefon, @data_nasterii, " +
+//                                    " @sex, @verificare_email, @cod_activare)";
+//            SqlCommand sql_cmd = new SqlCommand(query, sqlCon);
+//            sql_cmd.Parameters.AddWithValue("@email", cont_user.Email);
+//            sql_cmd.Parameters.AddWithValue("@parola", cont_user.Parola);
+//            sql_cmd.Parameters.AddWithValue("@nume_utilizator", cont_user.Nume);
+//            sql_cmd.Parameters.AddWithValue("@prenume_utilizator", cont_user.Prenume);
+//            sql_cmd.Parameters.AddWithValue("@oras", cont_user.Oras);
+//            sql_cmd.Parameters.AddWithValue("@telefon", cont_user.Telefon);
+//            sql_cmd.Parameters.AddWithValue("@data_nasterii", cont_user.Data_nasterii);
+
+
+//            // ViewBag.SexId = new SelectList(db.sexes, "id_sex", "denumire_sex", cont_user.SelectedSexId);
+//            //  string see = ViewBag.SexId.ToString();
+
+//            sql_cmd.Parameters.AddWithValue("@sex", cont_user.SelectedSexId);
+
+//            //sql_cmd.Parameters.AddWithValue("@domenii_lucru", cont_user.Domenii_lucru);
+//            sql_cmd.Parameters.AddWithValue("@verificare_email", cont_user.verificare_email);
+//            sql_cmd.Parameters.AddWithValue("@cod_activare", cont_user.cod_activare);
+
+//            sql_cmd.ExecuteNonQuery();
+//        }
+//        #endregion
+//    }
+
+//    else
+//        message = "Cererea nu a putut fi efectuata";
+
+//    return View(cont_user);
+//}
+
+
+
+
+

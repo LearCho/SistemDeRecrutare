@@ -220,3 +220,7 @@ C:\Users\Asus\source\repos\SistemDeRecrutare\bin\Renci.SshNet.dll
 C:\Users\Asus\source\repos\SistemDeRecrutare\bin\MySql.Data.xml
 C:\Users\Asus\source\repos\SistemDeRecrutare\bin\MySql.Data.EntityFramework.xml
 C:\Users\Asus\source\repos\SistemDeRecrutare\bin\MySql.Web.xml
+C:\Users\Asus\source\repos\SistemDeRecrutare\bin\PagedList.dll
+C:\Users\Asus\source\repos\SistemDeRecrutare\bin\PagedList.Mvc.dll
+C:\Users\Asus\source\repos\SistemDeRecrutare\bin\PagedList.xml
+C:\Users\Asus\source\repos\SistemDeRecrutare\bin\PagedList.Mvc.xml

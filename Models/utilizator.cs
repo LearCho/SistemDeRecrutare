@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SistemRecrutare.Controllers
+namespace SistemRecrutare.Models
 {
     using System;
     using System.Collections.Generic;
@@ -17,9 +17,9 @@ namespace SistemRecrutare.Controllers
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public utilizator()
         {
-            this.domeniu_lucru = new HashSet<domeniu_lucru>();
+            this.utilizator_domeniu_leg = new HashSet<utilizator_domeniu_leg>();
         }
-    
+        // grija la regenerare
         public string email { get; set; }
         public string parola { get; set; }
         public string nume_utilizator { get; set; }
@@ -27,12 +27,14 @@ namespace SistemRecrutare.Controllers
         public string oras { get; set; }
         public string telefon { get; set; }
         public Nullable<System.DateTime> data_nasterii { get; set; }
-        public bool sex { get; set; }
+        public string sex { get; set; }
         public bool verificare_email { get; set; }
         public Nullable<System.Guid> cod_activare { get; set; }
         public int id_utilizator { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<domeniu_lucru> domeniu_lucru { get; set; }
+        //public IList<utilizator_domeniu_leg> utilizator_domeniu_leg { get; set; }
+        public virtual ICollection<utilizator_domeniu_leg> utilizator_domeniu_leg { get; set; }
+
     }
 }

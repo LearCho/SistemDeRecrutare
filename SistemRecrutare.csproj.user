@@ -22,6 +22,7 @@
     <WebStackScaffolding_DbContextTypeFullName>SistemRecrutare.Controllers.DB_Models</WebStackScaffolding_DbContextTypeFullName>
     <_SelectedScaffolderID>MvcControllerWithContextScaffolder</_SelectedScaffolderID>
     <_SelectedScaffolderCategoryPath>root/Common/MVC</_SelectedScaffolderCategoryPath>
+    <ProjectView>ShowAllFiles</ProjectView>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

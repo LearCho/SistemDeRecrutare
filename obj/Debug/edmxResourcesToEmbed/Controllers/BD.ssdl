@@ -30,6 +30,15 @@ warning 6002: The table/view 'DB_sistem_recrutare.dbo.cv' does not have a primar
     <Property Name="imagine_job" Type="image" />
     <Property Name="descriere_job" Type="varchar" MaxLength="200" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'DB_sistem_recrutare.dbo.sex' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="sex">
+    <Key>
+      <PropertyRef Name="id_sex" />
+    </Key>
+    <Property Name="id_sex" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="denumire_sex" Type="varchar" MaxLength="15" />
+  </EntityType>
   <EntityType Name="utilizator">
     <Key>
       <PropertyRef Name="id_utilizator" />
@@ -67,6 +76,12 @@ warning 6002: The table/view 'DB_sistem_recrutare.dbo.cv' does not have a primar
     [cv].[id_cv] AS [id_cv], 
     [cv].[cod_cv] AS [cod_cv]
     FROM [dbo].[cv] AS [cv]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="sex" EntityType="Self.sex" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [sex].[id_sex] AS [id_sex], 
+    [sex].[denumire_sex] AS [denumire_sex]
+    FROM [dbo].[sex] AS [sex]</DefiningQuery>
     </EntitySet>
     <AssociationSet Name="FK_domeniu_lucru_utilizator" Association="Self.FK_domeniu_lucru_utilizator">
       <End Role="utilizator" EntitySet="utilizator" />

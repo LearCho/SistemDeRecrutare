@@ -1,12 +1,12 @@
 ﻿@using SistemRecrutare.Models
 
-@model ContNouAngajatModel
+@model UtilizatorViewModel
 
 @{
     ViewBag.Title = "Cont nou";
 }
 
-  @* plugin multiselect & chosen jquery *@
+@* plugin multiselect & chosen jquery *@
 <link rel="stylesheet" href="//cdn.jsdelivr.net/chosen/1.1.0/chosen.css" />
 <link rel="stylesheet" href="~/Content/chosen.min.css" />
 
@@ -25,7 +25,8 @@
         if (ViewBag.Message != null)
         {
             <div class="alert alert-success">
-                <strong>Succes!</strong>@ViewBag.Message
+                <br /><br /><br /><br />
+                <strong>Succes</strong>@ViewBag.Message
             </div>
         }
     }
@@ -40,142 +41,111 @@
             <hr />
 
             <div class="aliniament-cp">
-                @*@Html.ValidationSummary("", new { @class = "text-danger" })  sumar erori*@
-
                 @* E-mail *@
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @class = "col-md-5 control-label" })
+                    @Html.LabelFor(m => m.Utilizator.email, new { @class = "col-md-5 control-label" })
                     <div class="col-md-7">
-                        @Html.TextBoxFor(m => m.Email, new { placeholder = "Email", @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.Utilizator.email, new { placeholder = "Email", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Utilizator.email, "", new { @class = "text-danger" })
+                        @* eroare e-mail existent*@
                         @Html.ValidationMessage("ExistaEmail", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 @* Parola *@
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Parola, new { @class = "col-md-5 control-label" })
+                    @Html.LabelFor(m => m.Utilizator.parola, new { @class = "col-md-5 control-label" })
                     <div class="col-md-7">
-                        @Html.PasswordFor(m => m.Parola, new { placeholder = "Introduceti Parola", @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Parola, "", new { @class = "text-danger" })
+                        @Html.PasswordFor(m => m.Utilizator.parola, new { placeholder = "Introduceti Parola", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Utilizator.parola, "", new { @class = "text-danger" })
 
                     </div>
                 </div>
 
                 @* Confirmare Parola  *@
                 <div class="form-group">
-                    @Html.LabelFor(m => m.ConfirmaParola, new { @class = "col-md-5 control-label" })
+                    @Html.LabelFor(m => m.Utilizator.confirma_parola, new { @class = "col-md-5 control-label" })
                     <div class="col-md-7">
-                        @Html.PasswordFor(m => m.ConfirmaParola, new { placeholder = "Confirmare Parola", @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.ConfirmaParola, "", new { @class = "text-danger" })
+                        @Html.PasswordFor(m => m.Utilizator.confirma_parola, new { placeholder = "Confirmare Parola", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Utilizator.confirma_parola, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 @* Prenume *@
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Prenume, new { @class = "col-md-5 control-label" })
+                    @Html.LabelFor(m => m.Utilizator.prenume_utilizator, new { @class = "col-md-5 control-label" })
                     <div class="col-md-7">
-                        @Html.TextBoxFor(m => m.Prenume, new { placeholder = "Prenume", @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Prenume, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.Utilizator.prenume_utilizator, new { placeholder = "Prenume", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Utilizator.prenume_utilizator, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 @* Nume *@
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Nume, new { @class = "col-md-5 control-label" })
+                    @Html.LabelFor(m => m.Utilizator.nume_utilizator, new { @class = "col-md-5 control-label" })
                     <div class="col-md-7">
-                        @Html.TextBoxFor(m => m.Nume, new { placeholder = "Nume", @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Nume, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.Utilizator.nume_utilizator, new { placeholder = "Nume", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Utilizator.nume_utilizator, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 @* Oraș *@
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Oras, new { @class = "col-md-5 control-label" })
+                    @Html.LabelFor(m => m.Utilizator.oras, new { @class = "col-md-5 control-label" })
                     <div class="col-md-7">
-                        @Html.TextBoxFor(m => m.Oras, new { placeholder = "Orasul in care locuiti", @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Oras, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.Utilizator.oras, new { placeholder = "Orasul in care locuiti", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Utilizator.oras, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 @* Telefon *@
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Telefon, new { @class = "col-md-5 control-label" })
+                    @Html.LabelFor(m => m.Utilizator.telefon, new { @class = "col-md-5 control-label" })
                     <div class="col-md-7">
-                        @Html.TextBoxFor(m => m.Telefon, new { placeholder = "Telefon", @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Telefon, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.Utilizator.telefon, new { placeholder = "Telefon", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Utilizator.telefon, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 @* Data Nașterii *@
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Data_nasterii, new { @class = "col-md-5 control-label" })
+                    @Html.LabelFor(m => m.Utilizator.data_nasterii, new { @class = "col-md-5 control-label" })
                     <div class="col-md-7">
-                        @Html.EditorFor(m => m.Data_nasterii, new { placeholder = "Data Nasterii", @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Data_nasterii, "", new { @class = "text-danger" })
+                        @Html.EditorFor(m => m.Utilizator.data_nasterii, new { placeholder = "Data Nasterii", @class = "form-control" })
+                       <p></p>
+                        @Html.ValidationMessageFor(m => m.Utilizator.data_nasterii, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 @* Sex *@
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Sex, new { @class = "col-md-5 control-label" })
+                    @Html.LabelFor(m => m.Utilizator.sex, new { @class = "col-md-5 control-label" })
                     <div class="col-md-7">
-                        @*@Html.TextBoxFor(m => m.Sex, new { @class = "form-control" })*@
-                        @Html.DropDownList("Sex", new SelectList(Enum.GetValues(typeof(Sex_Utilizator))), "Alege",
-                    new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Sex, "", new { @class = "text-danger" })
+                        @Html.DropDownList("Utilizator.sex", new SelectList(Enum.GetValues(typeof(Sex_Utilizator))), "Alege",
+                        new { @class = "form-control" })
                     </div>
                 </div>
 
-                @* Domenii de Lucru *@
+                @* Domenii de Lucru de Interes*@
                 <div class="form-group">
-                    @*@Html.LabelFor(m => m.Domenii_lucru, new { @class = "col-md-5 control-label" })*@
-                    @Html.Label("Domenii :", new { @class = "col-md-5 control-label" })
+                    @Html.Label("Domenii de interes*:", new { @class = "col-md-5 control-label" })
                     <div class="col-md-7">
-                        @*@Html.ValidationMessageFor(m => m.Domenii_lucru, "", new { @class = "text-danger" })*@
-
-                        <select class="form-control chosen-select" multiple="">
-                            <option disabled> Selecteaza domenii </option>
-                            <option>Achizitii - Logistica</option>
-                            <option>Administratie - Stiinte politice</option>
-                            <option>Agricultura</option>
-                            <option>Altele</option>
-                            <option>Arhitectura - Design - Proiectare</option>
-                            <option>Asigurari - Intermedieri financiare</option>
-                            <option>Banci</option>
-                            <option>Chimie - Petrochimie</option>
-                            <option>Constructii</option>
-                            <option>Contabilitate - Finante</option>
-                            <option>Cotrolul calitatii</option>
-                            <option>Customer support - Client service</option>
-                            <option>Educatie - Training</option>
-                            <option>Farmacie - Medicina</option>
-                            <option>Fundatii - Voluntariat - ONG</option>
-                            <option>Imobiliare - Real Estate</option>
-                            <option>Import-Export</option>
-                            <option>Inginerie</option>
-                            <option>Internet - eCommerce</option>
-                            <option>Internship</option>
-                            <option>IT Hardware</option>
-                            <option>IT Software</option>
-                            <option>Juridic</option>
-                            <option>Management - Consultanta</option>
-                            <option>Marketing</option>
-                            <option>Media - Jurnalism</option>
-                            <option>Productie</option>
-                            <option>Publicitate - Agentii publicitate</option>
-                            <option>Radio - Televiziune</option>
-                            <option>Relatii Publice</option>
-                            <option>Resurse Umane</option>
-                            <option>Secretariat - Administrativ</option>
-                            <option>Telecomunicatii</option>
-                            <option>Transporturi</option>
-                            <option>Turism</option>
-                            <option>Vanzari</option>
-                        </select>
+                        @if (Model.ListaDomenii != null)
+                        {
+                            @*<select asp-for="DomeniiSelectateIds" class="form-control chosen-select" asp-items="Model.ListaDomenii" multiple>
+                            </select>*@
+                            @Html.DropDownList("DomeniiSelectateIds", Model.ListaDomenii, new { @class = "col-md-5 control-label chosen-select", multiple = "" })
+                            <div style="font-size:smaller">Te rugam sa selectezi cel putin un domeniu</div>
+                        }
+                        else // nu se intra aici
+                        {
+                             //@Html.DropDownList("DomeniiSelectateIds", Model.ListaDomenii, new { @class = "col-md-5 control-label chosen-select", multiple = "" })
+                            <div style="color:firebrick">Te rugam sa selecteazi unul sau mai multe domenii</div>
+                        }
                     </div>
                 </div>
             </div>
+
 
             @* Creare Cont *@
             <div class="form-group">
@@ -188,6 +158,7 @@
         if (ViewBag.Message != null)
         {
             <div class="alert alert-danger">
+                <br /><br />
                 <strong>Eroare!</strong>@ViewBag.Message
             </div>
         }
@@ -205,7 +176,7 @@
 }
 
 
-@*------------------------------css----------------------------*@
+@*-----------------------------------css---------------------------------*@
 <style type="text/css">
     .titlu {
         margin-left: 46%;
@@ -240,7 +211,19 @@
     }
 </style>
 
- @* selectare domenii *@
+@* selectare domenii de interes multiple *@
 <script type="text/javascript">
     $('.chosen-select').chosen();
 </script>
+
+
+@*----------------------------- cod nefolosit -------------------------*@
+
+@*<div class="form-group">*@
+@*@Html.Label("Domenii de interes:", new { @class = "col-md-5 control-label" })*@
+@*<div class="col-md-7">*@
+@*<select class="form-control chosen-select" multiple="">
+        <option disabled> Selecteaza domenii </option><option>Achizitii - Logistica</option><option>Administratie - Stiinte politice</option><option>Agricultura</option><option>Altele</option><option>Arhitectura - Design - Proiectare</option><option>Asigurari - Intermedieri financiare</option><option>Banci</option><option>Chimie - Petrochimie</option><option>Constructii</option><option>Contabilitate - Finante</option><option>Cotrolul calitatii</option><option>Customer support - Client service</option><option>Educatie - Training</option><option>Farmacie - Medicina</option><option>Fundatii - Voluntariat - ONG</option><option>Imobiliare - Real Estate</option><option>Import-Export</option><option>Inginerie</option><option>Internet - eCommerce</option><option>Internship</option><option>IT Hardware</option> <option>IT Software</option><option>Juridic</option><option>Management - Consultanta</option><option>Marketing</option><option>Media - Jurnalism</option><option>Productie</option><option>Publicitate - Agentii publicitate</option><option>Radio - Televiziune</option><option>Relatii Publice</option><option>Resurse Umane</option><option>Secretariat - Administrativ</option><option>Telecomunicatii</option><option>Transporturi</option><option>Turism</option><option>Vanzari</option>
+    </select>*@
+@*</div>
+    </div>*@

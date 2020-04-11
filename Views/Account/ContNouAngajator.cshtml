@@ -1,7 +1,7 @@
 ﻿
 @using SistemRecrutare.Models
 
-@model ContNouAngajatModel
+@model utilizator
 
 @{
     ViewBag.Title = "Cont nou";
@@ -119,12 +119,12 @@
 
                 @* Sex *@
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Sex, new { @class = "col-md-5 control-label" })
+                    @*@Html.LabelFor(m => m.Sex, new { @class = "col-md-5 control-label" })*@
                     <div class="col-md-7">
                         @*@Html.TextBoxFor(m => m.Sex, new { @class = "form-control" })*@
                         @Html.DropDownList("Sex", new SelectList(Enum.GetValues(typeof(Sex_Utilizator))), "Alege",
-                    new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Sex, "", new { @class = "text-danger" })
+                    new { @class = "form-control" })                       
+                        @*@Html.ValidationMessageFor(m => m.Sex, "", new { @class = "text-danger" })*@
                     </div>
                 </div>
 

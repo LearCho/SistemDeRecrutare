@@ -19,7 +19,7 @@ namespace SistemRecrutare.Models
         {
             this.utilizator_domeniu_leg = new HashSet<utilizator_domeniu_leg>();
         }
-        // grija la regenerare
+    
         public string email { get; set; }
         public string parola { get; set; }
         public string nume_utilizator { get; set; }
@@ -33,8 +33,6 @@ namespace SistemRecrutare.Models
         public int id_utilizator { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        //public IList<utilizator_domeniu_leg> utilizator_domeniu_leg { get; set; }
         public virtual ICollection<utilizator_domeniu_leg> utilizator_domeniu_leg { get; set; }
-
     }
 }

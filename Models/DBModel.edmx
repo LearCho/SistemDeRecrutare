@@ -33,6 +33,9 @@ warning 6002: The table/view 'DB_sistem_recrutare.dbo.cv' does not have a primar
           <Property Name="angajator" Type="varchar" MaxLength="120" />
           <Property Name="imagine_job" Type="image" />
           <Property Name="descriere_job" Type="varchar" MaxLength="200" />
+          <Property Name="data_creare_job" Type="date" />
+          <Property Name="tara" Type="varchar" MaxLength="32" />
+          <Property Name="oras" Type="varchar" MaxLength="32" />
         </EntityType>
         <EntityType Name="utilizator">
           <Key>
@@ -107,18 +110,6 @@ warning 6002: The table/view 'DB_sistem_recrutare.dbo.cv' does not have a primar
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DB_recrutareModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="job">
-          <Key>
-            <PropertyRef Name="id_job" />
-          </Key>
-          <Property Name="id_job" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="denumire_job" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="cod_job" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="data_expirare_job" Type="DateTime" Precision="0" />
-          <Property Name="angajator" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
-          <Property Name="imagine_job" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="descriere_job" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="cv">
           <Key>
             <PropertyRef Name="id_cv" />
@@ -128,7 +119,6 @@ warning 6002: The table/view 'DB_sistem_recrutare.dbo.cv' does not have a primar
           <Property Name="cod_cv" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
         <EntityContainer Name="DBrecrutare" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="jobs" EntityType="Self.job" />
           <EntitySet Name="cvs" EntityType="Self.cv" />
           <EntitySet Name="domeniu_lucru" EntityType="DB_recrutareModel.domeniu_lucru" />
           <EntitySet Name="utilizators" EntityType="DB_recrutareModel.utilizator" />
@@ -141,6 +131,7 @@ warning 6002: The table/view 'DB_sistem_recrutare.dbo.cv' does not have a primar
             <End Role="utilizator" EntitySet="utilizators" />
             <End Role="utilizator_domeniu_leg" EntitySet="utilizator_domeniu_leg" />
           </AssociationSet>
+          <EntitySet Name="jobs" EntityType="DB_recrutareModel.job" />
         </EntityContainer>
         <EntityType Name="domeniu_lucru">
           <Key>
@@ -202,25 +193,27 @@ warning 6002: The table/view 'DB_sistem_recrutare.dbo.cv' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="job">
+          <Key>
+            <PropertyRef Name="id_job" />
+          </Key>
+          <Property Name="id_job" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="denumire_job" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="cod_job" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="data_expirare_job" Type="DateTime" Precision="0" />
+          <Property Name="angajator" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+          <Property Name="imagine_job" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="descriere_job" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="data_creare_job" Type="DateTime" Precision="0" />
+          <Property Name="tara" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="oras" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="DB_recrutareModelStoreContainer" CdmEntityContainer="DBrecrutare">
-          <EntitySetMapping Name="jobs">
-            <EntityTypeMapping TypeName="DB_recrutareModel.job">
-              <MappingFragment StoreEntitySet="job">
-                <ScalarProperty Name="id_job" ColumnName="id_job" />
-                <ScalarProperty Name="denumire_job" ColumnName="denumire_job" />
-                <ScalarProperty Name="cod_job" ColumnName="cod_job" />
-                <ScalarProperty Name="data_expirare_job" ColumnName="data_expirare_job" />
-                <ScalarProperty Name="angajator" ColumnName="angajator" />
-                <ScalarProperty Name="imagine_job" ColumnName="imagine_job" />
-                <ScalarProperty Name="descriere_job" ColumnName="descriere_job" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="cvs">
             <EntityTypeMapping TypeName="DB_recrutareModel.cv">
               <MappingFragment StoreEntitySet="cv">
@@ -260,6 +253,22 @@ warning 6002: The table/view 'DB_sistem_recrutare.dbo.cv' does not have a primar
                 <ScalarProperty Name="camp" ColumnName="camp" />
                 <ScalarProperty Name="id_domeniu" ColumnName="id_domeniu" />
                 <ScalarProperty Name="id_utilizator" ColumnName="id_utilizator" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="jobs">
+            <EntityTypeMapping TypeName="DB_recrutareModel.job">
+              <MappingFragment StoreEntitySet="job">
+                <ScalarProperty Name="oras" ColumnName="oras" />
+                <ScalarProperty Name="tara" ColumnName="tara" />
+                <ScalarProperty Name="data_creare_job" ColumnName="data_creare_job" />
+                <ScalarProperty Name="descriere_job" ColumnName="descriere_job" />
+                <ScalarProperty Name="imagine_job" ColumnName="imagine_job" />
+                <ScalarProperty Name="angajator" ColumnName="angajator" />
+                <ScalarProperty Name="data_expirare_job" ColumnName="data_expirare_job" />
+                <ScalarProperty Name="cod_job" ColumnName="cod_job" />
+                <ScalarProperty Name="denumire_job" ColumnName="denumire_job" />
+                <ScalarProperty Name="id_job" ColumnName="id_job" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

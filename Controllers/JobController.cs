@@ -12,6 +12,7 @@ using System.Text;
 using System.IO;
 using PagedList;
 using PagedList.Mvc;
+using SistemRecrutare.Models;
 
 namespace SistemRecrutare.Controllers
 {
@@ -23,26 +24,29 @@ namespace SistemRecrutare.Controllers
 
         // GET: Job/ListaAdmin
         [HttpGet]
-        public ActionResult ListaAdmin() // afiseaza joburi in dataTable
+        public ActionResult ListaAdmin(string val_cautare) // afiseaza joburi in dataTable
         {
-            DataTable dataTable_Job = new DataTable();
+            DBrecrutare db = new DBrecrutare();            
             //TODO : de creat pagini cu PagedList
 
             try
-            {
-                using (SqlConnection sqlCon = new SqlConnection(connectionString))
-                {
-                    sqlCon.Open();
-                    SqlDataAdapter sqlDataA = new SqlDataAdapter("SELECT * FROM dbo.job", sqlCon);
-                    sqlDataA.Fill(dataTable_Job);
-                }
+            {    // DataTable dataTable_Joburi = new DataTable();
+                //using (SqlConnection sqlCon = new SqlConnection(connectionString))
+                //{   sqlCon.Open();
+                //    SqlDataAdapter sqlDataA = new SqlDataAdapter("SELECT * FROM dbo.job", sqlCon);
+                //    sqlDataA.Fill(dataTable_Joburi);}
+
+                return View(db.jobs.Where(j => j.cod_job.Contains(val_cautare) || j.denumire_job.Contains(val_cautare) ||
+                j.data_creare_job.ToString().Contains(val_cautare) || j.angajator.Contains(val_cautare) || 
+                j.data_expirare_job.ToString().Contains(val_cautare) || j.tara.Contains(val_cautare) || j.oras.Contains(val_cautare)
+                || j.descriere_job.Contains(val_cautare) || val_cautare == null));
             }
             catch (SqlException exc)
             {
                 throw new InvalidOperationException("Datele nu au putut fi citite.", exc);
             }
 
-            return View(dataTable_Job);
+          //  return View(dataTable_Joburi);
         }
 
         // GET: Job/Details/5
@@ -86,17 +90,18 @@ namespace SistemRecrutare.Controllers
                 {
                     sqlCon.Open();
 
-                    string query = "INSERT INTO dbo.job VALUES(@denumire_job, @cod_job, @data_expirare_job, @angajator," +
-                        " @imagine_job, @descriere_job)";
+                    string query = "INSERT INTO dbo.job VALUES(@denumire_job, @cod_job, @data_creare_job," +
+                        " @data_expirare_job, @angajator, @tara, @oras, @imagine_job, @descriere_job)";
                     SqlCommand sql_cmd = new SqlCommand(query, sqlCon);
-                    //DataSet dataSet = new DataSet();
-                    //DataTable dataTable;
-                    //dataTable = dataSet.Tables["Joburi"];
+                   
                     //sql_cmd.Parameters.AddWithValue("@id_job", id_job);
                     sql_cmd.Parameters.AddWithValue("@denumire_job", jobModel.denumire_job);
                     sql_cmd.Parameters.AddWithValue("@cod_job", jobModel.cod_job);
+                    sql_cmd.Parameters.AddWithValue("@data_creare_job", jobModel.data_creare);
                     sql_cmd.Parameters.AddWithValue("@data_expirare_job", jobModel.data_expirare);
                     sql_cmd.Parameters.AddWithValue("@angajator", jobModel.angajator);
+                    sql_cmd.Parameters.AddWithValue("@tara", jobModel.tara);
+                    sql_cmd.Parameters.AddWithValue("@oras", jobModel.oras);
                     sql_cmd.Parameters.AddWithValue("@imagine_job", jobModel.imagine_job);
                     sql_cmd.Parameters.AddWithValue("@descriere_job", jobModel.descriere_job);
 
@@ -140,7 +145,8 @@ namespace SistemRecrutare.Controllers
                     jobModel.id_job = Convert.ToInt32(dataTable_Job.Rows[0][0].ToString());
                     jobModel.denumire_job = dataTable_Job.Rows[0][1].ToString();
                     jobModel.cod_job = dataTable_Job.Rows[0][2].ToString();
-                    jobModel.data_expirare = DateTime.Parse(dataTable_Job.Rows[0][3].ToString()).ToShortDateString();
+                    jobModel.data_creare = Convert.ToDateTime(dataTable_Job.Rows[0][3]);
+                    jobModel.data_expirare = Convert.ToDateTime(dataTable_Job.Rows[0][3]);
                     jobModel.angajator = dataTable_Job.Rows[0][4].ToString();
                     jobModel.imagine_job = (byte[])(dataTable_Job.Rows[0][5]);
                     jobModel.descriere_job = dataTable_Job.Rows[0][6].ToString();

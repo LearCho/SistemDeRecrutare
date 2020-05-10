@@ -1,0 +1,120 @@
+﻿@using SistemRecrutare.Models
+@model Logare
+@{
+    ViewBag.Title = "Intra in Cont";
+}
+
+<div class="row" style="background-color:white">
+    <br /><br />
+    <h2 class="titlu">@ViewBag.Title</h2>
+    <div class="col-md-8">
+        <section id="loginForm">
+            @using (Html.BeginForm("IntraInContAngajat", "Account",  new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <hr />
+
+                <div class="aliniament-cp">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <br />
+                    @* Email *@
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Email, htmlAttributes: new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    @* Parola *@
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Parola, htmlAttributes: new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(m => m.Parola, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.Parola, "", new { @class = "text-danger" })
+                            @Html.ValidationMessage("ParolaInvalida", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @* Retine-ma *@
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.TineMinte, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="checkbox">
+                            <div class="col-md-10">
+                                @Html.EditorFor(m => m.TineMinte, new { htmlAttributes = new { @class = " col-md-4" } })
+                                @Html.ValidationMessageFor(m => m.TineMinte, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @* Intra in Cont *@
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Intra in Cont" class="btn btn-default button" />
+                    </div>
+                </div>
+
+                <br />
+                <br />
+
+                @* Spre Cont Nou *@
+                <p style="margin-left: 62%;">
+                    @Html.ActionLink("Inregistreaza un cont nou", "ContNouAngajat", new { ReturnUrl = Request.RawUrl }, null)
+                </p>
+
+                @*  password reset functionality
+                    <p> @Html.ActionLink("Ti-ai uitat parola?", "ForgotPassword") </p>*@
+            }
+        </section>
+    </div>
+
+    @* Logare Externa *@
+    <div class="col-md-8">
+        <section id="socialLoginForm" style="margin-left: 50%;">
+            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+}
+
+
+@*-----------------------------css-----------------------------*@
+<style type="text/css">
+    .titlu {
+        margin-left: 46%;
+        margin-bottom: 2%;
+        font-family: 'Calibri';
+        font-weight: bold;
+    }
+
+    .subtitlu {
+        margin-left: 60%;
+        margin-bottom: 2%;
+        font-family: 'Berlin Sans FB';
+    }
+
+    .button {
+        position: relative;
+        margin-top: 1%;
+        margin-left: 62%;
+        margin-bottom: 2%;
+        font-family: 'Berlin Sans FB';
+        background-color: white;
+        color: darkcyan;
+    }
+
+    .aliniament-cp {
+        margin-top: 1%;
+        margin-left: 47%;
+        margin-bottom: 2%;
+    }
+
+    .row {
+        opacity: 0.9;
+    }
+</style>

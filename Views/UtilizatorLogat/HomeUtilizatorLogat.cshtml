@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "HomeUtilizatorLogat";
+}
+
+
+ @*   -- mutat in _LoginPartial.cshtml --   *@
+
+
+@*<h2>Bine a venit, @HttpContext.Current.User.Identity.Name !</h2>*@
+
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOut", "Account", FormMethod.Post, new { id = "logoutForm" }))
+    {
+        <a href="javascript:document.getElementById('logoutForm').submit()">
+            Iesire
+        </a>
+
+        @Html.ActionLink("Iesire din cont", "LogOut", "Account")
+
+    }
+
+}

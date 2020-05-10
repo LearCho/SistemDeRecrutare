@@ -1,17 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="DB_recrutareModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-  <EntityType Name="job">
-    <Key>
-      <PropertyRef Name="id_job" />
-    </Key>
-    <Property Name="id_job" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="denumire_job" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="cod_job" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="data_expirare_job" Type="DateTime" Precision="0" />
-    <Property Name="angajator" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
-    <Property Name="imagine_job" Type="Binary" MaxLength="Max" FixedLength="false" />
-    <Property Name="descriere_job" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-  </EntityType>
   <EntityType Name="cv">
     <Key>
       <PropertyRef Name="id_cv" />
@@ -21,7 +9,6 @@
     <Property Name="cod_cv" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
   </EntityType>
   <EntityContainer Name="DBrecrutare" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="jobs" EntityType="Self.job" />
     <EntitySet Name="cvs" EntityType="Self.cv" />
     <EntitySet Name="domeniu_lucru" EntityType="DB_recrutareModel.domeniu_lucru" />
     <EntitySet Name="utilizators" EntityType="DB_recrutareModel.utilizator" />
@@ -34,6 +21,7 @@
       <End Role="utilizator" EntitySet="utilizators" />
       <End Role="utilizator_domeniu_leg" EntitySet="utilizator_domeniu_leg" />
     </AssociationSet>
+    <EntitySet Name="jobs" EntityType="DB_recrutareModel.job" />
   </EntityContainer>
   <EntityType Name="domeniu_lucru">
     <Key>
@@ -95,4 +83,19 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="job">
+    <Key>
+      <PropertyRef Name="id_job" />
+    </Key>
+    <Property Name="id_job" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="denumire_job" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="cod_job" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="data_expirare_job" Type="DateTime" Precision="0" />
+    <Property Name="angajator" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+    <Property Name="imagine_job" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="descriere_job" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="data_creare_job" Type="DateTime" Precision="0" />
+    <Property Name="tara" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+    <Property Name="oras" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+  </EntityType>
 </Schema>

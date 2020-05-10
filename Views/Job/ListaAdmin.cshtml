@@ -1,102 +1,23 @@
-﻿@model System.Data.DataTable
+﻿@*@model System.Data.DataTable*@
+@model IEnumerable<SistemRecrutare.Models.job>
+
 @* Tabel joburi -- vedere admin *@
 
 @{
     ViewBag.Title = "Joburi";
 }
 
-    <div class="row" style="background-color:white">
-        <div class="row" style="background-color:white">
-            <div class="col-md-3"></div>
-            <div class="col-md-5">
-                <br /><br /><br />
-                <h2 class="titlu">JOBURI - PANOU</h2>
-            </div>
-            <div class="col-md-4"></div>
-        </div>
-
-        <div class="row" style="background-color:white">
-            <div class="col-md-4">
-                @*<a href="@Url.Action("Creare","Job")">
-            <input type="button" class="button btn-default" value="Adauga Job" style="color:darkcyan" /> </a>*@
-            </div>
-            <div class="col-md-4"></div>
-            <div class="col-md-4">
-                <a href="@Url.Action("Creare","Job")" title="Adauga job">
-                    <img src="~/Content/Img/add2.png" style="width:60px; height:60px" />
-                </a>
-            </div>
-        </div>
-
-            <div style="overflow-x:auto;" class="row">
-                <table class="table table-bordered table-striped table-page-position">
-                    <thead>
-                        <tr>
-                            <th class="tabel-job-header">Nr. crt</th>
-                            <th class="tabel-job-header">Denumire Job</th>
-                            <th class="tabel-job-header">Cod </th>
-                            <th class="tabel-job-header">Data Limita/Expirare Job</th>
-                            <th class="tabel-job-header">Angajator</th>
-                            <th class="tabel-job-header"> </th>
-                            <th class="tabel-job-header"> </th>
-                        </tr>
-                    </thead>
-
-                    @*body tabel*@
-                    <tbody>
-                        @for (int i = 0; i < Model.Rows.Count; i++)
-                        {
-                            <tr style="max-height: 120px;">
-                                <td style="max-width: 8px;">@(i + 1).</td>
-                                <td style="max-width: 120px;">
-                                    @Model.Rows[i][1]
-                                    <div style="overflow-x:auto;">
-                                        <table>
-                                            <tr>
-                                                <td style="font-weight:bold; font-size:medium; font-family:Calibri">
-                                                    Despre
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="max-width: 130px;">
-                                                    @Model.Rows[i][6]
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </td>
-                                <td style="max-width: 100px;">@Model.Rows[i][2]</td>
-                                <td style="max-width: 90px;">@Model.Rows[i][3]</td>
-                                <td style="max-width: 130px;">@Model.Rows[i][4]</td>
-                                <td>
-                                    @if (Model.Rows[i][5].ToString() != "")
-                                    {
-                                        var base64 = Convert.ToBase64String((byte[])Model.Rows[i][5]);
-                                        var imgsrc = string.Format("data::image/jpg;base64,{0}", base64);
-
-                                        <img src='@imgsrc' style="max-width:150px; max-height:150px" class="imageclass" />
-                                    }
-                                    else
-                                    {
-                                        <img src="~/Content/Img/jobs1.png" style="max-width:150px; max-height:150px" class="imageclass" />
-                                    }
-                                </td>
-
-                                <td style="max-width: 110px;">
-                                    @* coloana editare *@
-                                    <a href="@Url.Action("Editare","Job", new { @cod_job = Model.Rows[i][2]})">Editeza</a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-
-            </div>
-        </div>
-
-
+    <head>
         @*-----------------------------------------------------------------*@
         @*--------------------------------css------------------------------*@
+
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+       
         <style type="text/css">
     .button {
         position: relative;
@@ -115,7 +36,6 @@
         font-weight: bolder;
     }
 
-
     @* tabel *@
     .table-page-position {
         margin-left: 0.15%;
@@ -126,6 +46,10 @@
         background-color: rebeccapurple;
         color: white;
         font-size: 18px;
+        letter-spacing: 0.03em;
+        border-radius: 4px;
+        max-width: 190px;
+        text-align: center;
     }
 
     @* imagine job *@
@@ -133,9 +57,179 @@
         max-width: 100%;
         border-radius: 1px;
     }
+
+    tbody tr:hover {
+        background-color: rgba(226, 204, 235, 0.56);
+        cursor: default;
+    }
+
+        @* editare *@
+    .editare:hover {
+        opacity: 0.8;
+    }
+
+
+        @* adaugare *@
+    .adaugare:hover {
+        opacity: 0.85;
+        height: 63px;
+        width: 63px;
+        cursor: pointer;
+    }
+
+        @* search *@
+      .search-box {
+        position: relative;
+        float: right;
+    }
+
+         .search-box input {
+        height: 34px;
+        border-radius: 20px;
+        padding-left: 35px;
+        border-color: #ddd;
+        box-shadow: none;
+    }
+
+         .search-box i {
+        color: #a0a5b1;
+        position: absolute;
+        font-size: 19px;
+        top: 8px;
+        left: 10px;
+    }
         </style>
         @*-----------------------------------------------------------------*@
 
-        <script>
-
+        <script type="text/javascript">
         </script>
+    </head>
+
+<body>
+    <div class="row" style="background-color:white">
+        <div class="row" style="background-color:white">
+            <div class="col-md-2" style="padding-top: 110px; padding-left: 30px; padding-bottom: 10px;">
+                <a href="@Url.Action("Creare", "Job")" title="Adauga job">
+                    <img src="~/Content/Img/add2.png" style="width:40px; height:40px" class="adaugare" />
+                </a>
+            </div>
+
+            <div class="col-md-5" style="padding-top: 60px; padding-left: 55px;">
+                <h2 class="titlu">JOBURI - PANOU</h2>
+            </div>
+
+            @using (Html.BeginForm("ListaAdmin", "Job", FormMethod.Get))
+            {
+            <div class="col-md-5" style="padding-top: 110px; padding-bottom: 10px;">
+                <div class="search-box">
+                    <i class="material-icons">&#xE8B6;</i>
+                    @Html.TextBox("val_cautare", null, new { @class="form-control", @placeholder = "Cauta..." })
+                    @*<input type="submit" class="form-control" value="Cauta">*@
+                </div>
+            </div>
+            }
+        </div>
+
+        @* tabel *@
+        <div style="overflow-x:auto;" class="row">
+            <table class="table table-bordered table-page-position">
+                <thead>
+                    <tr>
+                        <th class="tabel-job-header">Nr. crt</th>
+                        <th class="tabel-job-header">Denumire Job</th>
+                        <th class="tabel-job-header">Cod </th>
+                        <th class="tabel-job-header">Data Creare</th>
+                        <th class="tabel-job-header">Data Limita</th>
+                        <th class="tabel-job-header">Angajator</th>
+                        <th class="tabel-job-header">Tara</th>
+                        <th class="tabel-job-header">Oras</th>
+                        <th class="tabel-job-header">Imagine </th>
+                        <th class="tabel-job-header">Actiuni </th>
+                    </tr>
+                </thead>
+
+                <tbody class="row">
+                    @*@for (int i = 0; i < Model.Rows.Count; i++)*@
+                    @{int rand = 0;}
+
+                    @if(Model.Count() == 0)
+                    {
+                        <tr>
+                            <td colspan="12" style="color:red; padding-left: 20px;">Nu au fost gasite inregistrari</td>
+                        </tr>
+                    }
+
+                    else
+                    {
+                        foreach (var job in Model)
+                        {
+                            <tr style="max-height: 100px; max-width:900px;">
+                                <td style="max-width: 12px; text-align:center;">@{rand++;} @rand</td>
+                                <td style="max-width: 100px;">
+                                    @*@Model.Rows[i][1]*@
+                                    @job.denumire_job
+                                    <div style="overflow-y:auto">
+                                        <table>
+                                            <tr>
+                                                <td style="font-weight:bold; font-size:medium; font-family:Calibri">
+                                                    Despre
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="max-width: 200px;">
+                                                    @*@Model.Rows[i][6]*@
+                                                    @job.descriere_job
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                                <td style="max-width: 90px;">
+                                    @*@Model.Rows[i][2]*@ @job.cod_job
+                                </td>
+                                <td style="max-width: 180px;"> @string.Format("{0:MM/dd/yyyy}", Convert.ToDateTime(job.data_creare_job)) </td>
+                                <td style="max-width: 180px;">@*@Model.Rows[i][3]*@ @string.Format("{0:MM/dd/yyyy}", Convert.ToDateTime(job.data_expirare_job))</td>
+                                <td style="max-width: 130px;">@*@Model.Rows[i][4]*@ @job.angajator</td>
+                                <td style="max-width: 130px;"> @job.tara</td>
+                                <td style="max-width: 130px;"> @job.oras</td>
+                                <td>
+                                    @if (@job.imagine_job != null)
+                                    {
+                                        var base64 = Convert.ToBase64String((byte[])job.imagine_job);
+                                        var imgsrc = string.Format("data::image/jpg;base64,{0}", base64);
+
+                                        <img src='@imgsrc' style="max-width:140px; max-height:150px; padding-left: 25px;" class="imageclass" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Content/Img/jobs1.png" style="max-width:140px; max-height:150px; padding-left: 25px;" class="imageclass" />
+                                    }
+                                </td>
+
+                                <td style="max-width: 100px;">
+                                    <table class="table-bordered">
+                                        <tr>
+                                            <td style="max-width: 40px;">
+                                                @* coloana editare *@
+                                                <a href="@Url.Action("Editare", "Job", new { @cod_job = @*Model.Rows[i][2]*@ @job.cod_job})">
+                                                    <img src="~/Content/Img/edit2.png" height="33" width="33" class="editare" />
+                                                </a>
+                                            </td>
+
+                                            <td style="max-width: 40px;">
+                                                @* coloana stergere *@
+                                                <a href="@Url.Action("Stergere", "Job", new { @cod_job = @job.cod_job, @class = "delete", @toggle="tooltip" })">
+                                                    <i class="material-icons">&#xE872;</i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>

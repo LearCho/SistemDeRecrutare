@@ -1,49 +1,137 @@
-﻿@using Microsoft.AspNet.Identity
-@if (Request.IsAuthenticated)
-{
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-    {
-        @Html.AntiForgeryToken()
+﻿
+<head>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    @*------------------------------css----------------------------*@
+    <style type="text/css">
+        .btn-register {
+            background-color: mediumpurple;
+            height: 45px;
+            border: none;
+            color: white;
+            padding: 8px 8px;
+            text-align: center;
+            font-size: 14px;
+            margin: -8px 4px;
+            border-radius: 22px;
+            opacity: 1;
+            transition: 0.7s;
+        }
+
+            .btn-register:hover {
+                opacity: 0.6
+            }
+
+        .dropdown {
+            float: left;
+            padding-right: 5px;
+        }
+
+            .dropdown .dropbtn {
+                font-size: 15px;
+                border: none;
+                outline: none;
+                color: darkslategrey;
+                padding: 14px 16px;
+                background-color: transparent;
+                font-family: inherit; /* vertical align */
+                margin: 0;
+            }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #ffffff;
+            min-width: 180px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 22px;
+        }
+
+            /* Links dropdown */
+            .dropdown-content a {
+                float: none;
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+                /* links on hover */
+                .dropdown-content a:hover {
+                    background-color: #f0e5f0;
+                    opacity: 0.85;
+                    border-radius: 12px;
+                }
+        /* dropdown menu on hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    @using Microsoft.AspNet.Identity
+
+    @* --    utilizatorul este autentificat  -- *@
+    @if (Request.IsAuthenticated)
+    {
+        using (Html.BeginForm("LogOut", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        {
+            @Html.AntiForgeryToken()
+
+            @* meniu dropdown*@
+            <div class="dropdown">
+                <button class="dropbtn">
+                    @*@Html.ActionLink("Salut, " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
+                    Cont
+                    [@User.Identity.GetUserName()]
+                </button>
+
+                <div class="dropdown-content">
+                    @* Profil Utilizator*@
+                    <a @*class="nav-link-white" data-toggle="tab"*@ href="#profile" title="Profil">
+                        <img src="~/Content/Img/profile1.png" alt="Profil" height="29" width="30" />
+                        Profil
+                    </a>
+
+                    @* CV*@
+                    <a @*class="nav-link-white"*@ href="#cv" title="Editare CV">
+                        <img src="~/Content/Img/ist1.png" alt="CV" height="29" width="31" />
+                        Editare CV
+                    </a>
+
+                        @*Iesi din Cont*@
+                        <a href="javascript:document.getElementById('logoutForm').submit()">
+                         Iesi din Cont
+                        </a>                  
+                </div>
+            </div>
+
+            @*<ul class="nav navbar-nav navbar-right">*@
+                @*<li class="nav-item"> </li>*@
+                @*<li> </li>*@
+            @*</ul>*@
+        }
+    }
+
+    @* --   utilizatorul nu este autentificat  -- *@
+    else
+    {
         <ul class="nav navbar-nav navbar-right">
+            @* Buton Cont Nou *@
             <li>
-                @Html.ActionLink("Salut, " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                <%= @Html.ActionLink("Cont Nou", "Inregistrare", "Account", null, new { @class = "btn-register" }) %>
             </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Iesi din Cont</a></li>
+            @* Buton Logare *@
+            <li>
+                <%= @Html.ActionLink("Intră în Cont", "IntraInCont", "Account", null, new { @class = "btn-register" }) %>
+            </li>
         </ul>
     }
-}
-else
-{
-<ul class="nav navbar-nav navbar-right">
-    @* Buton Inregistrare Cont Nou *@
-    <li>
-        <%= @Html.ActionLink("Cont Nou", "Inregistrare", "Account", null, new { @class = "btn-register" }) %>
-    </li>
-    @* Buton Logare *@
-    <li>
-        <%= @Html.ActionLink("Intră în Cont", "Login", "Account", null, new { @class = "btn-register" }) %>
-    </li>
-</ul>
-}
+</body>
 
-@*------------------------------css----------------------------*@
-<style type="text/css">
-    .btn-register {
-        background-color: mediumpurple;
-        height: 45px;
-        border: none;
-        color: white;
-        padding: 8px 8px;
-        text-align: center;
-        font-size: 14px;
-        margin: -8px 4px;
-        border-radius: 22px;
-        opacity: 1;
-        transition: 0.7s;
-    }
+<script type="text/javascript">
 
-        .btn-register:hover {
-            opacity: 0.6
-        }
-</style>
+</script>

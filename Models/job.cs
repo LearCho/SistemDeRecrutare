@@ -21,5 +21,8 @@ namespace SistemRecrutare.Models
         public string angajator { get; set; }
         public byte[] imagine_job { get; set; }
         public string descriere_job { get; set; }
+        public Nullable<System.DateTime> data_creare_job { get; set; }
+        public string tara { get; set; }
+        public string oras { get; set; }
     }
 }

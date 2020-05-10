@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Net.Mail;
 using System.Net;
+using System.Web.Security;
 
 namespace SistemRecrutare.Controllers
 {
@@ -26,9 +27,10 @@ namespace SistemRecrutare.Controllers
 
         public AccountController()
         {
+
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -40,9 +42,9 @@ namespace SistemRecrutare.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -76,33 +78,31 @@ namespace SistemRecrutare.Controllers
                 //#region caz submit campuri goale: reumplere lista
                 //UtilizatorViewModel user = new UtilizatorViewModel();
                 //user.DomeniiSelectateIds = new List<int>();
-                //user.ListaDomenii = new SelectList(db.domeniu_lucru.ToList(),
-                //    "id_domeniu", "denumire_domeniu");
+                //user.ListaDomenii = new SelectList(db.domeniu_lucru.ToList(),"id_domeniu", "denumire_domeniu");
                 //#endregion
 
                 var exista = db.utilizators.Where(u => u.email == email_id).FirstOrDefault();
-                return exista == null ? false : true;          
+                return exista == null ? false : true;
             }
-            
+
         }
 
         [NonAction]  // verificare link prin email
         public void trimiteLinkVerificareEmail(string email_id, string cod_activare)
         {
-            string url_verificare = ":/Account/VerificareCont" + cod_activare;
+            var url_verificare = "/Account/VerificareCont/" + cod_activare;
             var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, url_verificare);
 
-            var email_deLa = new MailAddress("sis.recrutare.utcb@gmail.com", "Sis Recrutare UTCB");
+            var email_deLa = new MailAddress("sis.rec.utcb@gmail.com", "Sistem Recrutare");
             var email_pentru = new MailAddress(email_id);
-            var email_deLa_parola = "****"; // parola actuala
+            var email_deLa_parola = "licenta2020"; // parola actuala
             string email_titlu = "Contul tau a fost creat cu succes!";
             string body = "<br/><br/> Bine ai venit pe platforma de joburi! <p>Iti uram spor in " +
                 "cautarea celui mai potrivit loc de munca pentru tine! Inca un pas si te poti apuca " +
-                "de treaba :-)</p> <p> Te rugam sa " +
-                "dai click pe link-ul urmator pentru a finaliza iregistrarea : " +
-                "<br/><a href = '" + link + "'>" + link + "</a>";
+                "de treaba :)</p> <p> Te rugam sa dai click pe link-ul urmator pentru a finaliza inregistrarea : " +
+                "<br/><a href = '" + link + "'>" + link + "</a> ";
 
-            var smtp = new SmtpClient // simple mail tr protocol client
+            var smtp = new SmtpClient
             {
                 Host = "smtp.gmail.com",
                 Port = 587,
@@ -119,6 +119,7 @@ namespace SistemRecrutare.Controllers
                 IsBodyHtml = true
             })
                 smtp.Send(mesaj);
+            ViewBag.Message = "\tUn mesaj de confirmare ti-a fost trimis pe email, la adresa " + email_pentru;
         }
 
 
@@ -128,13 +129,13 @@ namespace SistemRecrutare.Controllers
         public ActionResult ContNouAngajat()
         {
             UtilizatorViewModel u = new UtilizatorViewModel();
- 
+
             using (DBrecrutare db = new DBrecrutare())
             {
-                    u.DomeniiSelectateIds = new List<int>();
-                    u.ListaDomenii = new SelectList(db.domeniu_lucru.ToList(),
-                        "id_domeniu", "denumire_domeniu");
-             
+                u.DomeniiSelectateIds = new List<int>();
+                u.ListaDomenii = new SelectList(db.domeniu_lucru.ToList(),
+                    "id_domeniu", "denumire_domeniu");
+
                 //ViewData["DBDomenii"] = u.ListaDomenii;
             }
             return View(u);
@@ -178,16 +179,16 @@ namespace SistemRecrutare.Controllers
 
                 #region --- salvare in baza de date ---
                 using (DBrecrutare db = new DBrecrutare())
-                {             
+                {
                     db.utilizators.Add(cont_user.Utilizator);
                     db.SaveChanges();
 
-                    if (cont_user.Utilizator == null) 
+                    if (cont_user.Utilizator == null)
                     {
                         return View("ContNouAngajat");
                     }
 
-                    if (cont_user.Utilizator != null && cont_user.DomeniiSelectateIds != null) 
+                    if (cont_user.Utilizator != null && cont_user.DomeniiSelectateIds != null)
                     {
                         foreach (var id_selectat in cont_user.DomeniiSelectateIds) //
                         {
@@ -206,12 +207,11 @@ namespace SistemRecrutare.Controllers
                             id_domeniu = 9 //Altele
                         });
                     }
-                    
+
                     db.SaveChanges();
 
-
                     // trimitere email catre utilizator
-                    //trimiteLinkVerificareEmail(cont_user.Utilizator.email, cont_user.Utilizator.cod_activare.ToString());
+                    trimiteLinkVerificareEmail(cont_user.Utilizator.email, cont_user.Utilizator.cod_activare.ToString());
                     message = "Inregistrarea a fost efectuata cu succes. Un link de activare " +
                         "ti-a fost trimis pe email, la adresa " + cont_user.Utilizator.email;
                     status = true;
@@ -236,221 +236,193 @@ namespace SistemRecrutare.Controllers
             return View(cont_user);
         }
 
-        // GET: /Account/SendCode
+
+        // --------- Verificare cod_activare din email pentru cont --------
+        // GET: /Account/VerificareCont
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult VerificareCont(string id)
+        {
+            bool Status = false;
+            using (DBrecrutare db = new DBrecrutare())
+            {
+                db.Configuration.ValidateOnSaveEnabled = false;
+                var utilizator = db.utilizators.Where(u => u.cod_activare == new Guid(id)).FirstOrDefault();
+                if(utilizator != null)
+                {
+                    utilizator.verificare_email = true;
+                    db.SaveChanges();
+                    Status = true;
+                }
+                else
+                {
+                    ViewBag.Message = "Eroare - Cererea nu a putut fi efectuata";
+                }
+            }
+            ViewBag.Status = Status;
+            return View();
+        }
+
+        // -------------- Logare Utilizator -------------
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult IntraInCont()
+        {
+            return View();
+        }
+
+        //GET: /Account/IntraInContAngajat
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult IntraInContAngajat(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+
+            return View();
+        }
+
+        // POST: /Account/IntraInContAngajat
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult IntraInContAngajat(Logare logare, string ReturnUrl)
+        {
+            string mesaj = "";
+            using (DBrecrutare db = new DBrecrutare())
+            {
+                var utilizator = db.utilizators.Where(u => u.email == logare.Email).FirstOrDefault();
+                if (utilizator != null)
+                {
+                    if (string.Compare(CriptareParola.Hash(logare.Parola),
+                        utilizator.parola) == 0)
+                    {
+                        int sesiune = logare.TineMinte ? 525600 : 20; //525600 min = 1 an
+                        var ticket = new FormsAuthenticationTicket(logare.Email, logare.TineMinte,
+                            sesiune);
+                        string encriptare = FormsAuthentication.Encrypt(ticket);
+                        var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encriptare);
+                        cookie.Expires = DateTime.Now.AddMinutes(sesiune);
+                        cookie.HttpOnly = true;
+                        Response.Cookies.Add(cookie);
+
+                        if (Url.IsLocalUrl(ReturnUrl))
+                        {
+                            return Redirect(ReturnUrl);
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("ParolaInvalida", "\tParola nu este corecta");
+                    }
+                }
+                else { mesaj = "Datele nu sunt valide!"; }
+            }
+            ViewBag.Message = mesaj;
+            return View(/*logare*/);
+        }
+
+        //GET: /Account/Login
         //[AllowAnonymous]
-        //public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
+        //public ActionResult Login(string returnUrl)
         //{
-        //    var userId = await SignInManager.GetVerifiedUserIdAsync();
-        //    if (userId == null)
-        //    {
-        //        return View("Error");
-        //    }
-        //    var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
-        //    var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
-        //    return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
+        //    ViewBag.ReturnUrl = returnUrl;
+        //    return View();
         //}
 
-        // POST: /Account/SendCode
+        // POST: /Account/Login
         //[HttpPost]
         //[AllowAnonymous]
         //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> SendCode(SendCodeViewModel model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View();
-        //    }
-
-        //    // Generate the token and send it
-        //    if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
-        //    {
-        //        return View("Error");
-        //    }
-        //    return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
-        //}
-
-        // --------- Verificare Cod pentru Utilizator --------
-        //// GET: /Account/VerifyCode
-        //[AllowAnonymous]
-        //public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
-        //{
-        //    // Require that the user has already logged in via username/password or external login
-        //    if (!await SignInManager.HasBeenVerifiedAsync())
-        //    {
-        //        return View("Eroare");
-        //    }
-        //    return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
-        //}
-
-        //// POST: /Account/VerifyCode
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> VerifyCode(VerifyCodeViewModel model)
+        //public async Task<ActionResult> Login(Logare model, string returnUrl)
         //{
         //    if (!ModelState.IsValid)
         //    {
         //        return View(model);
         //    }
 
-        //    //The following code protects for brute force attacks against the two factor codes.
-
-        //    //If a user enters incorrect codes for a specified amount of time then the user account
-
-        //    //will be locked out for a specified amount of time.
-        //    // You can configure the account lockout settings in IdentityConfig
-        //   var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
+        //    var result = await SignInManager.PasswordSignInAsync(model.Email, model.Parola, model.TineMinte, shouldLockout: false);
         //    switch (result)
         //    {
         //        case SignInStatus.Success:
-        //            return RedirectToLocal(model.ReturnUrl);
+        //            return RedirectToLocal(returnUrl);
         //        case SignInStatus.LockedOut:
         //            return View("Lockout");
+        //        case SignInStatus.RequiresVerification:
+        //            return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.TineMinte });
         //        case SignInStatus.Failure:
         //        default:
-        //            ModelState.AddModelError("", "Cod invalid.");
+        //            ModelState.AddModelError("", "Incercare de logare esuata.");
         //            return View(model);
         //    }
         //}
-
-
-        // --------------- Confirmare Email --------------
-        // GET: /Account/ConfirmEmail
-        //[AllowAnonymous]
-        //public async Task<ActionResult> ConfirmEmail(string userId, string code)
-        //{
-        //    if (userId == null || code == null)
-        //    {
-        //        return View("Eroare");
-        //    }
-        //    var result = await UserManager.ConfirmEmailAsync(userId, code);
-        //    return View(result.Succeeded ? "ConfirmEmail" : "Eroare");
-        //}
-
-
-        // -------------- Logare Utilizator -------------
-        //GET: /Account/Login
-       [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
-        {
-            ViewBag.ReturnUrl = returnUrl;
-            return View();
-        }
-
-        // POST: /Account/Login
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Incercare de logare esuata.");
-                    return View(model);
-            }
-        }
-
-
+      
         // ------------ Logare: Parola Uitata ------------
         // GET: /Account/ForgotPassword
-        [AllowAnonymous]
-        public ActionResult ForgotPassword()
-        {
-            return View();
-        }
+        //[AllowAnonymous]
+        //public ActionResult ForgotPassword()
+        //{
+        //    return View();
+        //}
 
         // POST: /Account/ForgotPassword
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
-                {
-                    // Don't reveal that the user does not exist or is not confirmed
-                    return View("ForgotPasswordConfirmation");
-                }
-
-                // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
-            }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
-        }
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        //{
+        //if (ModelState.IsValid)
+        //{
+        //    var user = await UserManager.FindByNameAsync(model.Email);
+        //    if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+        //    {
+        //        return View("ForgotPasswordConfirmation");
+        //    }
+        //}
+        //    return View(model);
+        //}
 
         //
         // GET: /Account/ForgotPasswordConfirmation
-        [AllowAnonymous]
-        public ActionResult ForgotPasswordConfirmation()
-        {
-            return View();
-        }
+        //[AllowAnonymous]
+        //public ActionResult ForgotPasswordConfirmation()
+        //{
+        //    return View();
+        //}
 
         //
         // GET: /Account/ResetPassword
-        [AllowAnonymous]
-        public ActionResult ResetPassword(string code)
-        {
-            return code == null ? View("Error") : View();
-        }
+        //[AllowAnonymous]
+        //public ActionResult ResetPassword(string code)
+        //{
+        //    return code == null ? View("Error") : View();
+        //}
 
         // POST: /Account/ResetPassword
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            var user = await UserManager.FindByNameAsync(model.Email);
-            if (user == null)
-            {
-                // Don't reveal that the user does not exist
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
-            }
-            var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
-            if (result.Succeeded)
-            {
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
-            }
-            AddErrors(result);
-            return View();
-        }
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(model);
+        //    }
+        //    return View();
+        //}
 
         //
         // GET: /Account/ResetPasswordConfirmation
-        [AllowAnonymous]
-        public ActionResult ResetPasswordConfirmation()
-        {
-            return View();
-        }
+        //[AllowAnonymous]
+        //public ActionResult ResetPasswordConfirmation()
+        //{
+        //    return View();
+        //}
+        
 
-        //
         // POST: /Account/ExternalLogin
         [HttpPost]
         [AllowAnonymous]
@@ -529,24 +501,22 @@ namespace SistemRecrutare.Controllers
             return View(model);
         }
 
-
-        // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult LogOff()
+        // POST: /Account/LogOut
+        [Authorize]
+        [HttpPost]          
+        //[ValidateAntiForgeryToken]
+        public ActionResult LogOut()
         {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            FormsAuthentication.SignOut();
+            return RedirectToAction("IntraInCont", "Account");
         }
 
-
         //GET: /Account/ExternalLoginFailure
-       [AllowAnonymous]
+        [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
         {
             return View();
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -595,7 +565,6 @@ namespace SistemRecrutare.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
-
         internal class ChallengeResult : HttpUnauthorizedResult
         {
             public ChallengeResult(string provider, string redirectUri)

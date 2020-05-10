@@ -207,6 +207,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\UtilizatorLogat.cs" />
+    <Compile Include="FisiereCareSePierdLaAutoRegenerare\FisiereAutoRegenerare.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -276,6 +278,8 @@
     <Content Include="Content\Img\cv1.jpg" />
     <Content Include="Content\Img\cv2.jpg" />
     <Content Include="Content\Img\cv2.png" />
+    <Content Include="Content\Img\edit1.png" />
+    <Content Include="Content\Img\edit2.png" />
     <Content Include="Content\Img\front1.png" />
     <Content Include="Content\Img\home1.png" />
     <Content Include="Content\Img\home2.png" />
@@ -350,10 +354,8 @@
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
-    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\ContNouAngajat.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
@@ -374,6 +376,10 @@
     <Content Include="Views\Domenii_Lucru_Utilizator\Arata_Domenii_Utilizator.cshtml" />
     <Content Include="Views\Account\Inregistrare.cshtml" />
     <Content Include="Views\Account\ContNouAngajator.cshtml" />
+    <Content Include="Views\Account\VerificareCont.cshtml" />
+    <Content Include="Views\Account\IntraInContAngajat.cshtml" />
+    <Content Include="Views\UtilizatorLogat\HomeUtilizatorLogat.cshtml" />
+    <Content Include="Views\Account\IntraInCont.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

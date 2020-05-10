@@ -15,7 +15,7 @@
     <div class="row">
         <div class="col-md-5"></div>
         <div class="col-md-5">
-            <h2 style="font-family:'Berlin Sans FB';">Job nou</h2>
+            <h2 style="font-family:'Calibri'; padding-left: 40px; font-weight:bold;">Job nou</h2>
         </div>
     </div>
 
@@ -26,7 +26,7 @@
             @*@Html.ActionLink("Inapoi la Lista", "ListaAdmin")*@
             <a href='@Url.Action("ListaAdmin", "Job")'>
                 <img src='@Url.Content("~/Content/Img/back2.png")' width="55" height="55" />
-                <text style="font-family:'Berlin Sans FB'">Inapoi la Lista</text>
+                <text style="font-family:'Calibri'; font-weight:bold;">Inapoi la Lista</text>
             </a>
         </div>
     </div>
@@ -46,77 +46,105 @@
 
             @using (Html.BeginForm("Creare", "Job", FormMethod.Post, new
             {
-                enctype =
-            "multipart/form-data"
+                enctype = "multipart/form-data"
             }))
             {
                 @Html.AntiForgeryToken()
-                <div class="form-horizontal">
-                    <hr />
+            <div class="form-horizontal">
+                <hr />
 
-                    @* adaugare campuri: *@
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @* adaugare campuri: *@
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                    @* Denumire Job *@
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.denumire_job, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.denumire_job, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.denumire_job, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    @* Cod *@
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.cod_job, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.cod_job, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.cod_job, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    @* Data Expirare *@
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.data_expirare, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.data_expirare, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.data_expirare, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    @* Angajator *@
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.angajator, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.angajator, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.angajator, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    @* Imagine Descriptiva *@
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.imagine_job, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            <input type="file" name="imagine" />
-                        </div>
-                    </div>
-
-                    @* Descriere/Despre *@
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.descriere_job, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.descriere_job, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.descriere_job, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    @* Creeaza job *@
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Creeaza" class="button btn btn-default" />
-                        </div>
+                @* Denumire Job *@
+                <div class="form-group">
+                    @Html.LabelFor(model => model.denumire_job, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.denumire_job, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.denumire_job, "", new { @class = "text-danger" })
                     </div>
                 </div>
+
+                @* Cod *@
+                <div class="form-group">
+                    @Html.LabelFor(model => model.cod_job, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.cod_job, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.cod_job, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @* Data Creare *@
+                <div class="form-group">
+                    @Html.LabelFor(model => model.data_creare, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-7">
+                        @Html.EditorFor(model => model.data_creare, new { placeholder = "Data Creare", @class = "form-control" })
+                        <p></p>
+                        @Html.ValidationMessageFor(model => model.data_creare, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @* Data Expirare *@
+                <div class="form-group">
+                    @Html.LabelFor(model => model.data_expirare, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-7">
+                        @Html.EditorFor(model => model.data_expirare, new { placeholder = "Data Expirare", @class = "form-control" })
+                        <p></p>
+                        @Html.ValidationMessageFor(model => model.data_expirare, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @* Angajator *@
+                <div class="form-group">
+                    @Html.LabelFor(model => model.angajator, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.angajator, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.angajator, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @* Tara *@
+                <div class="form-group">
+                    @Html.LabelFor(model => model.tara, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.tara, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.tara, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @* Oras *@
+                <div class="form-group">
+                    @Html.LabelFor(model => model.oras, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.oras, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.oras, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @* Imagine Descriptiva *@
+                <div class="form-group">
+                    @Html.LabelFor(model => model.imagine_job, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <input type="file" name="imagine" />
+                    </div>
+                </div>
+
+                @* Descriere/Despre *@
+                <div class="form-group">
+                    @Html.LabelFor(model => model.descriere_job, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.descriere_job, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.descriere_job, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @* Creeaza job *@
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Creeaza" class="button btn btn-default" />
+                    </div>
+                </div>
+            </div>
             }
         </div>
     </div>

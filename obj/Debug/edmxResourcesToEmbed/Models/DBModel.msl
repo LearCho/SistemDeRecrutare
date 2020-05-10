@@ -1,19 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="DB_recrutareModelStoreContainer" CdmEntityContainer="DBrecrutare">
-    <EntitySetMapping Name="jobs">
-      <EntityTypeMapping TypeName="DB_recrutareModel.job">
-        <MappingFragment StoreEntitySet="job">
-          <ScalarProperty Name="id_job" ColumnName="id_job" />
-          <ScalarProperty Name="denumire_job" ColumnName="denumire_job" />
-          <ScalarProperty Name="cod_job" ColumnName="cod_job" />
-          <ScalarProperty Name="data_expirare_job" ColumnName="data_expirare_job" />
-          <ScalarProperty Name="angajator" ColumnName="angajator" />
-          <ScalarProperty Name="imagine_job" ColumnName="imagine_job" />
-          <ScalarProperty Name="descriere_job" ColumnName="descriere_job" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="cvs">
       <EntityTypeMapping TypeName="DB_recrutareModel.cv">
         <MappingFragment StoreEntitySet="cv">
@@ -53,6 +40,22 @@
           <ScalarProperty Name="camp" ColumnName="camp" />
           <ScalarProperty Name="id_domeniu" ColumnName="id_domeniu" />
           <ScalarProperty Name="id_utilizator" ColumnName="id_utilizator" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="jobs">
+      <EntityTypeMapping TypeName="DB_recrutareModel.job">
+        <MappingFragment StoreEntitySet="job">
+          <ScalarProperty Name="oras" ColumnName="oras" />
+          <ScalarProperty Name="tara" ColumnName="tara" />
+          <ScalarProperty Name="data_creare_job" ColumnName="data_creare_job" />
+          <ScalarProperty Name="descriere_job" ColumnName="descriere_job" />
+          <ScalarProperty Name="imagine_job" ColumnName="imagine_job" />
+          <ScalarProperty Name="angajator" ColumnName="angajator" />
+          <ScalarProperty Name="data_expirare_job" ColumnName="data_expirare_job" />
+          <ScalarProperty Name="cod_job" ColumnName="cod_job" />
+          <ScalarProperty Name="denumire_job" ColumnName="denumire_job" />
+          <ScalarProperty Name="id_job" ColumnName="id_job" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

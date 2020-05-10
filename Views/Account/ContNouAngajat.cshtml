@@ -17,16 +17,17 @@
 
 <div class="row" style="background-color:white">
     <br /><br />
-    <h2 class="titlu">@ViewBag.Title</h2>
+    <h2 class="titlu" style="margin-left: 47%;">@ViewBag.Title</h2>
 
     @* inregistrare efectuata cu succes - mesaj *@
     @if (ViewBag.Status != null && Convert.ToBoolean(ViewBag.Status) == true)
     {
         if (ViewBag.Message != null)
         {
+            <br />
             <div class="alert alert-success">
-                <br /><br /><br /><br />
-                <strong>Succes</strong>@ViewBag.Message
+                <br />
+                <strong>Contul a fost creat cu succes!</strong>@ViewBag.Message
             </div>
         }
     }
@@ -112,7 +113,7 @@
                     @Html.LabelFor(m => m.Utilizator.data_nasterii, new { @class = "col-md-5 control-label" })
                     <div class="col-md-7">
                         @Html.EditorFor(m => m.Utilizator.data_nasterii, new { placeholder = "Data Nasterii", @class = "form-control" })
-                       <p></p>
+                        <p></p>
                         @Html.ValidationMessageFor(m => m.Utilizator.data_nasterii, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -133,19 +134,18 @@
                         @if (Model.ListaDomenii != null)
                         {
                             @*<select asp-for="DomeniiSelectateIds" class="form-control chosen-select" asp-items="Model.ListaDomenii" multiple>
-                            </select>*@
+                                </select>*@
                             @Html.DropDownList("DomeniiSelectateIds", Model.ListaDomenii, new { @class = "col-md-5 control-label chosen-select", multiple = "" })
                             <div style="font-size:smaller">Te rugam sa selectezi cel putin un domeniu</div>
                         }
                         else // nu se intra aici
                         {
-                             //@Html.DropDownList("DomeniiSelectateIds", Model.ListaDomenii, new { @class = "col-md-5 control-label chosen-select", multiple = "" })
+                            //@Html.DropDownList("DomeniiSelectateIds", Model.ListaDomenii, new { @class = "col-md-5 control-label chosen-select", multiple = "" })
                             <div style="color:firebrick">Te rugam sa selecteazi unul sau mai multe domenii</div>
                         }
                     </div>
                 </div>
             </div>
-
 
             @* Creare Cont *@
             <div class="form-group">
@@ -157,16 +157,17 @@
 
         if (ViewBag.Message != null)
         {
+            <br />
             <div class="alert alert-danger">
-                <br /><br />
+                <br />
                 <strong>Eroare!</strong>@ViewBag.Message
             </div>
         }
     }
 
     @* spre Login *@
-    <div>
-        @Html.ActionLink("Intra in Cont", "Login", "Account")
+    <div style="margin-left: 49%; padding-bottom: 30px;">
+        @Html.ActionLink("Intra in Cont", "IntraInContAngajat", "Account")
     </div>
 </div>
 
@@ -179,15 +180,16 @@
 @*-----------------------------------css---------------------------------*@
 <style type="text/css">
     .titlu {
-        margin-left: 46%;
+        margin-left: 49%;
         margin-bottom: 2%;
-        font-family: 'Berlin Sans FB';
+        font-family: 'Calibri';
+        font-weight: bold;
     }
 
     .subtitlu {
         margin-left: 37%;
         margin-bottom: 2%;
-        font-family: 'Berlin Sans FB';
+        font-family: 'Calibri';
     }
 
     .button {

@@ -44,78 +44,78 @@
                 @*@Html.ValidationSummary("", new { @class = "text-danger" })  sumar erori*@
 
                 @* E-mail *@
-                <div class="form-group">
+                @*<div class="form-group">
                     @Html.LabelFor(m => m.Email, new { @class = "col-md-5 control-label" })
                     <div class="col-md-7">
                         @Html.TextBoxFor(m => m.Email, new { placeholder = "Email", @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                         @Html.ValidationMessage("ExistaEmail", new { @class = "text-danger" })
                     </div>
-                </div>
+                </div>*@
 
                 @* Parola *@
-                <div class="form-group">
+                @*<div class="form-group">
                     @Html.LabelFor(m => m.Parola, new { @class = "col-md-5 control-label" })
                     <div class="col-md-7">
                         @Html.PasswordFor(m => m.Parola, new { placeholder = "Introduceti Parola", @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Parola, "", new { @class = "text-danger" })
 
                     </div>
-                </div>
+                </div>*@
 
                 @* Confirmare Parola  *@
-                <div class="form-group">
+                @*<div class="form-group">
                     @Html.LabelFor(m => m.ConfirmaParola, new { @class = "col-md-5 control-label" })
                     <div class="col-md-7">
                         @Html.PasswordFor(m => m.ConfirmaParola, new { placeholder = "Confirmare Parola", @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.ConfirmaParola, "", new { @class = "text-danger" })
                     </div>
-                </div>
+                </div>*@
 
                 @* Prenume *@
-                <div class="form-group">
+                @*<div class="form-group">
                     @Html.LabelFor(m => m.Prenume, new { @class = "col-md-5 control-label" })
                     <div class="col-md-7">
                         @Html.TextBoxFor(m => m.Prenume, new { placeholder = "Prenume", @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Prenume, "", new { @class = "text-danger" })
                     </div>
-                </div>
+                </div>*@
 
                 @* Nume *@
-                <div class="form-group">
+                @*<div class="form-group">
                     @Html.LabelFor(m => m.Nume, new { @class = "col-md-5 control-label" })
                     <div class="col-md-7">
                         @Html.TextBoxFor(m => m.Nume, new { placeholder = "Nume", @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Nume, "", new { @class = "text-danger" })
                     </div>
-                </div>
+                </div>*@
 
                 @* Oraș *@
-                <div class="form-group">
+                @*<div class="form-group">
                     @Html.LabelFor(m => m.Oras, new { @class = "col-md-5 control-label" })
                     <div class="col-md-7">
                         @Html.TextBoxFor(m => m.Oras, new { placeholder = "Orasul in care locuiti", @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Oras, "", new { @class = "text-danger" })
                     </div>
-                </div>
+                </div>*@
 
                 @* Telefon *@
-                <div class="form-group">
+                @*<div class="form-group">
                     @Html.LabelFor(m => m.Telefon, new { @class = "col-md-5 control-label" })
                     <div class="col-md-7">
                         @Html.TextBoxFor(m => m.Telefon, new { placeholder = "Telefon", @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Telefon, "", new { @class = "text-danger" })
                     </div>
-                </div>
+                </div>*@
 
                 @* Data Nașterii *@
-                <div class="form-group">
+                @*<div class="form-group">
                     @Html.LabelFor(m => m.Data_nasterii, new { @class = "col-md-5 control-label" })
                     <div class="col-md-7">
                         @Html.EditorFor(m => m.Data_nasterii, new { placeholder = "Data Nasterii", @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Data_nasterii, "", new { @class = "text-danger" })
                     </div>
-                </div>
+                </div>*@
 
                 @* Sex *@
                 <div class="form-group">
@@ -196,7 +196,7 @@
 
     @* spre Login *@
     <div>
-        @Html.ActionLink("Intra in Cont", "Login", "Account")
+        @Html.ActionLink("Intra in Cont", "IntraInContAngajat", "Account")
     </div>
 </div>
 

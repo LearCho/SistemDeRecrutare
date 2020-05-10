@@ -19,51 +19,67 @@ namespace SistemRecrutare.Models
         public string ReturnUrl { get; set; }
     }
 
-    public class SendCodeViewModel
+    //public class SendCodeViewModel
+    //{
+    //    public string SelectedProvider { get; set; }
+    //    public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
+    //    public string ReturnUrl { get; set; }
+    //    public bool RememberMe { get; set; }
+    //}
+
+    //public class VerifyCodeViewModel
+    //{
+    //    [Required]
+    //    public string Provider { get; set; }
+
+    //    [Required]
+    //    [Display(Name = "Cod")]
+    //    public string Code { get; set; }
+    //    public string ReturnUrl { get; set; }
+
+    //    [Display(Name = "Remember this browser?")]
+    //    public bool RememberBrowser { get; set; }
+
+    //    public bool RememberMe { get; set; }
+    //}
+
+    //public class ForgotViewModel
+    //{    [Required]
+    //    [Display(Name = "Email")]
+    //    public string Email { get; set; }}
+
+
+    // Login Angajat
+    public class UtilizatorLogin
     {
-        public string SelectedProvider { get; set; }
-        public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
-        public string ReturnUrl { get; set; }
-        public bool RememberMe { get; set; }
-    }
-
-    public class VerifyCodeViewModel
-    {
-        [Required]
-        public string Provider { get; set; }
-
-        [Required]
-        [Display(Name = "Cod")]
-        public string Code { get; set; }
-        public string ReturnUrl { get; set; }
-
-        [Display(Name = "Remember this browser?")]
-        public bool RememberBrowser { get; set; }
-
-        public bool RememberMe { get; set; }
-    }
-
-    public class ForgotViewModel
-    {
-        [Required]
         [Display(Name = "Email")]
-        public string Email { get; set; }
-    }
-
-    public class LoginViewModel
-    {
-        [Required]
-        [Display(Name = "E-mail")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Introduceti adresa de email")]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Introduceti parola")]
         [DataType(DataType.Password)]
         [Display(Name = "Parola")]
-        public string Password { get; set; }
+        public string Parola { get; set; }
 
-        [Display(Name = "Iti amintesti de mine?")]
-        public bool RememberMe { get; set; }
+        [Display(Name = "Tine-ma minte")]
+        public bool TineMinte { get; set; }
+    }
+
+    public class Logare
+    {
+        [Display(Name = "Email:")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Introduceti adresa de email")]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Display(Name = "Parola:")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Introduceti parola")]
+        [DataType(DataType.Password)]
+        public string Parola { get; set; }
+
+        [Display(Name = "Retine-ma")]
+        public bool TineMinte { get; set; }
     }
 
     [MetadataType(typeof(ContNouAngajatMetaData))]
@@ -121,17 +137,8 @@ namespace SistemRecrutare.Models
         public Guid cod_activare { get; set; } //////---- 
     }
 
-    //public class Sex_Utilizator
-    //{
-    //    public int Id_Sex { get; set; }
-    //    [Display(Name = "Sex* :")]
-    //   // [Required(ErrorMessage = "Campul Sex este obligatoriu.")]
-    //    public string Denumire_Sex { get; set; }
-    //}
-
-
     public enum Sex_Utilizator
-    {  // valori lista dropDown Sex Utilizator
+    {  // valori lista Sex Utilizator
         Femeie = 0,
         Barbat = 1,
         Altul = 2

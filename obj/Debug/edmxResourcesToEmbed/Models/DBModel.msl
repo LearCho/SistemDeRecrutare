@@ -20,6 +20,7 @@
     <EntitySetMapping Name="utilizators">
       <EntityTypeMapping TypeName="DB_recrutareModel.utilizator">
         <MappingFragment StoreEntitySet="utilizator">
+          <ScalarProperty Name="id_rol" ColumnName="id_rol" />
           <ScalarProperty Name="id_utilizator" ColumnName="id_utilizator" />
           <ScalarProperty Name="cod_activare" ColumnName="cod_activare" />
           <ScalarProperty Name="verificare_email" ColumnName="verificare_email" />
@@ -56,6 +57,32 @@
           <ScalarProperty Name="cod_job" ColumnName="cod_job" />
           <ScalarProperty Name="denumire_job" ColumnName="denumire_job" />
           <ScalarProperty Name="id_job" ColumnName="id_job" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="rols">
+      <EntityTypeMapping TypeName="DB_recrutareModel.rol">
+        <MappingFragment StoreEntitySet="rol">
+          <ScalarProperty Name="denumire_rol" ColumnName="denumire_rol" />
+          <ScalarProperty Name="id_rol" ColumnName="id_rol" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="angajators">
+      <EntityTypeMapping TypeName="DB_recrutareModel.angajator">
+        <MappingFragment StoreEntitySet="angajator">
+          <ScalarProperty Name="id_rol" ColumnName="id_rol" />
+          <ScalarProperty Name="adresa_sediu" ColumnName="adresa_sediu" />
+          <ScalarProperty Name="tara_sediu" ColumnName="tara_sediu" />
+          <ScalarProperty Name="oras_sediu" ColumnName="oras_sediu" />
+          <ScalarProperty Name="nr_ordine_registru_comert" ColumnName="nr_ordine_registru_comert" />
+          <ScalarProperty Name="cod_activare" ColumnName="cod_activare" />
+          <ScalarProperty Name="verificare_email" ColumnName="verificare_email" />
+          <ScalarProperty Name="telefon" ColumnName="telefon" />
+          <ScalarProperty Name="nume_angajator" ColumnName="nume_angajator" />
+          <ScalarProperty Name="parola" ColumnName="parola" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="id_angajator" ColumnName="id_angajator" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

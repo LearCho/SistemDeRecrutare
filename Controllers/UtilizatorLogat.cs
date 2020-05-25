@@ -8,7 +8,7 @@ namespace SistemRecrutare.Controllers
 {
     public class UtilizatorLogat : Controller
     {
-        // Utilizator logat 
+        // Utilizator logat  -- mutat in _LoginPartial
         // GET: Utilizator
         [Authorize]
         public ActionResult HomeUtilizatorLogat()

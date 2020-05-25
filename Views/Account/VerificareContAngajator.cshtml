@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "VerificareContAngajator";
+} @* Verificare efectuata dupa accesarea link-ului din email. Verifcarea devine true *@
+
+<br />
+<br />
+<h2>Verificare Cont</h2>
+<br />
+
+@if (ViewBag.Status != null && Convert.ToBoolean(ViewBag.Status))
+{
+    <div class="alert alert-success">
+        <strong>Activare reusita</strong>
+        Contul tau a fost activat cu succes. Apasa aici pentru
+        @Html.ActionLink("a intra in cont", "IntraInCont", "Account")
+    </div>
+}
+else
+{
+    <div class="alert alert-danger">
+        <strong>Eroare!</strong>
+        @ViewBag.Message
+    </div>
+}

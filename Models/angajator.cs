@@ -12,29 +12,21 @@ namespace SistemRecrutare.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class utilizator
+    public partial class angajator
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public utilizator()
-        {
-            this.utilizator_domeniu_leg = new HashSet<utilizator_domeniu_leg>();
-        }
-    
+        public int id_angajator { get; set; }
         public string email { get; set; }
         public string parola { get; set; }
-        public string nume_utilizator { get; set; }
-        public string prenume_utilizator { get; set; }
-        public string oras { get; set; }
+        public string nume_angajator { get; set; }
         public string telefon { get; set; }
-        public Nullable<System.DateTime> data_nasterii { get; set; }
-        public string sex { get; set; }
         public bool verificare_email { get; set; }
         public Nullable<System.Guid> cod_activare { get; set; }
-        public int id_utilizator { get; set; }
+        public string nr_ordine_registru_comert { get; set; }
+        public string oras_sediu { get; set; }
+        public string tara_sediu { get; set; }
+        public string adresa_sediu { get; set; }
         public Nullable<int> id_rol { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<utilizator_domeniu_leg> utilizator_domeniu_leg { get; set; }
         public virtual rol rol { get; set; }
     }
 }

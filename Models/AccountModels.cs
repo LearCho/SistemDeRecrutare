@@ -43,11 +43,14 @@ namespace SistemRecrutare.Models
     //    public bool RememberMe { get; set; }
     //}
 
-    //public class ForgotViewModel
-    //{    [Required]
-    //    [Display(Name = "Email")]
-    //    public string Email { get; set; }}
+    public class ForgotViewModel
+    {
+        [Required]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+    }
 
+    // ANGAJAT
 
     // Login Angajat
     public class UtilizatorLogin
@@ -144,12 +147,62 @@ namespace SistemRecrutare.Models
         Altul = 2
     }
 
-    public class UtilizatorViewModel // include lista domenii de interes
+    public class UtilizatorAngajatViewModel // include lista domenii de interes a angajatului
     {
         public utilizator Utilizator { get; set; }
         public SelectList ListaDomenii { get; set; }
         public List<int> DomeniiSelectateIds { get; set; }
     }
+
+    // ANGAJATOR
+
+    [MetadataType(typeof(ContNouAngajatorMetaData))]
+    public partial class angajator  // clasa pentru maparea campului confirma_parola, care nu exista in angajator.cs
+    {
+        public string confirma_parola { get; set; }
+    }
+
+    // Cont nou Angajator
+    public class ContNouAngajatorMetaData  // Cont Angajator Model Validare 
+    {
+        [EmailAddress]
+        [Display(Name = "Email* :")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Email este obligatoriu.")]
+        [DataType(DataType.EmailAddress)]
+        public string email { get; set; }
+        [StringLength(100, ErrorMessage = "Parola trebuie sa aiba cel putin {2} caractere.", MinimumLength = 4)]
+        [Display(Name = "Parola* :")]
+        [DataType(DataType.Password)]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Parola este obligatoriu.")]
+        public string parola { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirmati parola* :")]
+        [System.ComponentModel.DataAnnotations.Compare("parola", ErrorMessage = "Confirma parola. Parolele introduse nu corespund.")]
+        public string confirma_parola { get; set; }
+
+        [Display(Name = "Numele companiei* :")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Numele companiei este obligatoriu.")]
+        public string nume_angajator { get; set; }
+        [Display(Name = "Numar de ordine* :")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Numar de ordine este obligatoriu.")]
+        public string nr_ordine_registru_comert { get; set; }
+        [Display(Name = "Telefon :")]
+        public string telefon { get; set; }
+        [Display(Name = "Tara* :")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Tara este obligatoriu.")]
+        public string tara_sediu { get; set; }
+        [Display(Name = "Oras* :")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Oras este obligatoriu.")]
+        public string oras_sediu { get; set; }
+        [Display(Name = "Adresa* :")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Adresa este obligatoriu.")]
+        public string adresa_sediu { get; set; }
+        public bool verificare_email { get; set; } 
+        public Guid cod_activare { get; set; } 
+    }
+
+
     public class ResetPasswordViewModel
     {
         [Required]

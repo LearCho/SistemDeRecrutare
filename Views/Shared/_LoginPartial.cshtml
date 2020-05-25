@@ -86,7 +86,7 @@
                 <button class="dropbtn">
                     @*@Html.ActionLink("Salut, " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
                     Cont
-                    [@User.Identity.GetUserName()]
+                    [@User.Identity.Name]
                 </button>
 
                 <div class="dropdown-content">
@@ -97,7 +97,7 @@
                     </a>
 
                     @* CV*@
-                    <a @*class="nav-link-white"*@ href="#cv" title="Editare CV">
+                    <a href="#cv" title="Editare CV">
                         <img src="~/Content/Img/ist1.png" alt="CV" height="29" width="31" />
                         Editare CV
                     </a>
@@ -111,7 +111,6 @@
 
             @*<ul class="nav navbar-nav navbar-right">*@
                 @*<li class="nav-item"> </li>*@
-                @*<li> </li>*@
             @*</ul>*@
         }
     }

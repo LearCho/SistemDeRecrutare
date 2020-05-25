@@ -22,6 +22,16 @@
       <End Role="utilizator_domeniu_leg" EntitySet="utilizator_domeniu_leg" />
     </AssociationSet>
     <EntitySet Name="jobs" EntityType="DB_recrutareModel.job" />
+    <EntitySet Name="rols" EntityType="DB_recrutareModel.rol" />
+    <AssociationSet Name="FK_utilizator_rol" Association="DB_recrutareModel.FK_utilizator_rol">
+      <End Role="rol" EntitySet="rols" />
+      <End Role="utilizator" EntitySet="utilizators" />
+    </AssociationSet>
+    <EntitySet Name="angajators" EntityType="DB_recrutareModel.angajator" />
+    <AssociationSet Name="FK_angajator_rol" Association="DB_recrutareModel.FK_angajator_rol">
+      <End Role="rol" EntitySet="rols" />
+      <End Role="angajator" EntitySet="angajators" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="domeniu_lucru">
     <Key>
@@ -47,6 +57,8 @@
     <Property Name="cod_activare" Type="Guid" />
     <Property Name="id_utilizator" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <NavigationProperty Name="utilizator_domeniu_leg" Relationship="DB_recrutareModel.FK_utilizator" FromRole="utilizator" ToRole="utilizator_domeniu_leg" />
+    <Property Name="id_rol" Type="Int32" />
+    <NavigationProperty Name="rol" Relationship="DB_recrutareModel.FK_utilizator_rol" FromRole="utilizator" ToRole="rol" />
   </EntityType>
   <EntityType Name="utilizator_domeniu_leg">
     <Key>
@@ -98,4 +110,55 @@
     <Property Name="tara" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
     <Property Name="oras" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
   </EntityType>
+  <EntityType Name="rol">
+    <Key>
+      <PropertyRef Name="id_rol" />
+    </Key>
+    <Property Name="id_rol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="denumire_rol" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="utilizators" Relationship="DB_recrutareModel.FK_utilizator_rol" FromRole="rol" ToRole="utilizator" />
+    <NavigationProperty Name="angajators" Relationship="DB_recrutareModel.FK_angajator_rol" FromRole="rol" ToRole="angajator" />
+  </EntityType>
+  <Association Name="FK_utilizator_rol">
+    <End Type="DB_recrutareModel.rol" Role="rol" Multiplicity="0..1" />
+    <End Type="DB_recrutareModel.utilizator" Role="utilizator" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="rol">
+        <PropertyRef Name="id_rol" />
+      </Principal>
+      <Dependent Role="utilizator">
+        <PropertyRef Name="id_rol" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="angajator">
+    <Key>
+      <PropertyRef Name="id_angajator" />
+    </Key>
+    <Property Name="id_angajator" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="email" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="parola" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="nume_angajator" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="telefon" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+    <Property Name="verificare_email" Type="Boolean" Nullable="false" />
+    <Property Name="cod_activare" Type="Guid" />
+    <Property Name="nr_ordine_registru_comert" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="oras_sediu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="tara_sediu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="adresa_sediu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="id_rol" Type="Int32" />
+    <NavigationProperty Name="rol" Relationship="DB_recrutareModel.FK_angajator_rol" FromRole="angajator" ToRole="rol" />
+  </EntityType>
+  <Association Name="FK_angajator_rol">
+    <End Type="DB_recrutareModel.rol" Role="rol" Multiplicity="0..1" />
+    <End Type="DB_recrutareModel.angajator" Role="angajator" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="rol">
+        <PropertyRef Name="id_rol" />
+      </Principal>
+      <Dependent Role="angajator">
+        <PropertyRef Name="id_rol" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

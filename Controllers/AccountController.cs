@@ -61,7 +61,7 @@ namespace SistemRecrutare.Controllers
         }
 
 
-        // ------------ Inregistrare Utilizator ---------- //
+        // ------------ Inregistrare Utilizatori ---------- //
 
         [HttpGet]
         [AllowAnonymous]
@@ -71,36 +71,38 @@ namespace SistemRecrutare.Controllers
         }
 
         [NonAction]   // verificare daca exista deja email-ul
-        public bool existaEmail(string email_id)
+        public bool existaEmail(string email_id, string rol)
         {
             using (DBrecrutare db = new DBrecrutare())
             {
-                //#region caz submit campuri goale: reumplere lista
-                //UtilizatorViewModel user = new UtilizatorViewModel();
+                // caz submit campuri goale: reumplere lista
+                //UtilizatorAngajatViewModel user = new UtilizatorAngajatViewModel();
                 //user.DomeniiSelectateIds = new List<int>();
                 //user.ListaDomenii = new SelectList(db.domeniu_lucru.ToList(),"id_domeniu", "denumire_domeniu");
-                //#endregion
 
-                var exista = db.utilizators.Where(u => u.email == email_id).FirstOrDefault();
-                return exista == null ? false : true;
+                switch (rol)
+                {
+                    case "Angajat":
+                        var exista_id_angajat = db.utilizators.Where(u => u.email == email_id).FirstOrDefault();
+                        return exista_id_angajat == null ? false : true;
+
+                    case "Angajator":
+                        var exista_id_angajator = db.angajators.Where(u => u.email == email_id).FirstOrDefault();
+                        return exista_id_angajator == null ? false : true;
+
+                    default:
+                        return false;
+                }
             }
-
         }
 
-        [NonAction]  // verificare link prin email
-        public void trimiteLinkVerificareEmail(string email_id, string cod_activare)
+        [NonAction]  // trimitere link de verificare prin email
+        public void trimiteLinkVerificareEmail(string email_id, string cod_activare, string rol)
         {
-            var url_verificare = "/Account/VerificareCont/" + cod_activare;
-            var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, url_verificare);
-
             var email_deLa = new MailAddress("sis.rec.utcb@gmail.com", "Sistem Recrutare");
             var email_pentru = new MailAddress(email_id);
             var email_deLa_parola = "licenta2020"; // parola actuala
             string email_titlu = "Contul tau a fost creat cu succes!";
-            string body = "<br/><br/> Bine ai venit pe platforma de joburi! <p>Iti uram spor in " +
-                "cautarea celui mai potrivit loc de munca pentru tine! Inca un pas si te poti apuca " +
-                "de treaba :)</p> <p> Te rugam sa dai click pe link-ul urmator pentru a finaliza inregistrarea : " +
-                "<br/><a href = '" + link + "'>" + link + "</a> ";
 
             var smtp = new SmtpClient
             {
@@ -112,13 +114,48 @@ namespace SistemRecrutare.Controllers
                 Credentials = new NetworkCredential(email_deLa.Address, email_deLa_parola)
             };
 
-            using (var mesaj = new MailMessage(email_deLa, email_pentru)
-            {
-                Subject = email_titlu,
-                Body = body,
-                IsBodyHtml = true
-            })
-                smtp.Send(mesaj);
+            switch (rol) 
+            { 
+                case "Angajat":
+                    var url_verificare_angajat = "/Account/VerificareCont/" + cod_activare;
+                    var link_angajat = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, url_verificare_angajat);
+
+                    string body_angajat = "<br/><br/> Bine ai venit pe platforma de joburi! <p> Speram ca serviciile noastre sa " +
+                         "te ajute in cautarea celui mai potrivit loc de munca pentru tine! Inca un pas si te poti apuca de" +
+                         " treaba. <p> Te rugam sa dai click pe link-ul urmator pentru a finaliza inregistrarea : </p>" +
+                         "<br/><a href = '" + link_angajat + "'>" + link_angajat + "</a> ";
+
+                    using (var mesaj_angajat = new MailMessage(email_deLa, email_pentru)
+                    {
+                        Subject = email_titlu,
+                        Body = body_angajat,
+                        IsBodyHtml = true
+                    })
+                        smtp.Send(mesaj_angajat);
+                    break;
+
+                case "Angajator":
+                    var url_verificare_angajator = "/Account/VerificareContAngajator/" + cod_activare;
+                    var link_angajator = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, url_verificare_angajator);
+
+                    string body_angajator = "<br/><br/> Bine ai venit pe platforma de joburi! <p> Iti dorim sa ai o " +
+                       "experienta placuta si speram ca serviciile noastre sa te ajute sa gasesti candidatii cei mai potriviti " +
+                       "pentru rolurile din compania ta! Inca un pas si iti poti completa profilul companiei tale! </p>" +
+                       "<p> Te rugam sa dai click pe link-ul urmator pentru a finaliza inregistrarea :</p> <br/><a href = '" + link_angajator + 
+                       "'>" + link_angajator + "</a> ";
+
+                    using (var mesaj_angajator = new MailMessage(email_deLa, email_pentru)
+                    {
+                        Subject = email_titlu,
+                        Body = body_angajator,
+                        IsBodyHtml = true
+                    })
+                        smtp.Send(mesaj_angajator);
+                    break;
+
+                default: break;
+            }
+          
             ViewBag.Message = "\tUn mesaj de confirmare ti-a fost trimis pe email, la adresa " + email_pentru;
         }
 
@@ -128,7 +165,7 @@ namespace SistemRecrutare.Controllers
         [AllowAnonymous]
         public ActionResult ContNouAngajat()
         {
-            UtilizatorViewModel u = new UtilizatorViewModel();
+            UtilizatorAngajatViewModel u = new UtilizatorAngajatViewModel();
 
             using (DBrecrutare db = new DBrecrutare())
             {
@@ -145,7 +182,7 @@ namespace SistemRecrutare.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult ContNouAngajat([Bind(Exclude = "verificare_email, cod_activare")] Models.UtilizatorViewModel cont_user)
+        public ActionResult ContNouAngajat([Bind(Exclude = "verificare_email, cod_activare")] Models.UtilizatorAngajatViewModel cont_angajat)
         {
             bool status = false; // status & message merg in viewBag
             string message = "";
@@ -153,48 +190,49 @@ namespace SistemRecrutare.Controllers
             if (ModelState.IsValid) // validare model
             {
                 #region --- verificare email deja existent ---
-                if (existaEmail(cont_user.Utilizator.email) == true)
+                if (existaEmail(cont_angajat.Utilizator.email, "Angajat") == true)
                 {
                     ModelState.AddModelError("ExistaEmail", "Adresa de e-mail introdusa exista deja");
                     // caz submit campuri goale: reumplere lista
                     using (DBrecrutare db = new DBrecrutare())
                     {
-                        cont_user.DomeniiSelectateIds = new List<int>();
-                        cont_user.ListaDomenii = new SelectList(db.domeniu_lucru.ToList(),
+                        cont_angajat.DomeniiSelectateIds = new List<int>();
+                        cont_angajat.ListaDomenii = new SelectList(db.domeniu_lucru.ToList(),
                             "id_domeniu", "denumire_domeniu");
                     }
-                    return View(cont_user);
+                    return View(cont_angajat);
                 }
                 #endregion
 
                 #region --- cod de activare ---
-                cont_user.Utilizator.cod_activare = Guid.NewGuid();
+                cont_angajat.Utilizator.cod_activare = Guid.NewGuid();
                 #endregion
 
                 #region --- hashing parola si hashing confirma parola ---
-                cont_user.Utilizator.parola = CriptareParola.Hash(cont_user.Utilizator.parola);
-                cont_user.Utilizator.confirma_parola = CriptareParola.Hash(cont_user.Utilizator.confirma_parola);
+                cont_angajat.Utilizator.parola = CriptareParola.Hash(cont_angajat.Utilizator.parola);
+                cont_angajat.Utilizator.confirma_parola = CriptareParola.Hash(cont_angajat.Utilizator.confirma_parola);
                 #endregion
-                cont_user.Utilizator.verificare_email = false;
+                cont_angajat.Utilizator.verificare_email = false;
+                cont_angajat.Utilizator.id_rol = 2;
 
                 #region --- salvare in baza de date ---
                 using (DBrecrutare db = new DBrecrutare())
                 {
-                    db.utilizators.Add(cont_user.Utilizator);
+                    db.utilizators.Add(cont_angajat.Utilizator);
                     db.SaveChanges();
 
-                    if (cont_user.Utilizator == null)
+                    if (cont_angajat.Utilizator == null)
                     {
                         return View("ContNouAngajat");
                     }
 
-                    if (cont_user.Utilizator != null && cont_user.DomeniiSelectateIds != null)
+                    if (cont_angajat.Utilizator != null && cont_angajat.DomeniiSelectateIds != null)
                     {
-                        foreach (var id_selectat in cont_user.DomeniiSelectateIds) //
+                        foreach (var id_selectat in cont_angajat.DomeniiSelectateIds) //
                         {
                             db.utilizator_domeniu_leg.Add(new utilizator_domeniu_leg
                             {
-                                id_utilizator = cont_user.Utilizator.id_utilizator,
+                                id_utilizator = cont_angajat.Utilizator.id_utilizator,
                                 id_domeniu = id_selectat
                             });
                         }
@@ -203,7 +241,7 @@ namespace SistemRecrutare.Controllers
                     {
                         db.utilizator_domeniu_leg.Add(new utilizator_domeniu_leg
                         {
-                            id_utilizator = cont_user.Utilizator.id_utilizator,
+                            id_utilizator = cont_angajat.Utilizator.id_utilizator,
                             id_domeniu = 9 //Altele
                         });
                     }
@@ -211,9 +249,10 @@ namespace SistemRecrutare.Controllers
                     db.SaveChanges();
 
                     // trimitere email catre utilizator
-                    trimiteLinkVerificareEmail(cont_user.Utilizator.email, cont_user.Utilizator.cod_activare.ToString());
+                    trimiteLinkVerificareEmail(cont_angajat.Utilizator.email, cont_angajat.Utilizator.cod_activare.ToString(),
+                        "Angajat");
                     message = "Inregistrarea a fost efectuata cu succes. Un link de activare " +
-                        "ti-a fost trimis pe email, la adresa " + cont_user.Utilizator.email;
+                        "ti-a fost trimis pe email, la adresa " + cont_angajat.Utilizator.email;
                     status = true;
                 }
                 #endregion
@@ -228,17 +267,85 @@ namespace SistemRecrutare.Controllers
             // caz submit campuri goale: reumplere lista
             using (DBrecrutare db = new DBrecrutare())
             {
-                cont_user.DomeniiSelectateIds = new List<int>();
-                cont_user.ListaDomenii = new SelectList(db.domeniu_lucru.ToList(),
+                cont_angajat.DomeniiSelectateIds = new List<int>();
+                cont_angajat.ListaDomenii = new SelectList(db.domeniu_lucru.ToList(),
                     "id_domeniu", "denumire_domeniu");
 
             }
-            return View(cont_user);
+            return View(cont_angajat);
         }
 
+        // GET: /Account/ContNouAngajator
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult ContNouAngajator()
+        {
+            return View();
+        }
 
-        // --------- Verificare cod_activare din email pentru cont --------
-        // GET: /Account/VerificareCont
+        // POST: /Account/ContNouAngajator
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ContNouAngajator([Bind(Exclude = "verificare_email, cod_activare")] Models.angajator cont_angajator)
+        {
+            bool status = false; // status & message merg in viewBag
+            string message = "";
+
+            if (ModelState.IsValid) // validare model
+            {
+                #region --- verificare email deja existent ---
+                if (existaEmail(cont_angajator.email, "Angajator") == true)
+                {
+                    ModelState.AddModelError("ExistaEmail", "Adresa de e-mail introdusa exista deja");
+                    return View(cont_angajator);
+                }
+                #endregion
+
+                #region --- cod de activare ---
+                cont_angajator.cod_activare = Guid.NewGuid();
+                #endregion
+
+                #region --- hashing parola si hashing confirma parola ---
+                cont_angajator.parola = CriptareParola.Hash(cont_angajator.parola);
+                cont_angajator.confirma_parola = CriptareParola.Hash(cont_angajator.confirma_parola);
+                #endregion
+                cont_angajator.verificare_email = false;
+                cont_angajator.id_rol = 3;
+
+                #region --- salvare in baza de date ---
+                using (DBrecrutare db = new DBrecrutare())
+                {
+                    db.angajators.Add(cont_angajator);
+                    db.SaveChanges();
+
+                    if (cont_angajator == null)
+                    {
+                        return View("ContNouAngajator");
+                    }
+
+                    db.SaveChanges();
+
+                    // trimitere email catre angajator
+                    trimiteLinkVerificareEmail(cont_angajator.email, cont_angajator.cod_activare.ToString(), "Angajator");
+                    message = "Inregistrarea a fost efectuata cu succes. Un link de activare v-a fost trimis pe email, " +
+                        "la adresa " + cont_angajator.email;
+                    status = true;
+                }
+                #endregion
+            }
+
+            else
+                message = "Cererea nu a putut fi efectuata";
+
+            ViewBag.Mesage = message;
+            ViewBag.Status = status;
+
+            return View(cont_angajator);
+        }
+
+        // --------- Verificare cod_activare din email pentru autentificare --------
+        // GET: /Account/VerificareCont  (Angajat)
         [HttpGet]
         [AllowAnonymous]
         public ActionResult VerificareCont(string id)
@@ -256,17 +363,42 @@ namespace SistemRecrutare.Controllers
                 }
                 else
                 {
-                    ViewBag.Message = "Eroare - Cererea nu a putut fi efectuata";
+                    ViewBag.Message = " Cererea nu a putut fi efectuata";
                 }
             }
             ViewBag.Status = Status;
             return View();
         }
 
-        // -------------- Logare Utilizator -------------
+        // GET: /Account/VerificareContAngajator
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult IntraInCont()
+        public ActionResult VerificareContAngajator(string id)
+        {
+            bool Status = false;
+            using (DBrecrutare db = new DBrecrutare())
+            {
+                db.Configuration.ValidateOnSaveEnabled = false;
+                var angajator = db.angajators.Where(u => u.cod_activare == new Guid(id)).FirstOrDefault();
+                if (angajator != null)
+                {
+                    angajator.verificare_email = true;
+                    db.SaveChanges();
+                    Status = true;
+                }
+                else
+                {
+                    ViewBag.Message = " Cererea nu a putut fi efectuata";
+                }
+            }
+            ViewBag.Status = Status;
+            return View();
+        }
+
+        // -------------- Logare Utilizatori -------------
+        [HttpGet] 
+        [AllowAnonymous]
+        public ActionResult IntraInCont() 
         {
             return View();
         }
@@ -322,16 +454,67 @@ namespace SistemRecrutare.Controllers
                 else { mesaj = "Datele nu sunt valide!"; }
             }
             ViewBag.Message = mesaj;
-            return View(/*logare*/);
+            return View();
+        }
+
+        //GET: /Account/IntraInContAngajator
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult IntraInContAngajator(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+
+            return View();
+        }
+
+        // POST: /Account/IntraInContAngajator
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult IntraInContAngajator(Logare logare, string ReturnUrl)
+        {
+            string mesaj = "";
+            using (DBrecrutare db = new DBrecrutare())
+            {
+                var angajator = db.angajators.Where(u => u.email == logare.Email).FirstOrDefault();
+                if (angajator != null)
+                {
+                    if (string.Compare(CriptareParola.Hash(logare.Parola),
+                        angajator.parola) == 0)
+                    {
+                        int sesiune = logare.TineMinte ? 525600 : 20; //525600 min = 1 an
+                        var ticket = new FormsAuthenticationTicket(logare.Email, logare.TineMinte,
+                            sesiune);
+                        string encriptare = FormsAuthentication.Encrypt(ticket);
+                        var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encriptare);
+                        cookie.Expires = DateTime.Now.AddMinutes(sesiune);
+                        cookie.HttpOnly = true;
+                        Response.Cookies.Add(cookie);
+
+                        if (Url.IsLocalUrl(ReturnUrl))
+                        {
+                            return Redirect(ReturnUrl);
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("ParolaInvalida", "\tParola nu este corecta");
+                    }
+                }
+                else { mesaj = "Datele nu sunt valide!"; }
+            }
+            ViewBag.Message = mesaj;
+            return View();
         }
 
         //GET: /Account/Login
         //[AllowAnonymous]
         //public ActionResult Login(string returnUrl)
-        //{
-        //    ViewBag.ReturnUrl = returnUrl;
-        //    return View();
-        //}
+        //{   ViewBag.ReturnUrl = returnUrl; return View();}
 
         // POST: /Account/Login
         //[HttpPost]
@@ -343,7 +526,6 @@ namespace SistemRecrutare.Controllers
         //    {
         //        return View(model);
         //    }
-
         //    var result = await SignInManager.PasswordSignInAsync(model.Email, model.Parola, model.TineMinte, shouldLockout: false);
         //    switch (result)
         //    {
@@ -359,7 +541,7 @@ namespace SistemRecrutare.Controllers
         //            return View(model);
         //    }
         //}
-      
+
         // ------------ Logare: Parola Uitata ------------
         // GET: /Account/ForgotPassword
         //[AllowAnonymous]
@@ -392,7 +574,6 @@ namespace SistemRecrutare.Controllers
         //{
         //    return View();
         //}
-
         //
         // GET: /Account/ResetPassword
         //[AllowAnonymous]
@@ -421,7 +602,7 @@ namespace SistemRecrutare.Controllers
         //{
         //    return View();
         //}
-        
+
 
         // POST: /Account/ExternalLogin
         [HttpPost]
@@ -432,8 +613,7 @@ namespace SistemRecrutare.Controllers
             // Request a redirect to the external login provider
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
-
-        //
+        
         // GET: /Account/ExternalLoginCallback
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
@@ -462,8 +642,7 @@ namespace SistemRecrutare.Controllers
                     return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
             }
         }
-
-        //
+       
         // POST: /Account/ExternalLoginConfirmation
         [HttpPost]
         [AllowAnonymous]

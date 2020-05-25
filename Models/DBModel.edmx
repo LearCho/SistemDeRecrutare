@@ -5,6 +5,23 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="DB_recrutareModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="angajator">
+          <Key>
+            <PropertyRef Name="id_angajator" />
+          </Key>
+          <Property Name="id_angajator" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="email" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="parola" Type="nvarchar(max)" />
+          <Property Name="nume_angajator" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="telefon" Type="varchar" MaxLength="11" />
+          <Property Name="verificare_email" Type="bit" Nullable="false" />
+          <Property Name="cod_activare" Type="uniqueidentifier" />
+          <Property Name="nr_ordine_registru_comert" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="oras_sediu" Type="nvarchar" MaxLength="50" />
+          <Property Name="tara_sediu" Type="nvarchar" MaxLength="50" />
+          <Property Name="adresa_sediu" Type="nvarchar" MaxLength="50" />
+          <Property Name="id_rol" Type="int" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'DB_sistem_recrutare.dbo.cv' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="cv">
@@ -37,6 +54,13 @@ warning 6002: The table/view 'DB_sistem_recrutare.dbo.cv' does not have a primar
           <Property Name="tara" Type="varchar" MaxLength="32" />
           <Property Name="oras" Type="varchar" MaxLength="32" />
         </EntityType>
+        <EntityType Name="rol">
+          <Key>
+            <PropertyRef Name="id_rol" />
+          </Key>
+          <Property Name="id_rol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="denumire_rol" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="utilizator">
           <Key>
             <PropertyRef Name="id_utilizator" />
@@ -52,6 +76,7 @@ warning 6002: The table/view 'DB_sistem_recrutare.dbo.cv' does not have a primar
           <Property Name="verificare_email" Type="bit" Nullable="false" />
           <Property Name="cod_activare" Type="uniqueidentifier" />
           <Property Name="id_utilizator" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_rol" Type="int" />
         </EntityType>
         <EntityType Name="utilizator_domeniu_leg">
           <Key>
@@ -62,6 +87,18 @@ warning 6002: The table/view 'DB_sistem_recrutare.dbo.cv' does not have a primar
           <Property Name="id_domeniu" Type="int" Nullable="false" />
           <Property Name="camp" Type="varchar" MaxLength="2" />
         </EntityType>
+        <Association Name="FK_angajator_rol">
+          <End Role="rol" Type="Self.rol" Multiplicity="0..1" />
+          <End Role="angajator" Type="Self.angajator" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rol">
+              <PropertyRef Name="id_rol" />
+            </Principal>
+            <Dependent Role="angajator">
+              <PropertyRef Name="id_rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_domeniu">
           <End Role="domeniu_lucru" Type="Self.domeniu_lucru" Multiplicity="1" />
           <End Role="utilizator_domeniu_leg" Type="Self.utilizator_domeniu_leg" Multiplicity="*" />
@@ -86,9 +123,23 @@ warning 6002: The table/view 'DB_sistem_recrutare.dbo.cv' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_utilizator_rol">
+          <End Role="rol" Type="Self.rol" Multiplicity="0..1" />
+          <End Role="utilizator" Type="Self.utilizator" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rol">
+              <PropertyRef Name="id_rol" />
+            </Principal>
+            <Dependent Role="utilizator">
+              <PropertyRef Name="id_rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="DB_recrutareModelStoreContainer">
+          <EntitySet Name="angajator" EntityType="Self.angajator" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="domeniu_lucru" EntityType="Self.domeniu_lucru" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="job" EntityType="Self.job" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rol" EntityType="Self.rol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="utilizator" EntityType="Self.utilizator" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="utilizator_domeniu_leg" EntityType="Self.utilizator_domeniu_leg" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="cv" EntityType="Self.cv" store:Type="Tables" store:Schema="dbo">
@@ -97,6 +148,10 @@ warning 6002: The table/view 'DB_sistem_recrutare.dbo.cv' does not have a primar
     [cv].[cod_cv] AS [cod_cv]
     FROM [dbo].[cv] AS [cv]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK_angajator_rol" Association="Self.FK_angajator_rol">
+            <End Role="rol" EntitySet="rol" />
+            <End Role="angajator" EntitySet="angajator" />
+          </AssociationSet>
           <AssociationSet Name="FK_domeniu" Association="Self.FK_domeniu">
             <End Role="domeniu_lucru" EntitySet="domeniu_lucru" />
             <End Role="utilizator_domeniu_leg" EntitySet="utilizator_domeniu_leg" />
@@ -104,6 +159,10 @@ warning 6002: The table/view 'DB_sistem_recrutare.dbo.cv' does not have a primar
           <AssociationSet Name="FK_utilizator" Association="Self.FK_utilizator">
             <End Role="utilizator" EntitySet="utilizator" />
             <End Role="utilizator_domeniu_leg" EntitySet="utilizator_domeniu_leg" />
+          </AssociationSet>
+          <AssociationSet Name="FK_utilizator_rol" Association="Self.FK_utilizator_rol">
+            <End Role="rol" EntitySet="rol" />
+            <End Role="utilizator" EntitySet="utilizator" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -132,6 +191,16 @@ warning 6002: The table/view 'DB_sistem_recrutare.dbo.cv' does not have a primar
             <End Role="utilizator_domeniu_leg" EntitySet="utilizator_domeniu_leg" />
           </AssociationSet>
           <EntitySet Name="jobs" EntityType="DB_recrutareModel.job" />
+          <EntitySet Name="rols" EntityType="DB_recrutareModel.rol" />
+          <AssociationSet Name="FK_utilizator_rol" Association="DB_recrutareModel.FK_utilizator_rol">
+            <End Role="rol" EntitySet="rols" />
+            <End Role="utilizator" EntitySet="utilizators" />
+          </AssociationSet>
+          <EntitySet Name="angajators" EntityType="DB_recrutareModel.angajator" />
+          <AssociationSet Name="FK_angajator_rol" Association="DB_recrutareModel.FK_angajator_rol">
+            <End Role="rol" EntitySet="rols" />
+            <End Role="angajator" EntitySet="angajators" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="domeniu_lucru">
           <Key>
@@ -157,6 +226,8 @@ warning 6002: The table/view 'DB_sistem_recrutare.dbo.cv' does not have a primar
           <Property Name="cod_activare" Type="Guid" />
           <Property Name="id_utilizator" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="utilizator_domeniu_leg" Relationship="DB_recrutareModel.FK_utilizator" FromRole="utilizator" ToRole="utilizator_domeniu_leg" />
+          <Property Name="id_rol" Type="Int32" />
+          <NavigationProperty Name="rol" Relationship="DB_recrutareModel.FK_utilizator_rol" FromRole="utilizator" ToRole="rol" />
         </EntityType>
         <EntityType Name="utilizator_domeniu_leg">
           <Key>
@@ -208,6 +279,57 @@ warning 6002: The table/view 'DB_sistem_recrutare.dbo.cv' does not have a primar
           <Property Name="tara" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
           <Property Name="oras" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="rol">
+          <Key>
+            <PropertyRef Name="id_rol" />
+          </Key>
+          <Property Name="id_rol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="denumire_rol" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="utilizators" Relationship="DB_recrutareModel.FK_utilizator_rol" FromRole="rol" ToRole="utilizator" />
+          <NavigationProperty Name="angajators" Relationship="DB_recrutareModel.FK_angajator_rol" FromRole="rol" ToRole="angajator" />
+        </EntityType>
+        <Association Name="FK_utilizator_rol">
+          <End Type="DB_recrutareModel.rol" Role="rol" Multiplicity="0..1" />
+          <End Type="DB_recrutareModel.utilizator" Role="utilizator" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rol">
+              <PropertyRef Name="id_rol" />
+            </Principal>
+            <Dependent Role="utilizator">
+              <PropertyRef Name="id_rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="angajator">
+          <Key>
+            <PropertyRef Name="id_angajator" />
+          </Key>
+          <Property Name="id_angajator" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="parola" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="nume_angajator" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="telefon" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="verificare_email" Type="Boolean" Nullable="false" />
+          <Property Name="cod_activare" Type="Guid" />
+          <Property Name="nr_ordine_registru_comert" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="oras_sediu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="tara_sediu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="adresa_sediu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="id_rol" Type="Int32" />
+          <NavigationProperty Name="rol" Relationship="DB_recrutareModel.FK_angajator_rol" FromRole="angajator" ToRole="rol" />
+        </EntityType>
+        <Association Name="FK_angajator_rol">
+          <End Type="DB_recrutareModel.rol" Role="rol" Multiplicity="0..1" />
+          <End Type="DB_recrutareModel.angajator" Role="angajator" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rol">
+              <PropertyRef Name="id_rol" />
+            </Principal>
+            <Dependent Role="angajator">
+              <PropertyRef Name="id_rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -233,6 +355,7 @@ warning 6002: The table/view 'DB_sistem_recrutare.dbo.cv' does not have a primar
           <EntitySetMapping Name="utilizators">
             <EntityTypeMapping TypeName="DB_recrutareModel.utilizator">
               <MappingFragment StoreEntitySet="utilizator">
+                <ScalarProperty Name="id_rol" ColumnName="id_rol" />
                 <ScalarProperty Name="id_utilizator" ColumnName="id_utilizator" />
                 <ScalarProperty Name="cod_activare" ColumnName="cod_activare" />
                 <ScalarProperty Name="verificare_email" ColumnName="verificare_email" />
@@ -269,6 +392,32 @@ warning 6002: The table/view 'DB_sistem_recrutare.dbo.cv' does not have a primar
                 <ScalarProperty Name="cod_job" ColumnName="cod_job" />
                 <ScalarProperty Name="denumire_job" ColumnName="denumire_job" />
                 <ScalarProperty Name="id_job" ColumnName="id_job" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rols">
+            <EntityTypeMapping TypeName="DB_recrutareModel.rol">
+              <MappingFragment StoreEntitySet="rol">
+                <ScalarProperty Name="denumire_rol" ColumnName="denumire_rol" />
+                <ScalarProperty Name="id_rol" ColumnName="id_rol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="angajators">
+            <EntityTypeMapping TypeName="DB_recrutareModel.angajator">
+              <MappingFragment StoreEntitySet="angajator">
+                <ScalarProperty Name="id_rol" ColumnName="id_rol" />
+                <ScalarProperty Name="adresa_sediu" ColumnName="adresa_sediu" />
+                <ScalarProperty Name="tara_sediu" ColumnName="tara_sediu" />
+                <ScalarProperty Name="oras_sediu" ColumnName="oras_sediu" />
+                <ScalarProperty Name="nr_ordine_registru_comert" ColumnName="nr_ordine_registru_comert" />
+                <ScalarProperty Name="cod_activare" ColumnName="cod_activare" />
+                <ScalarProperty Name="verificare_email" ColumnName="verificare_email" />
+                <ScalarProperty Name="telefon" ColumnName="telefon" />
+                <ScalarProperty Name="nume_angajator" ColumnName="nume_angajator" />
+                <ScalarProperty Name="parola" ColumnName="parola" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="id_angajator" ColumnName="id_angajator" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

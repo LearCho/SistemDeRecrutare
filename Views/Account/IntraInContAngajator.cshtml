@@ -5,16 +5,16 @@
 }
 
 <div class="row" style="background-color:white">
-    
+
     <div style="text-align:center;">
         <br /><br />
         <h2 class="titlu">@ViewBag.Title</h2>
     </div>
-    
+
     <div class="col-md-8">
 
         <section id="loginForm">
-            @using (Html.BeginForm("IntraInContAngajat", "Account",  new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            @using (Html.BeginForm("IntraInContAngajator", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
                 @Html.AntiForgeryToken()
                 <hr />
@@ -66,12 +66,12 @@
                     <br />
                     @* Spre Cont Nou *@
                     <p style="margin-left: 62%;">
-                        @Html.ActionLink("Inregistreaza un cont nou", "ContNouAngajat", new { ReturnUrl = Request.RawUrl }, null)
+                        @Html.ActionLink("Inregistreaza un cont nou", "ContNouAngajator", new { ReturnUrl = Request.RawUrl }, null)
                     </p>
 
                     @*  password reset functionality
-                   <p> @Html.ActionLink("Ti-ai uitat parola?", "ForgotPassword") </p>*@
-                </div>           
+                        <p> @Html.ActionLink("Ti-ai uitat parola?", "ForgotPassword") </p>*@
+                </div>
             }
         </section>
     </div>
@@ -111,7 +111,7 @@
         position: relative;
         margin-top: 1%;
         margin-left: 62%;
-        display:inline-block;
+        display: inline-block;
         margin-bottom: 2%;
         font-family: 'Berlin Sans FB';
         background-color: white;

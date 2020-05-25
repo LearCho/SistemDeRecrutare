@@ -5,13 +5,17 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="8d85cabc15774036b55bcc0dd62788b4" Name="Diagram1">
-        <EntityTypeShape EntityType="DB_recrutareModel.cv" Width="1.5" PointX="4" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_recrutareModel.cv" Width="1.5" PointX="3.75" PointY="6" IsExpanded="true" />
         <EntityTypeShape EntityType="DB_recrutareModel.domeniu_lucru" Width="1.5" PointX="2.75" PointY="0.5" />
         <EntityTypeShape EntityType="DB_recrutareModel.utilizator" Width="1.5" PointX="0.5" PointY="0.5" />
-        <EntityTypeShape EntityType="DB_recrutareModel.utilizator_domeniu_leg" Width="1.5" PointX="2.25" PointY="3.75" />
+        <EntityTypeShape EntityType="DB_recrutareModel.utilizator_domeniu_leg" Width="1.5" PointX="2.875" PointY="3.125" IsExpanded="true" />
         <AssociationConnector Association="DB_recrutareModel.FK_domeniu" />
         <AssociationConnector Association="DB_recrutareModel.FK_utilizator" />
-        <EntityTypeShape EntityType="DB_recrutareModel.job" Width="1.5" PointX="6.125" PointY="4.625" />
+        <EntityTypeShape EntityType="DB_recrutareModel.job" Width="1.5" PointX="5.25" PointY="2.375" />
+        <EntityTypeShape EntityType="DB_recrutareModel.rol" Width="1.5" PointX="0.5" PointY="5.625" />
+        <AssociationConnector Association="DB_recrutareModel.FK_utilizator_rol" />
+        <EntityTypeShape EntityType="DB_recrutareModel.angajator" Width="1.5" PointX="7.5" PointY="0.5" />
+        <AssociationConnector Association="DB_recrutareModel.FK_angajator_rol" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

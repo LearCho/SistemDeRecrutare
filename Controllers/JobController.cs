@@ -64,6 +64,7 @@ namespace SistemRecrutare.Controllers
 
         // GET: Job/Creare
         [HttpGet]
+        [Authorize(Roles = "Admin, Angajator")]
         public ActionResult Creare()
         {          
             return View(new SistemRecrutare.Models.JobModel());
@@ -71,6 +72,7 @@ namespace SistemRecrutare.Controllers
 
         // POST: Job/Creare
         [HttpPost]
+        [Authorize(Roles = "Admin, Angajator")]
         public ActionResult Creare(Models.JobModel jobModel)
         {
             try

@@ -1,6 +1,6 @@
 ﻿@using SistemRecrutare.Models
 
-@model UtilizatorViewModel
+@model UtilizatorAngajatViewModel
 
 @{
     ViewBag.Title = "Cont nou";
@@ -15,10 +15,12 @@
 <script type="text/javascript" src="~/Scripts/chosen.jquery.min.js"></script>
 
 
-<div class="row" style="background-color:white">
-    <br /><br />
-    <h2 class="titlu" style="margin-left: 47%;">@ViewBag.Title</h2>
-
+<div class="row" style="background-color:white;">
+    <div text-align:center;">
+        <br /><br />
+        <h2 class="titlu" style="">@ViewBag.Title</h2>
+    </div>
+   
     @* inregistrare efectuata cu succes - mesaj *@
     @if (ViewBag.Status != null && Convert.ToBoolean(ViewBag.Status) == true)
     {
@@ -38,8 +40,12 @@
         using (Html.BeginForm("ContNouAngajat", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
             @Html.AntiForgeryToken()
-            <h4 class="subtitlu">Inregistreaza-te pentru a incepe sa creezi un CV</h4>
-            <hr />
+
+            <div style="text-align:center;">
+                <h4 class="subtitlu">Inregistreaza-te pentru a incepe sa-ti creezi un CV</h4>
+                <hr />
+                <h4 class="subtitlu" style="font-weight:bold; color:darkslategrey; opacity:0.75;">Date pentru autentificare pe site</h4>
+            </div>
 
             <div class="aliniament-cp">
                 @* E-mail *@
@@ -72,6 +78,11 @@
                     </div>
                 </div>
 
+                <div style="text-align:center;">
+                    <hr />
+                    <h4 class="subtitlu" style="font-weight:bold; color:darkslategrey; opacity:0.75;">Detalii profil</h4>
+                </div>
+                
                 @* Prenume *@
                 <div class="form-group">
                     @Html.LabelFor(m => m.Utilizator.prenume_utilizator, new { @class = "col-md-5 control-label" })
@@ -112,7 +123,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.Utilizator.data_nasterii, new { @class = "col-md-5 control-label" })
                     <div class="col-md-7">
-                        @Html.EditorFor(m => m.Utilizator.data_nasterii, new { placeholder = "Data Nasterii", @class = "form-control" })
+                        @Html.EditorFor(m => m.Utilizator.data_nasterii, new { htmlAttributes = new { placeholder = "Data Nasterii", @style = "width:290px;", @class = "form-control" } })
                         <p></p>
                         @Html.ValidationMessageFor(m => m.Utilizator.data_nasterii, "", new { @class = "text-danger" })
                     </div>
@@ -134,7 +145,7 @@
                         @if (Model.ListaDomenii != null)
                         {
                             @*<select asp-for="DomeniiSelectateIds" class="form-control chosen-select" asp-items="Model.ListaDomenii" multiple>
-                                </select>*@
+                    </select>*@
                             @Html.DropDownList("DomeniiSelectateIds", Model.ListaDomenii, new { @class = "col-md-5 control-label chosen-select", multiple = "" })
                             <div style="font-size:smaller">Te rugam sa selectezi cel putin un domeniu</div>
                         }
@@ -148,7 +159,7 @@
             </div>
 
             @* Creare Cont *@
-            <div class="form-group">
+            <div class="form-group" style="margin-right:1%;">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" class="btn btn-default button" value="Creeaza cont" />
                 </div>
@@ -166,8 +177,8 @@
     }
 
     @* spre Login *@
-    <div style="margin-left: 49%; padding-bottom: 30px;">
-        @Html.ActionLink("Intra in Cont", "IntraInContAngajat", "Account")
+    <div style="text-align:center; padding-bottom: 30px;">
+        @Html.ActionLink("Ai deja un cont? Conecteaza-te.", "IntraInContAngajat", "Account", null, new { @class = "btn" })
     </div>
 </div>
 
@@ -180,14 +191,16 @@
 @*-----------------------------------css---------------------------------*@
 <style type="text/css">
     .titlu {
-        margin-left: 49%;
+        margin-left: 46%;
+        display:inline-block;
         margin-bottom: 2%;
         font-family: 'Calibri';
         font-weight: bold;
     }
 
     .subtitlu {
-        margin-left: 37%;
+        /*margin-left: 37%;*/
+        display:inline-block;
         margin-bottom: 2%;
         font-family: 'Calibri';
     }
@@ -200,6 +213,10 @@
         font-family: 'Berlin Sans FB';
         background-color: white;
         color: darkcyan;
+    }
+
+    .btn{
+        display: inline-block;
     }
 
     /*aliniament-cp {

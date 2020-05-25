@@ -218,6 +218,9 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\angajator.cs">
+      <DependentUpon>DBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\cv.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
@@ -246,12 +249,16 @@
     </Compile>
     <Compile Include="Models\JobModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\rol.cs">
+      <DependentUpon>DBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\utilizator.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\utilizator_domeniu_leg.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="MyRoleProvider\SiteRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -378,8 +385,10 @@
     <Content Include="Views\Account\ContNouAngajator.cshtml" />
     <Content Include="Views\Account\VerificareCont.cshtml" />
     <Content Include="Views\Account\IntraInContAngajat.cshtml" />
-    <Content Include="Views\UtilizatorLogat\HomeUtilizatorLogat.cshtml" />
+    <Content Include="UtilizatorLogat\HomeUtilizatorLogat.cshtml" />
     <Content Include="Views\Account\IntraInCont.cshtml" />
+    <Content Include="Views\Account\VerificareContAngajator.cshtml" />
+    <Content Include="Views\Account\IntraInContAngajator.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

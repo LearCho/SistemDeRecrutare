@@ -49,7 +49,10 @@ namespace SistemRecrutare.FisiereCareSePierdLaAutoRegenerare
 //        public virtual DbSet<cv> cvs { get; set; }
 //        public virtual DbSet<domeniu_lucru> domeniu_lucru { get; set; }
 //        public virtual DbSet<utilizator> utilizators { get; set; }
+//        public virtual DbSet<rol> rols { get; set; }
 //        public virtual DbSet<utilizator_domeniu_leg> utilizator_domeniu_leg { get; set; }
+//        public virtual DbSet<angajator> angajators { get; set; }
+
 //    }
 //}
 
@@ -104,7 +107,9 @@ namespace SistemRecrutare.FisiereCareSePierdLaAutoRegenerare
 //        public virtual DbSet<cv> cvs { get; set; }
 //        public virtual DbSet<domeniu_lucru> domeniu_lucru { get; set; }
 //        public virtual DbSet<utilizator> utilizators { get; set; }
+//        public virtual DbSet<rol> rols { get; set; }
 //        public virtual DbSet<utilizator_domeniu_leg> utilizator_domeniu_leg { get; set; }
+//        public virtual DbSet<angajator> angajators { get; set; }
 //    }
 //}
 
@@ -159,7 +164,9 @@ namespace SistemRecrutare.FisiereCareSePierdLaAutoRegenerare
 //        public virtual DbSet<cv> cvs { get; set; }
 //        public virtual DbSet<domeniu_lucru> domeniu_lucru { get; set; }
 //        public virtual DbSet<utilizator> utilizators { get; set; }
+//        public virtual DbSet<rol> rols { get; set; }
 //        public virtual DbSet<utilizator_domeniu_leg> utilizator_domeniu_leg { get; set; }
+//        public virtual DbSet<angajator> angajators { get; set; }
 //    }
 //}
 

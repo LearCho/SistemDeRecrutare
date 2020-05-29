@@ -11,21 +11,16 @@
             <img src="~/Content/Img/front1.png" alt="platforma-job" height="600" width="1295">
             <div class="text-on-img">
                 <h1>Aplica la jobul mult visat</h1>
-                <h3>
-                    Gaseste locul de munca potrivit pentru tine in anunturile
-                    postate de angajatori
-                </h3>
+                <h3>Gaseste locul de munca potrivit pentru tine in anunturile postate de angajatori</h3>
                 @* Cauta Job *@
-                <input type="text" name="search" placeholder="Cuvinte cheie">
+                @*<input type="text" name="search" placeholder="Cuvinte cheie">*@
             </div>
         </div>
 
         <div class="jumbotron">
             <div class="row">
-                <div class="col-md-10">
-                </div>
+                <div class="col-md-10"></div>
             </div>
-            <p class="lead"> </p>
 
             @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
@@ -90,7 +85,7 @@
     }
 
     @* search *@
-    input[type=text] {
+    /*input[type=text] {
         width: 180px;
         height: 5px;
         box-sizing: border-box;
@@ -104,10 +99,10 @@
         padding: 12px 20px 12px 40px;
         -webkit-transition: width 0.4s ease-in-out;
         transition: width 0.4s ease-in-out;
-    }
+    }*/
 
-    input[type=text]:focus {
+    /*input[type=text]:focus {
         width: 100%;
-}
+}*/
 
 </style>

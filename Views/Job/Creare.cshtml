@@ -35,7 +35,7 @@
     <div class="row">
         <div class="col-md-5"></div>
         <div class="col-md-5">
-            <h4 style="font-family:'Comic Sans MS'">Adaugati in lista de joburi</h4>
+            <h4 style="font-family:'Calibri'">Adaugati in lista de joburi</h4>
         </div>
     </div>
 
@@ -76,21 +76,21 @@
 
                 @* Data Creare *@
                 <div class="form-group">
-                    @Html.LabelFor(model => model.data_creare, new { @class = "col-md-2 control-label" })
+                    @Html.LabelFor(model => model.data_creare_job, new { @class = "col-md-2 control-label" })
                     <div class="col-md-7">
-                        @Html.EditorFor(model => model.data_creare, new { placeholder = "Data Creare", @class = "form-control" })
+                        @Html.EditorFor(model => model.data_creare_job, new { placeholder = "Data Creare", @class = "form-control" })
                         <p></p>
-                        @Html.ValidationMessageFor(model => model.data_creare, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.data_creare_job, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 @* Data Expirare *@
                 <div class="form-group">
-                    @Html.LabelFor(model => model.data_expirare, new { @class = "col-md-2 control-label" })
+                    @Html.LabelFor(model => model.data_expirare_job, new { @class = "col-md-2 control-label" })
                     <div class="col-md-7">
-                        @Html.EditorFor(model => model.data_expirare, new { placeholder = "Data Expirare", @class = "form-control" })
+                        @Html.EditorFor(model => model.data_expirare_job, new { placeholder = "Data Expirare", @class = "form-control" })
                         <p></p>
-                        @Html.ValidationMessageFor(model => model.data_expirare, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.data_expirare_job, "", new { @class = "text-danger" })
                     </div>
                 </div>
 

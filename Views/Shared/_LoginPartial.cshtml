@@ -1,4 +1,7 @@
-﻿
+﻿@*@using SistemRecrutare.Models
+@model UtilizatorAngajatViewModel*@
+
+
 <head>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -87,30 +90,30 @@
                     @*@Html.ActionLink("Salut, " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
                     Cont
                     [@User.Identity.Name]
-                </button>
 
-                <div class="dropdown-content">
-                    @* Profil Utilizator*@
-                    <a @*class="nav-link-white" data-toggle="tab"*@ href="#profile" title="Profil">
-                        <img src="~/Content/Img/profile1.png" alt="Profil" height="29" width="30" />
-                        Profil
-                    </a>
 
-                    @* CV*@
-                    <a href="#cv" title="Editare CV">
-                        <img src="~/Content/Img/ist1.png" alt="CV" height="29" width="31" />
-                        Editare CV
-                    </a>
+                    <div class="dropdown-content">
+                        @* Profil Utilizator*@
+                        <a @*class="nav-link-white" data-toggle="tab"*@ href="#profile" title="Profil">
+                            <img src="~/Content/Img/profile1.png" alt="Profil" height="29" width="30" />
+                            Profil
+                        </a>
+
+                        @* CV*@
+                        <a href="#cv" title="Editare CV">
+                            <img src="~/Content/Img/ist1.png" alt="CV" height="29" width="31" />
+                            Editare CV
+                        </a>
 
                         @*Iesi din Cont*@
                         <a href="javascript:document.getElementById('logoutForm').submit()">
-                         Iesi din Cont
-                        </a>                  
-                </div>
-            </div>
+                            Iesi din Cont
+                        </a>
+                    </div>
+</div>
 
             @*<ul class="nav navbar-nav navbar-right">*@
-                @*<li class="nav-item"> </li>*@
+            @*<li class="nav-item"> </li>*@
             @*</ul>*@
         }
     }

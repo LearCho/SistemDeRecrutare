@@ -19,11 +19,11 @@ namespace SistemRecrutare.Models
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
 
-        public Nullable<System.DateTime> data_creare { get; set; }
+        public Nullable<System.DateTime> data_creare_job { get; set; }
         [DisplayName("Data expirare(limita)")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-        public Nullable<System.DateTime> data_expirare { get; set; }
+        public Nullable<System.DateTime> data_expirare_job { get; set; }
         [DisplayName("Angajator")]
         public string angajator { get; set; }
         [DisplayName("Tara")]

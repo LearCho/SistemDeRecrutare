@@ -10,7 +10,12 @@
 
     @Scripts.Render("~/bundles/modernizr")
 
-
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     @*--------------------------------------------------------------*@
     @*------------------------------Css-----------------------------*@
@@ -78,6 +83,28 @@
         .nav-link-white {
             color: darkslategrey;
         }
+
+         @* search *@
+      .search-box {
+        position: relative;
+        float: right;
+    }
+
+         .search-box input {
+        height: 34px;
+        border-radius: 20px;
+        padding-left: 35px;
+        border-color: #ddd;
+        box-shadow: none;
+    }
+
+         .search-box i {
+        color: #a0a5b1;
+        position: absolute;
+        font-size: 19px;
+        top: 8px;
+        left: 10px;
+    }
     </style>
     @*--------------------------------------------------------------*@
 </head>
@@ -98,8 +125,8 @@
                     @*Acasa*@
                     <li class="nav-item">
                         @*@Html.ActionLink("Acasa", "Index", "Home")*@
-                        <a class="nav-link-white" href="@Url.Action("Index","Home")" title="Acasă">
-                            <img src="~/Content/Img/home3.png" alt="Acasă" height="29" width="31" />
+                        <a class="nav-link-white" href="@Url.Action("Index","Home")" title="Acasă" style="margin-top: 4px;">
+                            <img src="~/Content/Img/home3.png" alt="Acasă" height="22" width="31" style="margin-bottom: 3px;" />
                             Acasă
                         </a>
                     </li>
@@ -115,27 +142,19 @@
                     <li class="nav-item">
                         @*Pagina Cariera*@
                         <a class="nav-link-white" href="@Url.Action("Cariera","Home")" title="Carieră">
-                            <img src="~/Content/Img/career1.png" alt="Cariera" height="31" width="32" />
+                            <img src="~/Content/Img/career1.png" alt="Carieră" height="31" width="32" />
                             Carieră
                         </a>
                     </li>
 
-                    @*<li class="nav-item">*@
-                        @*Intrare Profil Utilizator*@
-                        @*<a class="nav-link-white" data-toggle="tab" href="#profile" title="Profil">
-                            <img src="~/Content/Img/profile1.png" alt="Profil" height="29" width="30" />
-                            Profil
-                        </a>*@
-                      @*</li>*@
-
-                    @*<li class="nav-item">*@
-                        @*Intrare CV*@
-                        @*<a class="nav-link-white" href="#cv" title="CV">
-                            <img src="~/Content/Img/ist1.png" alt="CV" height="29" width="31" />
-                            CV
-                        </a>*@
-                    @*</li>*@
-                </ul>
+                    <li>
+                        @*Cautare*@
+                        <div class="search-box" style="margin-top: 12px; margin-left:10px;">
+                            <i class="material-icons">&#xE8B6;</i>
+                            @Html.TextBox("val_cautare", null, new { @class = "form-control", @placeholder = "Cauta..." })
+                        </div>
+                    </li>
+                </ul>         
 
                 @*Logare*@
                 @Html.Partial("_LoginPartial")

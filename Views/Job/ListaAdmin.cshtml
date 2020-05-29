@@ -29,7 +29,8 @@
     }
 
     .titlu {
-        margin-left: 40%;
+        /*margin-left: 56%;*/
+        display: inline-block;
         margin-bottom: 2%;
         font-family: Calibri;
         color: darkslategray;
@@ -50,6 +51,7 @@
         border-radius: 4px;
         max-width: 190px;
         text-align: center;
+        opacity: 0.95;
     }
 
     @* imagine job *@
@@ -105,30 +107,31 @@
         </script>
     </head>
 
-<body>
+<body style="background-color:white">
     <div class="row" style="background-color:white">
-        <div class="row" style="background-color:white">
-            <div class="col-md-2" style="padding-top: 110px; padding-left: 30px; padding-bottom: 10px;">
-                <a href="@Url.Action("Creare", "Job")" title="Adauga job">
-                    <img src="~/Content/Img/add2.png" style="width:40px; height:40px" class="adaugare" />
-                </a>
-            </div>
+        @* titlu *@
+        <div style="padding-top: 60px; text-align: center;">
+            <h2 class="titlu">JOBURI - PANOU</h2>
+        </div>
 
-            <div class="col-md-5" style="padding-top: 60px; padding-left: 55px;">
-                <h2 class="titlu">JOBURI - PANOU</h2>
-            </div>
+        @* butoane *@
+    <div class="row" style="padding-top: 20px;">
+        <div @*class="col-md-2"*@ style="margin-left: 66%; margin-bottom: -37px;">
+            <a href="@Url.Action("Creare", "Job")" title="Adauga job">
+                <img src="~/Content/Img/add2.png" style="width:40px; height:40px" class="adaugare" />
+            </a>
+        </div>
 
-            @using (Html.BeginForm("ListaAdmin", "Job", FormMethod.Get))
-            {
-            <div class="col-md-5" style="padding-top: 110px; padding-bottom: 10px;">
+        @using (Html.BeginForm("ListaAdmin", "Job", FormMethod.Get))
+        {
+            <div @*class="col-md-4"*@ style="margin-right: 10%; padding-bottom: 50px;">
                 <div class="search-box">
                     <i class="material-icons">&#xE8B6;</i>
-                    @Html.TextBox("val_cautare", null, new { @class="form-control", @placeholder = "Cauta..." })
-                    @*<input type="submit" class="form-control" value="Cauta">*@
+                    @Html.TextBox("val_cautare", null, new { @class = "form-control", @placeholder = "Cauta..." })
                 </div>
             </div>
-            }
-        </div>
+        }
+    </div>
 
         @* tabel *@
         <div style="overflow-x:auto;" class="row">
@@ -152,7 +155,7 @@
                     @*@for (int i = 0; i < Model.Rows.Count; i++)*@
                     @{int rand = 0;}
 
-                    @if(Model.Count() == 0)
+                    @if (Model.Count() == 0)
                     {
                         <tr>
                             <td colspan="12" style="color:red; padding-left: 20px;">Nu au fost gasite inregistrari</td>

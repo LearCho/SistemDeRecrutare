@@ -435,8 +435,8 @@ namespace SistemRecrutare.Controllers
                         var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encriptare);
                         cookie.Expires = DateTime.Now.AddMinutes(sesiune);
                         cookie.HttpOnly = true;
-                        Response.Cookies.Add(cookie);
-
+                        Response.Cookies.Add(cookie); 
+                        
                         if (Url.IsLocalUrl(ReturnUrl))
                         {
                             return Redirect(ReturnUrl);
@@ -509,6 +509,28 @@ namespace SistemRecrutare.Controllers
             }
             ViewBag.Message = mesaj;
             return View();
+        }
+
+
+        // --- Editare Profil
+        // GET: Account/EditareProfilAngajator/email
+        //[Authorize(Roles = "Angajator")]
+        public ActionResult EditareProfilAngajator(string email, angajator angaj)
+        {
+            try
+            {
+                using (DBrecrutare db = new DBrecrutare()) 
+                {
+                    // angajator angaj = db.angajators.Single(a => a.email == email);
+                    db.Entry(angaj).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                }
+                return RedirectToAction("Index", "Home");
+            }
+            catch 
+            {
+                return View();
+            }
         }
 
         //GET: /Account/Login
@@ -604,8 +626,7 @@ namespace SistemRecrutare.Controllers
         //}
 
 
-        // POST: /Account/ExternalLogin
-        [HttpPost]
+        [HttpPost] // POST: /Account/ExternalLogin
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)

@@ -1,15 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="DB_recrutareModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-  <EntityType Name="cv">
-    <Key>
-      <PropertyRef Name="id_cv" />
-      <PropertyRef Name="cod_cv" />
-    </Key>
-    <Property Name="id_cv" Type="Int32" Nullable="false" />
-    <Property Name="cod_cv" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
-  </EntityType>
   <EntityContainer Name="DBrecrutare" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="cvs" EntityType="Self.cv" />
     <EntitySet Name="domeniu_lucru" EntityType="DB_recrutareModel.domeniu_lucru" />
     <EntitySet Name="utilizators" EntityType="DB_recrutareModel.utilizator" />
     <EntitySet Name="utilizator_domeniu_leg" EntityType="DB_recrutareModel.utilizator_domeniu_leg" />
@@ -32,6 +23,7 @@
       <End Role="rol" EntitySet="rols" />
       <End Role="angajator" EntitySet="angajators" />
     </AssociationSet>
+    <EntitySet Name="cvs" EntityType="DB_recrutareModel.cv" />
   </EntityContainer>
   <EntityType Name="domeniu_lucru">
     <Key>
@@ -161,4 +153,12 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="cv">
+    <Key>
+      <PropertyRef Name="id_cv" />
+    </Key>
+    <Property Name="nume_fisier" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="continut_fisier" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="id_cv" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+  </EntityType>
 </Schema>

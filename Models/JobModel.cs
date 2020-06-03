@@ -12,8 +12,10 @@ namespace SistemRecrutare.Models
         public int nrcrt { get; set; }
         public int id_job { get; set; }
         [DisplayName("Denumire Job")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Denumire Job este obligatoriu.")]
         public string denumire_job {get; set;}
         [DisplayName("Cod")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Cod este obligatoriu.")]
         public string cod_job {get; set;}
         [DisplayName("Data creare")]
         [DataType(DataType.Date)]
@@ -25,12 +27,16 @@ namespace SistemRecrutare.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public Nullable<System.DateTime> data_expirare_job { get; set; }
         [DisplayName("Angajator")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Angajator este obligatoriu.")]
         public string angajator { get; set; }
         [DisplayName("Tara")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Tara este obligatoriu.")]
         public string tara { get; set; }
         [DisplayName("Oras")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Oras este obligatoriu.")]
         public string oras { get; set; }
         [DisplayName("Imagine Descriptiva")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Imagine Descriptiva este obligatoriu.")]
         public byte[] imagine_job { get; set; }
        // public HttpPostedFileBase cale_imagine_job { get; set; }
         [DisplayName("Despre Job")]

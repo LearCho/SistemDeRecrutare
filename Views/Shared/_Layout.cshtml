@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>@ViewBag.Title - Platforma de recrutare</title>
+    <title>@ViewBag.Title - Platformă de recrutare</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/jquery")
 
@@ -112,7 +112,9 @@
 <body class="corp">
     <div class="navbar-new navbar navbar-fixed-top">
         <div class="col-md-2" style="top:-12px; left:-12px; opacity:0.85">
-            <img src="~/Content/Img/acasa.png" alt="Cauta joburi" height="102" width="220">
+            <a class="nav-link-white" href="@Url.Action("Index","Home")" style="margin-top: 4px;">
+                <img src="~/Content/Img/acasa.png" alt="Caută joburi" height="102" width="220">
+            </a>
         </div>
 
         <div class="container">
@@ -148,11 +150,14 @@
                     </li>
 
                     <li>
-                        @*Cautare*@
-                        <div class="search-box" style="margin-top: 12px; margin-left:10px;">
-                            <i class="material-icons">&#xE8B6;</i>
-                            @Html.TextBox("val_cautare", null, new { @class = "form-control", @placeholder = "Cauta..." })
-                        </div>
+                        @using (Html.BeginForm("ListaUtilizatorCauta", "Job", FormMethod.Get))
+                        {
+                            @*Cautare*@
+                            <div class="search-box" style="margin-top: 12px; margin-left:10px;">
+                                <i class="material-icons">&#xE8B6;</i>
+                                @Html.TextBox("val_cautare", null, new { @class = "form-control", @placeholder = "Cauta..." })
+                            </div>
+                        }
                     </li>
                 </ul>         
 

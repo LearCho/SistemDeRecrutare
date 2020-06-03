@@ -1,0 +1,32 @@
+﻿@model IEnumerable<SistemRecrutare.Models.DetaliiCvModel>
+
+@{
+    ViewBag.Title = "DetaliiCV";
+}
+
+    <div style="text-align:center;">
+        <h2 style="display:inline-block; padding-left: 40px;">CV-urile mele</h2>
+    </div>
+
+        <table class="table table-bordered">
+            <tr>
+                <th class="col-md-4">
+                    @Html.DisplayNameFor(model => model.nume_fisier)
+                </th>
+
+                <th class="col-md-2"></th>
+            </tr>
+
+            @foreach (var cv in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => cv.nume_fisier)</td>
+
+                    <td>
+                        @*<a href="@Url.Action("Descarca CV", "DescarcaFisier", new { @id_cv = @cv.id_cv})"></a>*@
+                        @Html.ActionLink("Descarca CV", "DescarcaFisier", new { id_cv = @cv.id_cv })
+                    </td>
+                </tr>
+            }
+        </table>
+   

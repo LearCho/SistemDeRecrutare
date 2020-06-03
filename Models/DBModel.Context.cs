@@ -41,6 +41,5 @@ namespace SistemRecrutare.Models
         public virtual DbSet<rol> rols { get; set; }
         public virtual DbSet<utilizator_domeniu_leg> utilizator_domeniu_leg { get; set; }
         public virtual DbSet<angajator> angajators { get; set; }
-
     }
 }

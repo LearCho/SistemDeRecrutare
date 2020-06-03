@@ -17,15 +17,13 @@
     <Property Name="adresa_sediu" Type="nvarchar" MaxLength="50" />
     <Property Name="id_rol" Type="int" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'DB_sistem_recrutare.dbo.cv' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="cv">
     <Key>
       <PropertyRef Name="id_cv" />
-      <PropertyRef Name="cod_cv" />
     </Key>
-    <Property Name="id_cv" Type="int" Nullable="false" />
-    <Property Name="cod_cv" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="nume_fisier" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="continut_fisier" Type="varbinary(max)" />
+    <Property Name="id_cv" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
   <EntityType Name="domeniu_lucru">
     <Key>
@@ -132,17 +130,12 @@ warning 6002: The table/view 'DB_sistem_recrutare.dbo.cv' does not have a primar
   </Association>
   <EntityContainer Name="DB_recrutareModelStoreContainer">
     <EntitySet Name="angajator" EntityType="Self.angajator" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="cv" EntityType="Self.cv" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="domeniu_lucru" EntityType="Self.domeniu_lucru" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="job" EntityType="Self.job" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="rol" EntityType="Self.rol" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="utilizator" EntityType="Self.utilizator" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="utilizator_domeniu_leg" EntityType="Self.utilizator_domeniu_leg" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="cv" EntityType="Self.cv" store:Type="Tables" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-    [cv].[id_cv] AS [id_cv], 
-    [cv].[cod_cv] AS [cod_cv]
-    FROM [dbo].[cv] AS [cv]</DefiningQuery>
-    </EntitySet>
     <AssociationSet Name="FK_angajator_rol" Association="Self.FK_angajator_rol">
       <End Role="rol" EntitySet="rol" />
       <End Role="angajator" EntitySet="angajator" />

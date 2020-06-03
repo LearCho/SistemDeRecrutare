@@ -46,6 +46,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Dapper.2.0.35\lib\net461\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.4.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -203,6 +206,7 @@
     <Compile Include="App_Start\SqlController.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CVController.cs" />
     <Compile Include="Controllers\Domenii_Lucru_UtilizatorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobController.cs" />
@@ -225,6 +229,7 @@
     <Compile Include="Models\cv.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CVModels.cs" />
     <Compile Include="Models\DBModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -296,12 +301,15 @@
     <Content Include="Content\Img\jobs1.png" />
     <Content Include="Content\Img\jobs2.png" />
     <Content Include="Content\Img\lista.png" />
+    <Content Include="Content\Img\logout1.png" />
+    <Content Include="Content\Img\logout2.png" />
     <Content Include="Content\Img\page-border2.jpg" />
     <Content Include="Content\Img\platform1.jpg" />
     <Content Include="Content\Img\platform2.jpg" />
     <Content Include="Content\Img\platform3.jpg" />
     <Content Include="Content\Img\platform4.jpg" />
     <Content Include="Content\Img\platform5.jpg" />
+    <Content Include="Content\Img\profil2.png" />
     <Content Include="Content\Img\profile1.png" />
     <Content Include="Content\Img\purple1.png" />
     <Content Include="Content\Img\sad-icon.png" />
@@ -392,6 +400,10 @@
     <Content Include="Views\Account\VerificareContAngajator.cshtml" />
     <Content Include="Views\Account\IntraInContAngajator.cshtml" />
     <Content Include="Views\Account\EditareProfilAngajator.cshtml" />
+    <Content Include="Views\Job\ListaUtilizatorCauta.cshtml" />
+    <Content Include="Views\Account\EditareProfilAngajat.cshtml" />
+    <Content Include="Views\CV\IncarcaFisier.cshtml" />
+    <Content Include="Views\CV\DetaliiCV.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

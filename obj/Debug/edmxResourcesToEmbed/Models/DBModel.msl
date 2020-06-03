@@ -1,14 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="DB_recrutareModelStoreContainer" CdmEntityContainer="DBrecrutare">
-    <EntitySetMapping Name="cvs">
-      <EntityTypeMapping TypeName="DB_recrutareModel.cv">
-        <MappingFragment StoreEntitySet="cv">
-          <ScalarProperty Name="id_cv" ColumnName="id_cv" />
-          <ScalarProperty Name="cod_cv" ColumnName="cod_cv" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="domeniu_lucru">
       <EntityTypeMapping TypeName="DB_recrutareModel.domeniu_lucru">
         <MappingFragment StoreEntitySet="domeniu_lucru">
@@ -83,6 +75,15 @@
           <ScalarProperty Name="parola" ColumnName="parola" />
           <ScalarProperty Name="email" ColumnName="email" />
           <ScalarProperty Name="id_angajator" ColumnName="id_angajator" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="cvs">
+      <EntityTypeMapping TypeName="DB_recrutareModel.cv">
+        <MappingFragment StoreEntitySet="cv">
+          <ScalarProperty Name="id_cv" ColumnName="id_cv" />
+          <ScalarProperty Name="continut_fisier" ColumnName="continut_fisier" />
+          <ScalarProperty Name="nume_fisier" ColumnName="nume_fisier" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

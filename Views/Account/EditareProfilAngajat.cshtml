@@ -1,0 +1,157 @@
+﻿@model SistemRecrutare.Models.UtilizatorAngajatViewModel
+
+@{
+    ViewBag.Title = "Profil Angajat";
+}
+
+@* plugin multiselect & chosen jquery *@
+<link rel="stylesheet" href="//cdn.jsdelivr.net/chosen/1.1.0/chosen.css" />
+<link rel="stylesheet" href="~/Content/chosen.min.css" />
+
+<script type="text/javascript" src="//cdn.jsdelivr.net/chosen/1.1.0/chosen.jquery.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="~/Scripts/chosen.jquery.min.js"></script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Profil</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @* ID  *@
+        @*@Html.HiddenFor(model => model.id_utilizator)*@
+
+        @* Parola *@
+        @*<div class="form-group">
+                @Html.LabelFor(m => m.Utilizator.parola, new { @class = "col-md-5 control-label" })
+                <div class="col-md-7">
+                    @Html.EditorFor(m => m.Utilizator.parola, new { placeholder = "Introduceti Parola", @class = "form-control", @disabled = "disabled" })
+                    @Html.ValidationMessageFor(m => m.Utilizator.parola, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        @* Confirmare Parola  *@
+        @*<div class="form-group">
+                @Html.LabelFor(m => m.confirma_parola, new { @class = "col-md-5 control-label" })
+                <div class="col-md-7">
+                    @Html.EditorFor(m => m.confirma_parola, new { placeholder = "Confirmare Parola", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.confirma_parola, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div style="text-align:center;">
+            <hr />
+            <h3 class="subtitlu" style="display:inline-block; font-weight:bold; color:darkslategrey; opacity:0.75;">Editare Profil </h3>
+        </div>
+
+        @* Nume *@
+        <div class="form-group">
+            @Html.LabelFor(m => m.Utilizator.nume_utilizator, new { @class = "col-md-5 control-label" })
+            <div class="col-md-7">
+                @Html.EditorFor(m => m.Utilizator.nume_utilizator, new
+                {
+                    htmlAttributes = new
+                    {@*placeholder = "Nume",*@@class = "form-control"
+}
+})
+                @Html.ValidationMessageFor(m => m.Utilizator.nume_utilizator, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @* Prenume *@
+        <div class="form-group">
+            @Html.LabelFor(m => m.Utilizator.prenume_utilizator, new { @class = "col-md-5 control-label" })
+            <div class="col-md-7">
+                @Html.EditorFor(m => m.Utilizator.prenume_utilizator, new { htmlAttributes = new { placeholder = "Prenume", @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.Utilizator.prenume_utilizator, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @* Email *@
+        <div class="form-group">
+            @Html.LabelFor(model => model.Utilizator.email, htmlAttributes: new { @class = "control-label col-md-5" })
+            <div class="col-md-7">
+                @Html.EditorFor(model => model.Utilizator.email, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.Utilizator.email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @* Telefon *@
+        <div class="form-group">
+            @Html.LabelFor(m => m.Utilizator.telefon, new { @class = "col-md-5 control-label" })
+            <div class="col-md-7">
+                @Html.EditorFor(m => m.Utilizator.telefon, new { htmlAttributes = new { placeholder = "Telefon", @class = "form-control" } })
+                @*@Html.ValidationMessageFor(m => m.telefon, "", new { @class = "text-danger" })*@
+                @Html.ValidationMessage("CampGol", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+        @* Data nasterii *@
+        <div class="form-group">
+            @Html.LabelFor(m => m.Utilizator.data_nasterii, new { @class = "col-md-5 control-label" })
+            <div class="col-md-7">
+                @Html.EditorFor(m => m.Utilizator.data_nasterii, new { htmlAttributes = new { placeholder = "Data nasterii", @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.Utilizator.data_nasterii, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @* Sex *@
+        <div class="form-group">
+            @Html.LabelFor(m => m.Utilizator.sex, new { @class = "col-md-5 control-label" })
+            <div class="col-md-7">
+                @Html.DropDownList("Utilizator.sex", new SelectList(Enum.GetValues(typeof(SistemRecrutare.Models.Sex_Utilizator))), "Alege",
+                new { @class = "form-control" })
+            </div>
+        </div>
+
+        @* Oraș *@
+        <div class="form-group">
+            @Html.LabelFor(m => m.Utilizator.oras, new { @class = "col-md-5 control-label" })
+            <div class="col-md-7">
+                @Html.EditorFor(m => m.Utilizator.oras, new { htmlAttributes = new { placeholder = "Orașul in care locuiti", @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.Utilizator.oras, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @* Domenii de Lucru de Interes*@
+        <div class="form-group">
+            @Html.Label("Domenii de interes*:", new { @class = "col-md-5 control-label" })
+            <div class="col-md-7">
+                @if (Model.ListaDomenii != null)
+                {
+                    @Html.DropDownList("DomeniiSelectateIds", Model.ListaDomenii, new { @class = "col-md-5 control-label chosen-select", multiple = "" })
+                    <div style="font-size:smaller">Te rugam sa selectezi cel putin un domeniu</div>
+                }
+                else
+                {
+                    <div style="color:firebrick">Te rugam sa selecteazi unul sau mai multe domenii</div>
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div style="text-align:center;">
+                <input type="submit" value="Salveaza" class="btn btn-default centralizat" />
+            </div>
+        </div>
+    </div>
+}
+
+<div style="text-align:center;">
+    @Html.ActionLink("Inapoi", "Index", "Home", null, new { htmlAttributes = new { @class = "centralizat" } })
+</div>
+
+<style>
+    .centralizat {
+        display: inline-block;
+    }
+</style>
+
+@* selectare domenii de interes multiple *@
+<script type="text/javascript">
+    $('.chosen-select').chosen();
+</script>

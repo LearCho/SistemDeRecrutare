@@ -24,7 +24,7 @@
         <div class="col-md-1"></div>
         <div class="col-md-9">
             @*@Html.ActionLink("Inapoi la Lista", "ListaAdmin")*@
-            <a href='@Url.Action("ListaAdmin", "Job")'>
+            <a href='@Url.Action("ListaAdmin", "Job", new { @angajator = @HttpContext.Current.Application["Nume"] })'>
                 <img src='@Url.Content("~/Content/Img/back2.png")' width="55" height="55" />
                 <text style="font-family:'Calibri'; font-weight:bold;">Inapoi la Lista</text>
             </a>
@@ -44,10 +44,7 @@
         <div class="col-md-3"></div>
         <div class="col-md-9">
 
-            @using (Html.BeginForm("Creare", "Job", FormMethod.Post, new
-            {
-                enctype = "multipart/form-data"
-            }))
+            @using (Html.BeginForm("Creare", "Job", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
             <div class="form-horizontal">
@@ -78,7 +75,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.data_creare_job, new { @class = "col-md-2 control-label" })
                     <div class="col-md-7">
-                        @Html.EditorFor(model => model.data_creare_job, new { placeholder = "Data Creare", @class = "form-control" })
+                        @Html.EditorFor(model => model.data_creare_job, new { htmlAttributes = new { placeholder = "Data Creare", @style = "width:290px;", @class = "form-control" } })
                         <p></p>
                         @Html.ValidationMessageFor(model => model.data_creare_job, "", new { @class = "text-danger" })
                     </div>
@@ -88,7 +85,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.data_expirare_job, new { @class = "col-md-2 control-label" })
                     <div class="col-md-7">
-                        @Html.EditorFor(model => model.data_expirare_job, new { placeholder = "Data Expirare", @class = "form-control" })
+                        @Html.EditorFor(model => model.data_expirare_job, new { htmlAttributes = new { placeholder = "Data Expirare", @style = "width:290px;", @class = "form-control" } })
                         <p></p>
                         @Html.ValidationMessageFor(model => model.data_expirare_job, "", new { @class = "text-danger" })
                     </div>

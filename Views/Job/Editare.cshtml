@@ -13,7 +13,7 @@
         </div>
         
 
-        @using (Html.BeginForm())
+        @using (Html.BeginForm(@*"Editare", "Job", FormMethod.Post, new { enctype = "multipart/form-data" }*@))
         {
             @Html.AntiForgeryToken()
 
@@ -89,12 +89,12 @@
         </div>
 
         @* Imagine Descriptiva *@
-        <div class="form-group">
-            @Html.LabelFor(model => model.imagine_job, htmlAttributes: new { @class = "control-label col-md-2" })
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.imagine_job, htmlAttributes: new { @class = "control-label col-md-2"})
             <div class="col-md-10">
-                <input type="file" name="imagine" />
-            </div>
-        </div>
+                <input type="file" name="imagine" />*@
+            @*</div>
+        </div>*@
 
         @* Descriere/Despre *@
         <div class="form-group">
@@ -117,3 +117,4 @@
             @Html.ActionLink("Inapoi la Lista", "ListaAdmin")
         </div>
     </div>
+

@@ -42,7 +42,7 @@ namespace SistemRecrutare.Controllers
 
         public ActionResult Joburi()
         {
-            ViewBag.Message = "Gaseste cele mai noi joburi";
+            ViewBag.Message = "Găseste cele mai noi joburi";
 
             return View();
         }

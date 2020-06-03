@@ -428,15 +428,19 @@ namespace SistemRecrutare.Controllers
                     if (string.Compare(CriptareParola.Hash(logare.Parola),
                         utilizator.parola) == 0)
                     {
-                        int sesiune = logare.TineMinte ? 525600 : 20; //525600 min = 1 an
+                        int sesiune = logare.TineMinte ? 525600 : 3; //525600 min = 1 an
                         var ticket = new FormsAuthenticationTicket(logare.Email, logare.TineMinte,
                             sesiune);
                         string encriptare = FormsAuthentication.Encrypt(ticket);
                         var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encriptare);
                         cookie.Expires = DateTime.Now.AddMinutes(sesiune);
                         cookie.HttpOnly = true;
-                        Response.Cookies.Add(cookie); 
-                        
+                        Response.Cookies.Add(cookie);
+
+                        HttpContext.Application["Nume"] = utilizator.nume_utilizator.ToUpper() + " " + utilizator.prenume_utilizator.ToUpper();
+                        HttpContext.Application["Rol"] = "2";
+                        HttpContext.Application["Email"] = utilizator.email;
+
                         if (Url.IsLocalUrl(ReturnUrl))
                         {
                             return Redirect(ReturnUrl);
@@ -482,7 +486,7 @@ namespace SistemRecrutare.Controllers
                     if (string.Compare(CriptareParola.Hash(logare.Parola),
                         angajator.parola) == 0)
                     {
-                        int sesiune = logare.TineMinte ? 525600 : 20; //525600 min = 1 an
+                        int sesiune = logare.TineMinte ? 525600 : 3; //525600 min = 1 an
                         var ticket = new FormsAuthenticationTicket(logare.Email, logare.TineMinte,
                             sesiune);
                         string encriptare = FormsAuthentication.Encrypt(ticket);
@@ -490,6 +494,10 @@ namespace SistemRecrutare.Controllers
                         cookie.Expires = DateTime.Now.AddMinutes(sesiune);
                         cookie.HttpOnly = true;
                         Response.Cookies.Add(cookie);
+
+                        HttpContext.Application["Nume"] = angajator.nume_angajator.ToUpper();
+                        HttpContext.Application["Rol"] = "3";
+                        HttpContext.Application["Email"] = angajator.email;
 
                         if (Url.IsLocalUrl(ReturnUrl))
                         {
@@ -513,23 +521,202 @@ namespace SistemRecrutare.Controllers
 
 
         // --- Editare Profil
-        // GET: Account/EditareProfilAngajator/email
-        //[Authorize(Roles = "Angajator")]
-        public ActionResult EditareProfilAngajator(string email, angajator angaj)
+
+        // GET: Job/EditareProfilAngajat/email
+        //[Authorize(Roles = "Admin, Angajat")]
+        [HttpGet]
+        public ActionResult EditareProfilAngajat(string email)
+        {
+            UtilizatorAngajatViewModel angajatModel = new UtilizatorAngajatViewModel();
+
+            //Models.domeniu_lucru domeniuModel = new Models.domeniu_lucru();
+
+            DataTable dataTable_Angajat = new DataTable();
+            DataTable dataTable_Angajat_ids = new DataTable();
+            using (SqlConnection sqlCon = new SqlConnection(JobController.connectionString))
+            {
+                sqlCon.Open();
+                string query1 = "SELECT nume_utilizator, prenume_utilizator, telefon, email, data_nasterii, " +
+                    "sex, oras FROM dbo.utilizator WHERE email = @email;";
+                //string query_email = "SELECT domeniu_lucru.id_domeniu from dbo.domeniu_lucru INNER JOIN " +
+                //    "dbo.utilizator_domeniu_leg ON domeniu_lucru.id_domeniu = utilizator_domeniu_leg.id_domeniu " +
+                //    "INNER JOIN dbo.utilizator ON utilizator.id_utilizator = utilizator_domeniu_leg.id_utilizator " +
+                //    "WHERE utilizator.email = @email;";
+
+                SqlDataAdapter sqlData = new SqlDataAdapter(query1, sqlCon);
+                sqlData.SelectCommand.Parameters.AddWithValue("@email", email);
+                sqlData.Fill(dataTable_Angajat);
+
+                //SqlDataAdapter sqlData_ids = new SqlDataAdapter(query_email, sqlCon);
+                //sqlData_ids.SelectCommand.Parameters.AddWithValue("@email", email);
+                //sqlData_ids.Fill(dataTable_Angajat_ids);
+            }
+
+            if (dataTable_Angajat.Rows.Count == 1)
+            {
+                angajatModel.Utilizator.nume_utilizator = dataTable_Angajat.Rows[0][0].ToString();
+                angajatModel.Utilizator.prenume_utilizator = dataTable_Angajat.Rows[0][1].ToString();
+                angajatModel.Utilizator.telefon = dataTable_Angajat.Rows[0][2].ToString();
+                angajatModel.Utilizator.email = dataTable_Angajat.Rows[0][3].ToString();
+                angajatModel.Utilizator.data_nasterii = Convert.ToDateTime(dataTable_Angajat.Rows[0][4].ToString());
+                angajatModel.Utilizator.sex = dataTable_Angajat.Rows[0][5].ToString();
+                angajatModel.Utilizator.oras = dataTable_Angajat.Rows[0][6].ToString();
+
+                // domenii interes
+                //if (dataTable_Angajat_ids.Rows.Count > 0)
+                //{
+                    //for (int i = 0; i < dataTable_Angajat_ids.Rows.Count; i++)
+                    //{
+                    //    angajatModel.DomeniiSelectateIds = new List<(dataTable_Angajat.Rows[i][0])>;
+                    //   // List<int> list = arrayList.Cast<int>().ToList();
+
+                    //}
+                    using (DBrecrutare db = new DBrecrutare())
+                    {
+                        angajatModel.DomeniiSelectateIds = new List<int>();
+                        angajatModel.ListaDomenii = new SelectList(db.domeniu_lucru.ToList(),
+                            "id_domeniu", "denumire_domeniu");
+                    }
+                //}
+                return View(angajatModel);
+            }
+            else
+            {
+                return View("Error");
+            }
+        }
+
+        // POST: Account/EditareProfilAngajat/email
+        //[Authorize(Roles = "Angajat")]
+        [HttpPost]
+        public ActionResult EditareProfilAngajat(string email, [Bind(Exclude = "verificare_email, cod_activare")] UtilizatorAngajatViewModel angaj)
         {
             try
             {
-                using (DBrecrutare db = new DBrecrutare()) 
+                using (SqlConnection sqlCon = new SqlConnection(JobController.connectionString))
                 {
-                    // angajator angaj = db.angajators.Single(a => a.email == email);
-                    db.Entry(angaj).State = System.Data.Entity.EntityState.Modified;
-                    db.SaveChanges();
+                    sqlCon.Open();
+
+                    string query = "UPDATE dbo.utilizator SET nume_utilizator = @nume_utilizator, prenume_utilizator = @prenume_utilizator," +
+                        " telefon = @telefon, data_nasterii = @data_nasterii, sex = @sex, oras = @oras WHERE " +
+                        "email = @email";
+                    SqlCommand sql_cmd = new SqlCommand(query, sqlCon);
+
+                    sql_cmd.Parameters.AddWithValue("@nume_utilizator", angaj.Utilizator.nume_utilizator);
+                    sql_cmd.Parameters.AddWithValue("@prenume_utilizator", angaj.Utilizator.prenume_utilizator);
+                    if (angaj.Utilizator.telefon == string.Empty)
+                    {
+                        angaj.Utilizator.telefon = "";
+                    }
+                    sql_cmd.Parameters.AddWithValue("@telefon", angaj.Utilizator.telefon);
+                    sql_cmd.Parameters.AddWithValue("@email", email);
+                    sql_cmd.Parameters.AddWithValue("@data_nasterii", angaj.Utilizator.data_nasterii);
+                    sql_cmd.Parameters.AddWithValue("@sex", angaj.Utilizator.sex);                 
+                    sql_cmd.Parameters.AddWithValue("@oras", angaj.Utilizator.oras);
+
+                    #region domenii interes
+                    using (DBrecrutare db = new DBrecrutare()) {
+                        if (angaj.Utilizator != null && angaj.DomeniiSelectateIds != null)
+                        {
+                            foreach (var id_selectat in angaj.DomeniiSelectateIds) //
+                            {
+                                db.utilizator_domeniu_leg.Add(new utilizator_domeniu_leg
+                                {
+                                    id_utilizator = angaj.Utilizator.id_utilizator,
+                                    id_domeniu = id_selectat
+                                });
+                            }
+                        }
+                        else
+                        {
+                            db.utilizator_domeniu_leg.Add(new utilizator_domeniu_leg
+                            {
+                                id_utilizator = angaj.Utilizator.id_utilizator,
+                                id_domeniu = 9 //Altele
+                            });
+                        }
+                    }
+                    #endregion
+
+                    sql_cmd.ExecuteNonQuery();
                 }
                 return RedirectToAction("Index", "Home");
             }
-            catch 
+            catch
             {
-                return View();
+                return View("Error");
+            }
+        }
+
+        // GET: Job/EditareProfilAngajator/email
+        //[Authorize(Roles = "Admin, Angajator")]
+        [HttpGet]
+        public ActionResult EditareProfilAngajator(string email)
+        {
+            //using (DBrecrutare db = new DBrecrutare())
+            //{
+            //    return View(db.angajators.Where(a => a.email == email).FirstOrDefault());
+            //}
+
+            Models.angajator angajatorModel = new Models.angajator();
+
+            DataTable dataTable_Angajator = new DataTable();
+            using (SqlConnection sqlCon = new SqlConnection(JobController.connectionString))
+            {
+                sqlCon.Open();
+                string query1 = "SELECT nume_angajator, telefon, nr_ordine_registru_comert, oras_sediu, " +
+                    "tara_sediu, adresa_sediu FROM dbo.angajator WHERE email = @email;";
+                SqlDataAdapter sqlData = new SqlDataAdapter(query1, sqlCon);
+                sqlData.SelectCommand.Parameters.AddWithValue("@email", email);
+                sqlData.Fill(dataTable_Angajator);
+            }
+
+            if (dataTable_Angajator.Rows.Count == 1)
+            {
+                angajatorModel.nume_angajator = dataTable_Angajator.Rows[0][0].ToString();
+                angajatorModel.telefon = dataTable_Angajator.Rows[0][1].ToString();
+                angajatorModel.nr_ordine_registru_comert = dataTable_Angajator.Rows[0][2].ToString();
+                angajatorModel.oras_sediu = dataTable_Angajator.Rows[0][3].ToString();
+                angajatorModel.tara_sediu = dataTable_Angajator.Rows[0][4].ToString();
+                angajatorModel.adresa_sediu = dataTable_Angajator.Rows[0][5].ToString();
+
+                return View(angajatorModel);
+            }
+            else
+                return View("Error");
+        }
+
+        // POST: Account/EditareProfilAngajator/email
+        //[Authorize(Roles = "Angajator")]
+        [HttpPost]
+        public ActionResult EditareProfilAngajator(string email, [Bind(Exclude = "parola")]angajator angaj)
+        {
+            try
+            {
+                using (SqlConnection sqlCon = new SqlConnection(JobController.connectionString))
+                {
+                    sqlCon.Open();
+
+                    string query = "UPDATE dbo.angajator SET nume_angajator = @nume_angajator, telefon = @telefon," +
+                        " nr_ordine_registru_comert = @nr_ordine_registru_comert, oras_sediu = @oras_sediu, tara_sediu = @tara_sediu," +
+                        " adresa_sediu = @adresa_sediu WHERE email = @email;";
+                    SqlCommand sql_cmd = new SqlCommand(query, sqlCon);
+
+                    sql_cmd.Parameters.AddWithValue("@nume_angajator", angaj.nume_angajator);
+                    sql_cmd.Parameters.AddWithValue("@telefon", angaj.telefon);
+                    sql_cmd.Parameters.AddWithValue("@nr_ordine_registru_comert", angaj.nr_ordine_registru_comert);
+                    sql_cmd.Parameters.AddWithValue("@oras_sediu", angaj.oras_sediu);
+                    sql_cmd.Parameters.AddWithValue("@tara_sediu", angaj.tara_sediu);
+                    sql_cmd.Parameters.AddWithValue("@adresa_sediu", angaj.adresa_sediu);
+                    sql_cmd.Parameters.AddWithValue("@email", angaj.email);
+
+                    sql_cmd.ExecuteNonQuery();
+                }
+                return RedirectToAction("Index", "Home");
+            }
+            catch
+            {
+                return View("Error");
             }
         }
 

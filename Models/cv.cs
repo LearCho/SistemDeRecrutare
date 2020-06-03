@@ -14,7 +14,8 @@ namespace SistemRecrutare.Models
     
     public partial class cv
     {
+        public string nume_fisier { get; set; }
+        public byte[] continut_fisier { get; set; }
         public int id_cv { get; set; }
-        public string cod_cv { get; set; }
     }
 }

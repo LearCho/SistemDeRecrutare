@@ -152,6 +152,10 @@ namespace SistemRecrutare.Models
         public utilizator Utilizator { get; set; }
         public SelectList ListaDomenii { get; set; }
         public List<int> DomeniiSelectateIds { get; set; }
+        public UtilizatorAngajatViewModel()
+        {
+            Utilizator = new utilizator();
+        }
     }
 
     // ANGAJATOR

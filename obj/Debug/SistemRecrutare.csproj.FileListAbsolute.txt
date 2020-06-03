@@ -224,3 +224,5 @@ C:\Users\Asus\source\repos\SistemDeRecrutare\bin\PagedList.dll
 C:\Users\Asus\source\repos\SistemDeRecrutare\bin\PagedList.Mvc.dll
 C:\Users\Asus\source\repos\SistemDeRecrutare\bin\PagedList.xml
 C:\Users\Asus\source\repos\SistemDeRecrutare\bin\PagedList.Mvc.xml
+C:\Users\Asus\source\repos\SistemDeRecrutare\bin\Dapper.dll
+C:\Users\Asus\source\repos\SistemDeRecrutare\bin\Dapper.xml

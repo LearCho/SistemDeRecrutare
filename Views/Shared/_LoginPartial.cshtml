@@ -71,6 +71,10 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
+
+         .nume:hover {
+                opacity: 0.8;
+          }
     </style>
 </head>
 
@@ -88,29 +92,56 @@
             <div class="dropdown">
                 <button class="dropbtn">
                     @*@Html.ActionLink("Salut, " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
-                    Cont
-                    [@User.Identity.Name]
+                    @*[@User.Identity.Name]*@
+                    <div class="nume">
+                    <img src="~/Content/Img/profile1.png" alt="Contul meu" height="18" width="19" />
+                    @HttpContext.Current.Application["Nume"]
+                    </div>
 
-
-                    <div class="dropdown-content">
-                        @* Profil Utilizator*@
-                        <a @*class="nav-link-white" data-toggle="tab"*@ href="#profile" title="Profil">
-                            <img src="~/Content/Img/profile1.png" alt="Profil" height="29" width="30" />
+                <div class="dropdown-content">
+                    @if (HttpContext.Current.Application["Rol"] == "2")
+                    {
+                        @* Profil Angajat*@
+                        <a @*class="nav-link-white" data-toggle="tab"*@ href="@Url.Action("EditareProfilAngajat", "Account", new { @email = @HttpContext.Current.Application["Email"] })" title="Profil">
+                            <img src="~/Content/Img/profil1.png" alt="Profil" height="20" width="21" style="float:left;" />
                             Profil
                         </a>
 
-                        @* CV*@
-                        <a href="#cv" title="Editare CV">
-                            <img src="~/Content/Img/ist1.png" alt="CV" height="29" width="31" />
-                            Editare CV
+                        @* CV-uri*@
+                        <a href="@Url.Action("IncarcaFisier", "CV")" title="Editare CV">
+                            <img src="~/Content/Img/ist1.png" alt="CV" height="20" width="22" style="float:left;" />
+                            CV-urile mele
+                        </a>
+                    }
+
+                    @if (HttpContext.Current.Application["Rol"] == "3")
+                    {
+                        @* Profil Angajator*@
+                        <a href="@Url.Action("EditareProfilAngajator", "Account", new { @email = @HttpContext.Current.Application["Email"] })" title="Profil">
+                            <img src="~/Content/Img/profil1.png" alt="Profil" height="20" width="21" style="float:left;" />
+                            Profil
                         </a>
 
-                        @*Iesi din Cont*@
-                        <a href="javascript:document.getElementById('logoutForm').submit()">
-                            Iesi din Cont
+                        @* Joburi adaugate*@
+                        <a href="@Url.Action("ListaAdmin", "Job", new { @angajator = @HttpContext.Current.Application["Nume"], @val_cautare = "" })">
+                            <img src="~/Content/Img/lista.png" alt="Joburi adaugate" height="18" width="19" style="float:left;" />
+                            Joburi adaugate
                         </a>
-                    </div>
-</div>
+
+                        @* Vezi CVuri*@
+                        <a href="#cv" title="Vezi CV-uri">
+                            <img src="~/Content/Img/ist1.png" alt="CV" height="20" width="22" style="float:left;" />
+                            Vezi CV-uri
+                        </a>
+                    }
+
+                    @*Iesi din Cont*@
+                    <a href="javascript:document.getElementById('logoutForm').submit()">
+                        <img src="~/Content/Img/logout2.png" alt="Profil" height="18" width="19" style="float:left;" />
+                        Iesi din Cont
+                    </a>
+                </div>
+            </div>
 
             @*<ul class="nav navbar-nav navbar-right">*@
             @*<li class="nav-item"> </li>*@

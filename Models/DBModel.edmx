@@ -29,6 +29,7 @@
           <Property Name="nume_fisier" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="continut_fisier" Type="varbinary(max)" />
           <Property Name="id_cv" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_angajat" Type="int" />
         </EntityType>
         <EntityType Name="domeniu_lucru">
           <Key>
@@ -51,6 +52,7 @@
           <Property Name="data_creare_job" Type="date" />
           <Property Name="tara" Type="varchar" MaxLength="32" />
           <Property Name="oras" Type="varchar" MaxLength="32" />
+          <Property Name="norma_job" Type="varchar" MaxLength="32" />
         </EntityType>
         <EntityType Name="rol">
           <Key>
@@ -94,6 +96,18 @@
             </Principal>
             <Dependent Role="angajator">
               <PropertyRef Name="id_rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cv_angajat">
+          <End Role="utilizator" Type="Self.utilizator" Multiplicity="0..1" />
+          <End Role="cv" Type="Self.cv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="utilizator">
+              <PropertyRef Name="id_utilizator" />
+            </Principal>
+            <Dependent Role="cv">
+              <PropertyRef Name="id_angajat" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -145,6 +159,10 @@
             <End Role="rol" EntitySet="rol" />
             <End Role="angajator" EntitySet="angajator" />
           </AssociationSet>
+          <AssociationSet Name="FK_cv_angajat" Association="Self.FK_cv_angajat">
+            <End Role="utilizator" EntitySet="utilizator" />
+            <End Role="cv" EntitySet="cv" />
+          </AssociationSet>
           <AssociationSet Name="FK_domeniu" Association="Self.FK_domeniu">
             <End Role="domeniu_lucru" EntitySet="domeniu_lucru" />
             <End Role="utilizator_domeniu_leg" EntitySet="utilizator_domeniu_leg" />
@@ -186,6 +204,10 @@
             <End Role="angajator" EntitySet="angajators" />
           </AssociationSet>
           <EntitySet Name="cvs" EntityType="DB_recrutareModel.cv" />
+          <AssociationSet Name="FK_cv_angajat" Association="DB_recrutareModel.FK_cv_angajat">
+            <End Role="utilizator" EntitySet="utilizators" />
+            <End Role="cv" EntitySet="cvs" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="domeniu_lucru">
           <Key>
@@ -213,6 +235,7 @@
           <NavigationProperty Name="utilizator_domeniu_leg" Relationship="DB_recrutareModel.FK_utilizator" FromRole="utilizator" ToRole="utilizator_domeniu_leg" />
           <Property Name="id_rol" Type="Int32" />
           <NavigationProperty Name="rol" Relationship="DB_recrutareModel.FK_utilizator_rol" FromRole="utilizator" ToRole="rol" />
+          <NavigationProperty Name="cvs" Relationship="DB_recrutareModel.FK_cv_angajat" FromRole="utilizator" ToRole="cv" />
         </EntityType>
         <EntityType Name="utilizator_domeniu_leg">
           <Key>
@@ -263,6 +286,7 @@
           <Property Name="data_creare_job" Type="DateTime" Precision="0" />
           <Property Name="tara" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
           <Property Name="oras" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="norma_job" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="rol">
           <Key>
@@ -322,7 +346,21 @@
           <Property Name="nume_fisier" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
           <Property Name="continut_fisier" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="id_cv" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_angajat" Type="Int32" />
+          <NavigationProperty Name="utilizator" Relationship="DB_recrutareModel.FK_cv_angajat" FromRole="cv" ToRole="utilizator" />
         </EntityType>
+        <Association Name="FK_cv_angajat">
+          <End Type="DB_recrutareModel.utilizator" Role="utilizator" Multiplicity="0..1" />
+          <End Type="DB_recrutareModel.cv" Role="cv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="utilizator">
+              <PropertyRef Name="id_utilizator" />
+            </Principal>
+            <Dependent Role="cv">
+              <PropertyRef Name="id_angajat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -367,6 +405,7 @@
           <EntitySetMapping Name="jobs">
             <EntityTypeMapping TypeName="DB_recrutareModel.job">
               <MappingFragment StoreEntitySet="job">
+                <ScalarProperty Name="norma_job" ColumnName="norma_job" />
                 <ScalarProperty Name="oras" ColumnName="oras" />
                 <ScalarProperty Name="tara" ColumnName="tara" />
                 <ScalarProperty Name="data_creare_job" ColumnName="data_creare_job" />
@@ -409,6 +448,7 @@
           <EntitySetMapping Name="cvs">
             <EntityTypeMapping TypeName="DB_recrutareModel.cv">
               <MappingFragment StoreEntitySet="cv">
+                <ScalarProperty Name="id_angajat" ColumnName="id_angajat" />
                 <ScalarProperty Name="id_cv" ColumnName="id_cv" />
                 <ScalarProperty Name="continut_fisier" ColumnName="continut_fisier" />
                 <ScalarProperty Name="nume_fisier" ColumnName="nume_fisier" />

@@ -24,5 +24,6 @@ namespace SistemRecrutare.Models
         public Nullable<System.DateTime> data_creare_job { get; set; }
         public string tara { get; set; }
         public string oras { get; set; }
+        public string norma_job { get; set; }
     }
 }

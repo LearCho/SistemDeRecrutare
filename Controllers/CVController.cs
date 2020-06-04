@@ -22,15 +22,17 @@ namespace SistemRecrutare.Controllers
         }
 
         [HttpPost]  
-        public ActionResult IncarcaFisier(HttpPostedFileBase fisiere)
+        public ActionResult IncarcaFisier(HttpPostedFileBase fisiere, string email)
         {
+            email = HttpContext.Application["Email"].ToString();
+
             if (fisiere != null && fisiere.ContentLength > 0)
             {
                 try
                 {
                     String ExtensieFisier = Path.GetExtension(fisiere.FileName).ToUpper();
 
-                    if (ExtensieFisier == ".PDF" || ExtensieFisier == ".DOC") // format specific
+                    if (ExtensieFisier == ".PDF" || ExtensieFisier == ".DOC" || ExtensieFisier == ".DOCX") // format specific
                     {
                         Stream str = fisiere.InputStream;
                         BinaryReader Br = new BinaryReader(str);
@@ -39,7 +41,7 @@ namespace SistemRecrutare.Controllers
                         DetaliiCvModel cv = new Models.DetaliiCvModel();
                         cv.nume_fisier = fisiere.FileName;
                         cv.continut_fisier = ContinutFisier;
-                        SalveazaDetaliiFisier(cv);
+                        SalveazaDetaliiFisier(cv, email);
                     }
                     else
                     {
@@ -61,7 +63,7 @@ namespace SistemRecrutare.Controllers
         [HttpGet]
         public FileResult DescarcaFisier(int id_cv)
         {
-            List<DetaliiCvModel> ListaFisiere = GetFileList();
+            List<DetaliiCvModel> ListaFisiere = VeziListaFisiere();
 
             var Fisier = (from fis in ListaFisiere
                             where fis.id_cv.Equals(id_cv)
@@ -74,12 +76,12 @@ namespace SistemRecrutare.Controllers
         //[HttpGet]
         public PartialViewResult DetaliiCV()
         {
-            List<DetaliiCvModel> ListaFisiere = GetFileList();
+            List<DetaliiCvModel> ListaFisiere = VeziListaFisiere();
 
             return PartialView("DetaliiCV", ListaFisiere);
         }
 
-        private List<DetaliiCvModel> GetFileList()
+        private List<DetaliiCvModel> VeziListaFisiere()
         {
             List<DetaliiCvModel> ListaFisiere = new List<DetaliiCvModel>();
 
@@ -89,25 +91,37 @@ namespace SistemRecrutare.Controllers
             {
                 sqlCon.Open();
                 ListaFisiere = SqlMapper.Query<DetaliiCvModel>(sqlCon, "vezi_detalii_cv", commandType: CommandType.StoredProcedure).ToList();
-                //sqlCon.Close();
                 return ListaFisiere;
             }
         }
         #endregion
 
         #region Salvare in baza de date prin proceduri stocate  
-        private void SalveazaDetaliiFisier(DetaliiCvModel cv)
+        private void SalveazaDetaliiFisier(DetaliiCvModel cv, string email)
         {
+            DataTable dataTable_Angajat = new DataTable();
             DynamicParameters p = new DynamicParameters();
             p.Add("@nume_fisier", cv.nume_fisier);
             p.Add("@continut_fisier", cv.continut_fisier);
+
             using (SqlConnection sqlCon = new SqlConnection(JobController.connectionString))
             {
                 sqlCon.Open();
                 // DbConnection();
                 // con.Open();
-                sqlCon.Execute("dbo.adauga_detalii_cv", p, commandType: System.Data.CommandType.StoredProcedure);
-               // con.Close();
+                string id_query = "SELECT id_utilizator from dbo.utilizator WHERE utilizator.email = @email;";
+
+                SqlDataAdapter sqlData = new SqlDataAdapter(id_query, sqlCon);
+                sqlData.SelectCommand.Parameters.AddWithValue("@email", email);
+                sqlData.Fill(dataTable_Angajat);
+
+                if (dataTable_Angajat.Rows.Count == 1)
+                {
+                    p.Add("@id_angajat", Convert.ToInt32(dataTable_Angajat.Rows[0][0]));
+                }
+
+                sqlCon.Execute("dbo.adauga_detalii_cv", p, commandType: System.Data.CommandType.StoredProcedure); //procedura se afla in App_Data
+                // con.Close();            
             }
         }
         #endregion

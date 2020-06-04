@@ -18,6 +18,7 @@ namespace SistemRecrutare.Models
         public utilizator()
         {
             this.utilizator_domeniu_leg = new HashSet<utilizator_domeniu_leg>();
+            this.cvs = new HashSet<cv>();
         }
     
         public string email { get; set; }
@@ -36,5 +37,7 @@ namespace SistemRecrutare.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<utilizator_domeniu_leg> utilizator_domeniu_leg { get; set; }
         public virtual rol rol { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<cv> cvs { get; set; }
     }
 }

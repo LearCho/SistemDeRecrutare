@@ -114,7 +114,7 @@
         }
 
         <div>
-            @Html.ActionLink("Inapoi la Lista", "ListaAdmin")
+            @Html.ActionLink("Inapoi la Lista", "ListaAdmin", new { @angajator = @HttpContext.Current.Application["Nume"] })
         </div>
     </div>
 

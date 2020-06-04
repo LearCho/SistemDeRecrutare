@@ -39,6 +39,7 @@
     <EntitySetMapping Name="jobs">
       <EntityTypeMapping TypeName="DB_recrutareModel.job">
         <MappingFragment StoreEntitySet="job">
+          <ScalarProperty Name="norma_job" ColumnName="norma_job" />
           <ScalarProperty Name="oras" ColumnName="oras" />
           <ScalarProperty Name="tara" ColumnName="tara" />
           <ScalarProperty Name="data_creare_job" ColumnName="data_creare_job" />
@@ -81,6 +82,7 @@
     <EntitySetMapping Name="cvs">
       <EntityTypeMapping TypeName="DB_recrutareModel.cv">
         <MappingFragment StoreEntitySet="cv">
+          <ScalarProperty Name="id_angajat" ColumnName="id_angajat" />
           <ScalarProperty Name="id_cv" ColumnName="id_cv" />
           <ScalarProperty Name="continut_fisier" ColumnName="continut_fisier" />
           <ScalarProperty Name="nume_fisier" ColumnName="nume_fisier" />

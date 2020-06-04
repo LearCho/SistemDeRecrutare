@@ -17,5 +17,8 @@ namespace SistemRecrutare.Models
         public string nume_fisier { get; set; }
         public byte[] continut_fisier { get; set; }
         public int id_cv { get; set; }
+        public Nullable<int> id_angajat { get; set; }
+    
+        public virtual utilizator utilizator { get; set; }
     }
 }

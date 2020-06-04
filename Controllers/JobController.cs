@@ -36,12 +36,17 @@ namespace SistemRecrutare.Controllers
                 //using (SqlConnection sqlCon = new SqlConnection(connectionString))
                 //{   sqlCon.Open();
                 //    SqlDataAdapter sqlDataA = new SqlDataAdapter("SELECT * FROM dbo.job", sqlCon);
-                //    sqlDataA.Fill(dataTable_Joburi);}
+                //    sqlDataA.Fill(dataTable_Joburi);}         
 
-                return View(db.jobs.Where(j => j.angajator.ToUpper() == angajator && (j.cod_job.Contains(val_cautare) || j.denumire_job.Contains(val_cautare) ||
-                j.data_creare_job.ToString().Contains(val_cautare) || j.angajator.Contains(val_cautare) || 
-                j.data_expirare_job.ToString().Contains(val_cautare) || j.tara.Contains(val_cautare) || j.oras.Contains(val_cautare)
-                || j.descriere_job.Contains(val_cautare) || val_cautare == null)));
+                var joburi = from job in db.jobs where job.angajator == angajator
+                             select job ;
+
+                return View(joburi.Where(j => /*(j.angajator.ToUpper() == angajator) &&*/
+                (j.cod_job.Contains(val_cautare) || j.denumire_job.Contains(val_cautare) ||
+                /*j.data_creare_job.ToString().Contains(val_cautare) ||*/ j.angajator.Contains(val_cautare) || 
+                /*j.data_expirare_job.ToString().Contains(val_cautare) ||*/ j.tara.Contains(val_cautare) || 
+                j.oras.Contains(val_cautare) || j.descriere_job.Contains(val_cautare) || 
+                val_cautare == null)).ToList());
             }
             catch /*(SqlException exc)*/
             {
@@ -246,6 +251,18 @@ namespace SistemRecrutare.Controllers
             }
         }
 
+        //Job/Cautare 
+        public JsonResult Cautare(string CautaDupa, string ValCautare)
+        {
+            List<job> ListaJoburi = new List<job>();
+            DBrecrutare db = new DBrecrutare();
+
+            ListaJoburi = db.jobs.Where(j => j.cod_job.Contains(ValCautare) ||
+            j.denumire_job.Contains(ValCautare) || j.descriere_job.Contains(ValCautare) ||
+             j.angajator.Contains(ValCautare) || j.tara.Contains(ValCautare) ||
+             j.oras.Contains(ValCautare) || ValCautare == null).ToList();
+            return Json(ListaJoburi, JsonRequestBehavior.AllowGet);
+        }
 
         [AllowAnonymous]
         // GET: Job/ListaUtilizator
@@ -342,8 +359,7 @@ namespace SistemRecrutare.Controllers
                     })
                         smtp.Send(mesaj_angajat);
                
-            
-
+           
             ViewBag.Message = "\tUn mesaj de confirmare ti-a fost trimis pe email, la adresa " + email_pentru;
         }
     }

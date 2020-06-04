@@ -41,6 +41,7 @@
     .table-page-position {
         margin-left: 0.15%;
         margin-right: 0.8%;
+        border-collapse: collapse;
     }
 
     .tabel-job-header{
@@ -103,7 +104,44 @@
         </style>
         @*-----------------------------------------------------------------*@
 
-        <script type="text/javascript">
+        <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+        <script @*type="text/javascript"*@>
+            $(document).ready(function () {
+                $("#inputCautare").click(function () {
+                    var CautaDupa = $("#cauta_dupa").val();
+                    var ValCautare = $("#Cauta").val();
+                    var SeteazaInregistrari = $("#inregistrari");
+                    SeteazaInregistrari.html("");
+                    $.ajax({
+                        type: "post",
+                        url: "/Job/Cautare?CautaDupa=" + CautaDupa + "&ValCautare=" + ValCautare,
+                        contentType: "html",
+                        success: function (rezultat) {
+                            if (rezultat.length == 0) {
+                                SeteazaInregistrari.append('<tr style="color:red;"><td colspan="3">Nu exista inregistrari</td></tr>')
+                            }
+                            else {
+                                $.each(rezultat, function (index, valoare) {
+                                    var Data = "<tr>" +
+                                        "<td>" + " " + "</td>" +
+                                        "<td>" + valoare.denumire_job + "<table> <tr><td>Despre</td></tr> <tr><td>" + valoare.descriere_job + "</td></tr></table></td>" +
+                                        "<td>" + valoare.cod_job + "</td>" +
+                                        //"<td>" + valoare.descriere_job + "</td>" +                       
+                                        "<td>" + new Date((valoare.data_creare_job).toString()) + "</td>" +
+                                        "<td>" + " " + "</td>" +                                     
+                                        "<td>" + valoare.angajator + "</td>" +
+                                        "<td>" + valoare.tara + "</td>" +
+                                        "<td>" + valoare.oras + "</td>" +
+                                        "<td>" + " " + "</td>" +
+                                        "<td>" + " " + "</td>" +
+                                        "</tr>";
+                                    SeteazaInregistrari.append(Data);
+                                });
+                            }
+                        }
+                    });
+                });
+            });
         </script>
     </head>
 
@@ -122,7 +160,7 @@
             </a>
         </div>
 
-        @using (Html.BeginForm("ListaAdmin", "Job", FormMethod.Get))
+        @using (Html.BeginForm("ListaAdmin", "Job", new { @angajator = @HttpContext.Current.Application["Nume"] }, FormMethod.Get))
         {
             <div @*class="col-md-4"*@ style="margin-right: 10%; padding-bottom: 50px;">
                 <div class="search-box">
@@ -131,11 +169,24 @@
                 </div>
             </div>
         }
+
+        @*search categorii*@
+    @*<select id="cauta_dupa">
+        <option value="Denumire Job">Denumire Job</option>
+        <option value="Cod">Cod</option>
+        <option value="Tara">Tara</option>
+        <option value="Oras">Oras</option>
+        <option value="Descriere">Descriere</option>
+    </select>
+        <br />
+
+        @Html.TextBox("Cauta")
+        <input type="submit" id="inputCautare" value=" Cauta " placeholder="Cautati un cuvant...">*@
     </div>
 
         @* tabel *@
         <div style="overflow-x:auto;" class="row">
-            <table class="table table-bordered table-page-position">
+            <table class="table table-bordered table-page-position" id="tabel-joburi">
                 <thead>
                     <tr>
                         <th class="tabel-job-header">Nr. crt</th>
@@ -151,7 +202,7 @@
                     </tr>
                 </thead>
 
-                <tbody class="row">
+                <tbody class="row" id="inregistrari">
                     @*@for (int i = 0; i < Model.Rows.Count; i++)*@
                     @{int rand = 0;}
 

@@ -24,6 +24,7 @@
     <Property Name="nume_fisier" Type="varchar" MaxLength="128" Nullable="false" />
     <Property Name="continut_fisier" Type="varbinary(max)" />
     <Property Name="id_cv" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_angajat" Type="int" />
   </EntityType>
   <EntityType Name="domeniu_lucru">
     <Key>
@@ -46,6 +47,7 @@
     <Property Name="data_creare_job" Type="date" />
     <Property Name="tara" Type="varchar" MaxLength="32" />
     <Property Name="oras" Type="varchar" MaxLength="32" />
+    <Property Name="norma_job" Type="varchar" MaxLength="32" />
   </EntityType>
   <EntityType Name="rol">
     <Key>
@@ -89,6 +91,18 @@
       </Principal>
       <Dependent Role="angajator">
         <PropertyRef Name="id_rol" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_cv_angajat">
+    <End Role="utilizator" Type="Self.utilizator" Multiplicity="0..1" />
+    <End Role="cv" Type="Self.cv" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="utilizator">
+        <PropertyRef Name="id_utilizator" />
+      </Principal>
+      <Dependent Role="cv">
+        <PropertyRef Name="id_angajat" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -139,6 +153,10 @@
     <AssociationSet Name="FK_angajator_rol" Association="Self.FK_angajator_rol">
       <End Role="rol" EntitySet="rol" />
       <End Role="angajator" EntitySet="angajator" />
+    </AssociationSet>
+    <AssociationSet Name="FK_cv_angajat" Association="Self.FK_cv_angajat">
+      <End Role="utilizator" EntitySet="utilizator" />
+      <End Role="cv" EntitySet="cv" />
     </AssociationSet>
     <AssociationSet Name="FK_domeniu" Association="Self.FK_domeniu">
       <End Role="domeniu_lucru" EntitySet="domeniu_lucru" />

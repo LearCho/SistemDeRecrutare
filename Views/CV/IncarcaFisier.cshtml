@@ -20,47 +20,50 @@
         }
     </style>
 </head>
-<body style="background-color: white; text-align:center;">
-<br /><br />
-<h2 style="display:inline-block;">Incarca un CV</h2>
+<body style="background-color: white;">
+    <div style=" text-align:center;">
+        <br /><br />
+        <h2 style="display:inline-block;">Incarca un CV</h2>
 
-@using (Html.BeginForm("IncarcaFisier", "CV", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
+        @using (Html.BeginForm("IncarcaFisier", "CV", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
 
-    @Html.AntiForgeryToken()
+            @Html.AntiForgeryToken()
 
-    <div class="form-horizontal" style="display:inline-block;">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group" style="display:inline-block; ">
-            @Html.LabelFor(model => model.fisiere, htmlAttributes: new { @class = "control-label col-md-2 label-fisier" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.fisiere, "", new { @type = "file", @multiple = "multiple", @class = "fisier" })
-                @Html.ValidationMessageFor(model => model.fisiere, "", new { @class = "text-danger" })
-           <h6>Sunt valide numai fisierele in format .DOC sau .PDF.</h6>
+            <div class="form-horizontal" style="display:inline-block;">
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group" style="display:inline-block; ">
+                    @Html.LabelFor(model => model.fisiere, htmlAttributes: new { @class = "control-label col-md-2 label-fisier" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.fisiere, "", new { @type = "file", @multiple = "multiple", @class = "fisier" })
+                        @Html.ValidationMessageFor(model => model.fisiere, "", new { @class = "text-danger" })
+                        <h6>(Urmatoarele formate sunt valide: .DOC, .DOCX, .PDF)</h6>
+                    </div>
+                </div>
+
+                <div class=" but">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Incarca CV" class="btn btn-primary" />
+                    </div>
+                </div>
+
+                @* Mesaj verificare format dupa incarcare *@
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10 text-danger">
+                        @ViewBag.StatusFisier
+                    </div>
+                </div>
+
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-8">
+                        @Html.Action("DetaliiCV", "CV")
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <div class=" but">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Incarca CV" class="btn btn-primary" />
-            </div>
-        </div>
-
-        @* Mesaj verificare format dupa incarcare *@
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10 text-danger">
-                @ViewBag.StatusFisier
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-8">
-                @Html.Action("DetaliiCV", "CV")
-            </div>
-        </div>
+        }
     </div>
-}
 </body>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>

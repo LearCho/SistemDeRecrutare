@@ -108,7 +108,7 @@
                         </a>
 
                         @* CV-uri*@
-                        <a href="@Url.Action("IncarcaFisier", "CV")" title="Editare CV">
+                        <a href="@Url.Action("IncarcaFisier", "CV", new { @email = @HttpContext.Current.Application["Email"] })" title="Editare CV">
                             <img src="~/Content/Img/ist1.png" alt="CV" height="20" width="22" style="float:left;" />
                             CV-urile mele
                         </a>

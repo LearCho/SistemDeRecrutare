@@ -19,6 +19,12 @@ namespace SistemRecrutare
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
 
+            routes.MapRoute(
+            "ListaAdmin",               // denumire ruta
+            "Job/ListaAdmin/{angajator}/{val_cautare}",  
+            new { controller = "Job", action = "ListaAdmin", angajator = "", val_cautare = "" }  // Parameter defaults
+        );
+
         }
     }
 }

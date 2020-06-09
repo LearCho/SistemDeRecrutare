@@ -74,23 +74,28 @@ namespace SistemRecrutare.Controllers
         }
 
         //[HttpGet]
-        public PartialViewResult DetaliiCV()
+        public PartialViewResult DetaliiCV(string email) // afisare pentru descarcare
         {
-            List<DetaliiCvModel> ListaFisiere = VeziListaFisiere();
+            email = HttpContext.Application["Email"].ToString();
+
+            List<DetaliiCvModel> ListaFisiere = VeziListaFisiere(/*email*/);
 
             return PartialView("DetaliiCV", ListaFisiere);
         }
 
-        private List<DetaliiCvModel> VeziListaFisiere()
+        private List<DetaliiCvModel> VeziListaFisiere(/*string email*/)
         {
-            List<DetaliiCvModel> ListaFisiere = new List<DetaliiCvModel>();
+            string email = HttpContext.Application["Email"].ToString();
 
-            // DbConnection();
-            // con.Open();
+            List<DetaliiCvModel> ListaFisiere = new List<DetaliiCvModel>();
+            DynamicParameters p = new DynamicParameters();
+            p.Add("@email", email);
+
             using (SqlConnection sqlCon = new SqlConnection(JobController.connectionString))
             {
                 sqlCon.Open();
-                ListaFisiere = SqlMapper.Query<DetaliiCvModel>(sqlCon, "vezi_detalii_cv", commandType: CommandType.StoredProcedure).ToList();
+
+                ListaFisiere = SqlMapper.Query<DetaliiCvModel>(sqlCon, "vezi_detalii_cv", p, commandType: CommandType.StoredProcedure).ToList();
                 return ListaFisiere;
             }
         }

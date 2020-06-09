@@ -49,7 +49,7 @@ namespace SistemRecrutare.Controllers
 
         public ActionResult Cariera()
         {
-            ViewBag.Message = "Cariere";
+            ViewBag.Message = "Ai nevoie de sfaturi despre cum poti avea success?";
 
             return View();
         }

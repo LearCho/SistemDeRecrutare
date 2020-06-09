@@ -35,11 +35,22 @@ namespace SistemRecrutare.Models
         [DisplayName("Oras")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Oras este obligatoriu.")]
         public string oras { get; set; }
-        [DisplayName("Imagine Descriptiva")]
+        [DisplayName("Norma")]
+        public Norma_Job norma_job { get; set; }
+        [DisplayName("Logo")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Campul Imagine Descriptiva este obligatoriu.")]
         public byte[] imagine_job { get; set; }
        // public HttpPostedFileBase cale_imagine_job { get; set; }
         [DisplayName("Despre Job")]
         public string descriere_job { get; set; }
+    }
+
+    public enum Norma_Job
+    {  // valori lista Norma Job
+        Fulltime,
+        Partime,
+        Remote,
+        Internship,
+        Practica
     }
 }

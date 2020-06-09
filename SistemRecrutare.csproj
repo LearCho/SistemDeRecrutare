@@ -226,6 +226,9 @@
     <Compile Include="Models\angajator.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\aplicare_job.cs">
+      <DependentUpon>DBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\cv.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
@@ -286,11 +289,14 @@
     <Content Include="Content\Img\blue1.png" />
     <Content Include="Content\Img\briefcase.png" />
     <Content Include="Content\Img\career1.png" />
+    <Content Include="Content\Img\career2.jpg" />
+    <Content Include="Content\Img\career3.jpg" />
     <Content Include="Content\Img\chosen-sprite%402x.png" />
     <Content Include="Content\Img\chosen-sprite.png" />
     <Content Include="Content\Img\cv1.jpg" />
     <Content Include="Content\Img\cv2.jpg" />
     <Content Include="Content\Img\cv2.png" />
+    <Content Include="Content\Img\download1.png" />
     <Content Include="Content\Img\edit1.png" />
     <Content Include="Content\Img\edit2.png" />
     <Content Include="Content\Img\front1.png" />
@@ -404,6 +410,9 @@
     <Content Include="Views\Account\EditareProfilAngajat.cshtml" />
     <Content Include="Views\CV\IncarcaFisier.cshtml" />
     <Content Include="Views\CV\DetaliiCV.cshtml" />
+    <Content Include="Views\Job\AplicaLaJob.cshtml" />
+    <Content Include="Views\Job\TrimiteNotificareAplicareEmail.cshtml" />
+    <Content Include="Views\Job\Detalii.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

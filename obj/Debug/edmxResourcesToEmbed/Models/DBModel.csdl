@@ -28,6 +28,7 @@
       <End Role="utilizator" EntitySet="utilizators" />
       <End Role="cv" EntitySet="cvs" />
     </AssociationSet>
+    <EntitySet Name="aplicare_job" EntityType="DB_recrutareModel.aplicare_job" />
   </EntityContainer>
   <EntityType Name="domeniu_lucru">
     <Key>
@@ -181,4 +182,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="aplicare_job">
+    <Key>
+      <PropertyRef Name="id_aplicare" />
+    </Key>
+    <Property Name="id_aplicare" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="cod_job" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="angajator" Type="String" Nullable="false" MaxLength="120" FixedLength="false" Unicode="false" />
+    <Property Name="email_angajat" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="data_aplicare" Type="DateTime" Precision="0" />
+    <Property Name="nume_angajat" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+  </EntityType>
 </Schema>

@@ -15,7 +15,7 @@
     <div class="row">
         <div class="col-md-5"></div>
         <div class="col-md-5">
-            <h2 style="font-family:'Calibri'; padding-left: 40px; font-weight:bold;">Job nou</h2>
+            <h2 style="font-family: 'Lato', sans-serif; padding-left: 40px; font-weight:bold;">Job nou</h2>
         </div>
     </div>
 
@@ -26,7 +26,7 @@
             @*@Html.ActionLink("Inapoi la Lista", "ListaAdmin")*@
             <a href='@Url.Action("ListaAdmin", "Job", new { @angajator = @HttpContext.Current.Application["Nume"] })'>
                 <img src='@Url.Content("~/Content/Img/back2.png")' width="55" height="55" />
-                <text style="font-family:'Calibri'; font-weight:bold;">Inapoi la Lista</text>
+                <text style="font-family:'Lato', sans-serif; font-weight:bold;">Inapoi la Lista</text>
             </a>
         </div>
     </div>
@@ -35,7 +35,7 @@
     <div class="row">
         <div class="col-md-5"></div>
         <div class="col-md-5">
-            <h4 style="font-family:'Calibri'">Adaugati in lista de joburi</h4>
+            <h4 style="font-family:'Lato', sans-serif">Adaugati in lista de joburi</h4>
         </div>
     </div>
 
@@ -115,6 +115,15 @@
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.oras, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.oras, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @* Norma *@
+                <div class="form-group">
+                    @Html.LabelFor(m => m.norma_job, new { @class = "control-label col-md-2" })
+                    <div class="col-md-7">
+                        @Html.DropDownList("norma_job", new SelectList(Enum.GetValues(typeof(SistemRecrutare.Models.Norma_Job))), "Alege",
+                        new { @class = "form-control" })
                     </div>
                 </div>
 

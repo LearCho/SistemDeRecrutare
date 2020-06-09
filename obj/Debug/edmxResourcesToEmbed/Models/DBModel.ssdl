@@ -17,6 +17,17 @@
     <Property Name="adresa_sediu" Type="nvarchar" MaxLength="50" />
     <Property Name="id_rol" Type="int" />
   </EntityType>
+  <EntityType Name="aplicare_job">
+    <Key>
+      <PropertyRef Name="id_aplicare" />
+    </Key>
+    <Property Name="id_aplicare" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="cod_job" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="angajator" Type="varchar" MaxLength="120" Nullable="false" />
+    <Property Name="email_angajat" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="data_aplicare" Type="date" />
+    <Property Name="nume_angajat" Type="varchar" MaxLength="128" />
+  </EntityType>
   <EntityType Name="cv">
     <Key>
       <PropertyRef Name="id_cv" />
@@ -144,6 +155,7 @@
   </Association>
   <EntityContainer Name="DB_recrutareModelStoreContainer">
     <EntitySet Name="angajator" EntityType="Self.angajator" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="aplicare_job" EntityType="Self.aplicare_job" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="cv" EntityType="Self.cv" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="domeniu_lucru" EntityType="Self.domeniu_lucru" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="job" EntityType="Self.job" Schema="dbo" store:Type="Tables" />

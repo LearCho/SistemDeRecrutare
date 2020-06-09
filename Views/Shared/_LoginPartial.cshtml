@@ -123,7 +123,7 @@
                         </a>
 
                         @* Joburi adaugate*@
-                        <a href="@Url.Action("ListaAdmin", "Job", new { @angajator = @HttpContext.Current.Application["Nume"], @val_cautare = "" })">
+                        <a href="@Url.Action("ListaAdmin", "Job", new { @angajator = @HttpContext.Current.Application["Nume"]@*, @val_cautare = ""*@ })">
                             <img src="~/Content/Img/lista.png" alt="Joburi adaugate" height="18" width="19" style="float:left;" />
                             Joburi adaugate
                         </a>

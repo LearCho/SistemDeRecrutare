@@ -17,6 +17,7 @@
         <AssociationConnector Association="DB_recrutareModel.FK_angajator_rol" />
         <EntityTypeShape EntityType="DB_recrutareModel.cv" Width="1.75" PointX="3.5" PointY="6.375" />
         <AssociationConnector Association="DB_recrutareModel.FK_cv_angajat" />
+        <EntityTypeShape EntityType="DB_recrutareModel.aplicare_job" Width="1.5" PointX="6.375" PointY="6.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -25,14 +25,19 @@
             {
                 <img src="~/Content/Img/jobs1.png" style="max-width:240px; max-height:170px" class="imageclass" />
             }
-            <h1 style="color:darkcyan"> @Model.Rows[i - 1][1]</h1>
+            <h1 style="color:darkcyan; font-family:'Lato', sans-serif"> @Model.Rows[i - 1][1]</h1>
             <p class="angajator">@Model.Rows[i - 1][4]</p>
-            <p class="data">Expira la @string.Format("{0:MM/dd/yyyy}", Convert.ToDateTime(Model.Rows[i - 1][3]))</p>
-            <p class="descriere"><b>Descriere si Cerinte</b> <br />
-            @Model.Rows[i - 1][6]</p><br />
+            <p class="data">Expiră la @string.Format("{0:MM/dd/yyyy}", Convert.ToDateTime(Model.Rows[i - 1][3]))</p>
+            <p class="descriere"><b>Tip Job</b> <br />
+            @Model.Rows[i - 1][10]</p>
+            <p hidden>@Model.Rows[i - 1][2]</p><br />
             <p><button>
-             @Html.ActionLink("Aplica", "AplicaLaJob", "Job", null, new { @class = "text-buton" }) 
-                </button></p>
+            <a href="@Url.Action("AplicaLaJob", "Job", new { @cod_job = @Model.Rows[i - 1][2], @class = "text-buton" })">
+                Arată Detalii
+            </a>
+            @*@Html.ActionLink("Aplica", "AplicaLaJob", "Job", new { @cod_job = @Model.Rows[i - 1][2], @class = "text-buton" })*@
+            </button>
+            </p>
         </div>
 
             if (i != 0 && i % 3 == 0)
@@ -52,7 +57,7 @@
     .titlu {
         margin-left: 45%;
         margin-bottom: 2%;
-        font-family: Calibri;  
+        font-family: 'Lato', sans-serif;  
         color: darkslategray;
         font-weight: bolder;
     }
@@ -125,8 +130,13 @@
          color: white;
      }
 
-      .job a:visited {
-         color: white;
+     .job a {
+        color: white;
+    }
+
+    .job a:visited {
+        color: white;
+    }
 </style>
 @*-------------------------------------------------------------*@
 

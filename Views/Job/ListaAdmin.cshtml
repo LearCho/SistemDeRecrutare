@@ -32,7 +32,7 @@
         /*margin-left: 56%;*/
         display: inline-block;
         margin-bottom: 2%;
-        font-family: Calibri;
+        font-family: 'Lato', sans-serif;
         color: darkslategray;
         font-weight: bolder;
     }
@@ -165,7 +165,7 @@
             <div @*class="col-md-4"*@ style="margin-right: 10%; padding-bottom: 50px;">
                 <div class="search-box">
                     <i class="material-icons">&#xE8B6;</i>
-                    @Html.TextBox("val_cautare", null, new { @class = "form-control", @placeholder = "Cauta...", @angajator = @HttpContext.Current.Application["Nume"] })
+                    @Html.TextBox("val_cautare", null, new { @class = "form-control", @placeholder = "Cauta..."@*, @angajator = @HttpContext.Current.Application["Nume"]*@ })
                 </div>
             </div>
         }

@@ -4,29 +4,76 @@
     ViewBag.Title = "DetaliiCV";
 }
 
-    <div style="text-align:center;">
-        <h2 style="display:inline-block; padding-left: 40px;">CV-urile mele</h2>
+    <div class="job" style="height:520px; display:inline-block;">
+        <h1 style="color:darkcyan; font-family:'Lato', sans-serif">Nume utilizator</h1>
+        @foreach (var cv in Model)
+        {
+    <p class="nume">
+        @Html.DisplayNameFor(model => model.nume_fisier)
+        @Html.DisplayFor(modelItem => cv.nume_fisier)
+    </p>
+            <a href="@Url.Action("DescarcaFisier", "CV", new { @id_cv = @cv.id_cv})">
+                <img src="~/Content/Img/download1.png" alt="Descarcă" height="25" width="25" style="" />
+                Descarcă Fișier
+            </a>
+            @*@Html.ActionLink("Descarca CV", "DescarcaFisier", new { id_cv = @cv.id_cv })*@
+        }
     </div>
 
-        <table class="table table-bordered">
-            <tr>
-                <th class="col-md-4">
-                    @Html.DisplayNameFor(model => model.nume_fisier)
-                </th>
+@*------------------------------------------------------------*@
+@*-----------------------------css----------------------------*@
+<style type="text/css">
 
-                <th class="col-md-2"></th>
-            </tr>
+    .titlu {
+        margin-left: 45%;
+        margin-bottom: 2%;
+        font-family: 'Lato', sans-serif;
+        color: darkslategray;
+        font-weight: bolder;
+    }
 
-            @foreach (var cv in Model)
-            {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => cv.nume_fisier)</td>
+     @* continut *@
+    .wrapper-centru{
+        text-align:center;
+        padding-left:30px;
+        padding-right:30px;
+    }
 
-                    <td>
-                        @*<a href="@Url.Action("Descarca CV", "DescarcaFisier", new { @id_cv = @cv.id_cv})"></a>*@
-                        @Html.ActionLink("Descarca CV", "DescarcaFisier", new { id_cv = @cv.id_cv })
-                    </td>
-                </tr>
-            }
-        </table>
-   
+     @* div job *@
+    .job {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        width: 520px;
+        margin-left: 9px;
+        margin-right: 9px;
+        text-align: center;
+        font-family: arial;
+        transition: 0.3s;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 45px;
+        padding-bottom: 45px;
+    }
+
+    .job:hover{
+          box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+
+    .nume {
+          color: orangered;
+          font-size: 17px;
+          height: 25px;
+    }
+
+     .data {
+          height: 12px;
+          color: gray;
+    }
+
+    .descriere {
+        height: 50px;
+     }
+
+      .job a:visited {
+         color: white;
+</style>
+@*-------------------------------------------------------------*@

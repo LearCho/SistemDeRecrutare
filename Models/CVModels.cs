@@ -17,7 +17,7 @@ namespace SistemRecrutare.Models
     public class DetaliiCvModel
     {
         public int id_cv { get; set; }
-        [Display(Name = "Fisier Incarcat")]
+        [Display(Name = "Nume Fișier: ")]
         public String nume_fisier { get; set; }
         public byte[] continut_fisier { get; set; }
 

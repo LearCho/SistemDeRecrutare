@@ -52,6 +52,7 @@ namespace SistemRecrutare.FisiereCareSePierdLaAutoRegenerare
 //        public virtual DbSet<rol> rols { get; set; }
 //        public virtual DbSet<utilizator_domeniu_leg> utilizator_domeniu_leg { get; set; }
 //        public virtual DbSet<angajator> angajators { get; set; }
+//        public virtual DbSet<aplicare_job> aplicare_job { get; set; }
 
 //    }
 //}
@@ -110,6 +111,8 @@ namespace SistemRecrutare.FisiereCareSePierdLaAutoRegenerare
 //        public virtual DbSet<rol> rols { get; set; }
 //        public virtual DbSet<utilizator_domeniu_leg> utilizator_domeniu_leg { get; set; }
 //        public virtual DbSet<angajator> angajators { get; set; }
+//        public virtual DbSet<aplicare_job> aplicare_job { get; set; }
+
 //    }
 //}
 
@@ -167,6 +170,7 @@ namespace SistemRecrutare.FisiereCareSePierdLaAutoRegenerare
 //        public virtual DbSet<rol> rols { get; set; }
 //        public virtual DbSet<utilizator_domeniu_leg> utilizator_domeniu_leg { get; set; }
 //        public virtual DbSet<angajator> angajators { get; set; }
+//        public virtual DbSet<aplicare_job> aplicare_job { get; set; }
 //    }
 //}
 

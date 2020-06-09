@@ -8,8 +8,7 @@
     <div class="row" style="background-color:white;">
         <div style="text-align:center;">
             <br /><br />
-            <h2 style="display:inline-block;">Modificati detaliile jobului?</h2>
-            <h4>Job</h4>
+            <h2 style="display:inline-block; font-family:'Lato', sans-serif">Modificati detaliile jobului?</h2>
         </div>
         
 
@@ -88,12 +87,21 @@
             </div>
         </div>
 
+        @* Norma *@
+        <div class="form-group">
+            @Html.LabelFor(m => m.norma_job, new { @class = "control-label col-md-2" })
+            <div class="col-md-7">
+                @Html.DropDownList("norma_job", new SelectList(Enum.GetValues(typeof(SistemRecrutare.Models.Norma_Job))), "Alege",
+                new { @class = "form-control" })
+            </div>
+        </div>
+
         @* Imagine Descriptiva *@
         @*<div class="form-group">
-            @Html.LabelFor(model => model.imagine_job, htmlAttributes: new { @class = "control-label col-md-2"})
-            <div class="col-md-10">
-                <input type="file" name="imagine" />*@
-            @*</div>
+        @Html.LabelFor(model => model.imagine_job, htmlAttributes: new { @class = "control-label col-md-2"})
+        <div class="col-md-10">
+            <input type="file" name="imagine" />*@
+        @*</div>
         </div>*@
 
         @* Descriere/Despre *@

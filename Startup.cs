@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Owin;
 using SistemRecrutare.Models;
+using System.Threading.Tasks;
 
 [assembly: OwinStartupAttribute(typeof(SistemRecrutare.Startup))]
 namespace SistemRecrutare
@@ -13,11 +14,13 @@ namespace SistemRecrutare
         {
             ConfigureAuth(app);
             CreareRoluriUtilizatori();
+
+            app.MapSignalR(); //SignalR pentru notificari push
         }
 
         public void CreareRoluriUtilizatori()
         {
-            DBrecrutare db = new DBrecrutare();
+            //DBrecrutare db = new DBrecrutare();
 
             //var managerRoluri = new RoleManager<IdentityRole>(new 
             //    RoleStore<IdentityRole>(db));
@@ -30,22 +33,6 @@ namespace SistemRecrutare
             //{
             //    var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
             //    role.Name = "Admin";
-            //    managerRoluri.Create(role);
-            //}
-
-            //// crare rol Angajat     
-            //if (!managerRoluri.RoleExists("Angajat"))
-            //{
-            //    var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
-            //    role.Name = "Angajat";
-            //    managerRoluri.Create(role);
-            //}
-
-            //// creare rol Angajator     
-            //if (!managerRoluri.RoleExists("Angajator"))
-            //{
-            //    var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
-            //    role.Name = "Angajator";
             //    managerRoluri.Create(role);
             //}
         }

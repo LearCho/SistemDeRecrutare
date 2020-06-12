@@ -4,123 +4,128 @@
     ViewBag.Title = "Profil Angajator";
 }
 
+<body style="">
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Profil</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-        @* ID  *@
-        @Html.HiddenFor(model => model.id_angajator)
-
-        @* Parola *@
-        @*<div class="form-group">
-            @Html.LabelFor(m => m.parola, new { @class = "col-md-5 control-label" })
-            <div class="col-md-7">
-                @Html.EditorFor(m => m.parola, new { placeholder = "Introduceti Parola", @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.parola, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
-        @* Confirmare Parola  *@
-        @*<div class="form-group">
-            @Html.LabelFor(m => m.confirma_parola, new { @class = "col-md-5 control-label" })
-            <div class="col-md-7">
-                @Html.EditorFor(m => m.confirma_parola, new { placeholder = "Confirmare Parola", @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.confirma_parola, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
-        <div style="text-align:center;">
+    <div class="row" style="background-color:white; margin-left:-50px; margin-right:-50px; padding-bottom:40px;">
+        <div class="form-horizontal">
+            <h4>Profil</h4>
             <hr />
-            <h3 class="subtitlu" style="display:inline-block; font-weight:bold; color:darkslategrey; opacity:0.75;">Editare Profil </h3>
-        </div>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        @* Email *@
-        <div class="form-group">
-            @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-5" })
-            <div class="col-md-7">
-                @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
-                @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            @* ID  *@
+            @Html.HiddenFor(model => model.id_angajator)
 
-        @* Numele Companiei *@
-        <div class="form-group">
-            @Html.LabelFor(m => m.nume_angajator, new { @class = "col-md-5 control-label" })
-            <div class="col-md-7">
-                @Html.EditorFor(m => m.nume_angajator, new { htmlAttributes = new { placeholder = "Numele companiei", @class = "form-control" } })
-                @Html.ValidationMessageFor(m => m.nume_angajator, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            @* Parola *@
+            @*<div class="form-group">
+                @Html.LabelFor(m => m.parola, new { @class = "col-md-5 control-label" })
+                <div class="col-md-7">
+                    @Html.EditorFor(m => m.parola, new { placeholder = "Introduceti Parola", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.parola, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
 
-        @* Nr. ordine la registrul Comertului *@
-        <div class="form-group">
-            @Html.LabelFor(m => m.nr_ordine_registru_comert, new { @class = "col-md-5 control-label" })
-            <div class="col-md-7">
-                @Html.EditorFor(m => m.nr_ordine_registru_comert, new { htmlAttributes = new { placeholder = "Numar de ordine la Registrul Comertului", @class = "form-control" } })
-                @Html.ValidationMessageFor(m => m.nr_ordine_registru_comert, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            @* Confirmare Parola  *@
+            @*<div class="form-group">
+                @Html.LabelFor(m => m.confirma_parola, new { @class = "col-md-5 control-label" })
+                <div class="col-md-7">
+                    @Html.EditorFor(m => m.confirma_parola, new { placeholder = "Confirmare Parola", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.confirma_parola, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
 
-        @* Telefon *@
-        <div class="form-group">
-            @Html.LabelFor(m => m.telefon, new { @class = "col-md-5 control-label" })
-            <div class="col-md-7">
-                @Html.EditorFor(m => m.telefon, new { htmlAttributes = new { placeholder = "Telefon", @class = "form-control" } })
-                @Html.ValidationMessageFor(m => m.telefon, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div style="text-align:center;">
-            <hr />
-            <h4 class="subtitlu" style="display:inline-block; font-weight:bold; color:darkslategrey; opacity:0.75;">Adresa sediu social </h4>
-        </div>
-
-        @* Tara *@
-        <div class="form-group">
-            @Html.LabelFor(m => m.tara_sediu, new { @class = "col-md-5 control-label" })
-            <div class="col-md-7">
-                @Html.EditorFor(m => m.tara_sediu, new { htmlAttributes = new { placeholder = "Tara", @class = "form-control" } })
-                @Html.ValidationMessageFor(m => m.tara_sediu, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        @* Oraș *@
-        <div class="form-group">
-            @Html.LabelFor(m => m.oras_sediu, new { @class = "col-md-5 control-label" })
-            <div class="col-md-7">
-                @Html.EditorFor(m => m.oras_sediu, new { htmlAttributes = new { placeholder = "Orasul in care se afla sediul", @class = "form-control" } })
-                @Html.ValidationMessageFor(m => m.oras_sediu, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        @* Adresa *@
-        <div class="form-group">
-            @Html.LabelFor(m => m.adresa_sediu, new { @class = "col-md-5 control-label" })
-            <div class="col-md-7">
-                @Html.EditorFor(m => m.adresa_sediu, new { htmlAttributes = new { placeholder = "Strada, numarul...", @class = "form-control" } })
-                @Html.ValidationMessageFor(m => m.adresa_sediu, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
             <div style="text-align:center;">
-                <input type="submit" value="Salveaza" class="btn btn-default centralizat" />
+                <h3 class="subtitlu" style="display:inline-block; font-weight:bold; color:darkslategrey; opacity:0.75;">Editare Profil </h3>
             </div>
+
+            @* Email *@
+            <div class="form-group">
+                @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-5" })
+                <div class="col-md-7">
+                    @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                    @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @* Numele Companiei *@
+            <div class="form-group">
+                @Html.LabelFor(m => m.nume_angajator, new { @class = "col-md-5 control-label" })
+                <div class="col-md-7">
+                    @Html.EditorFor(m => m.nume_angajator, new { htmlAttributes = new { placeholder = "Numele companiei", @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.nume_angajator, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @* Nr. ordine la registrul Comertului *@
+            <div class="form-group">
+                @Html.LabelFor(m => m.nr_ordine_registru_comert, new { @class = "col-md-5 control-label" })
+                <div class="col-md-7">
+                    @Html.EditorFor(m => m.nr_ordine_registru_comert, new { htmlAttributes = new { placeholder = "Numar de ordine la Registrul Comertului", @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.nr_ordine_registru_comert, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @* Telefon *@
+            <div class="form-group">
+                @Html.LabelFor(m => m.telefon, new { @class = "col-md-5 control-label" })
+                <div class="col-md-7">
+                    @Html.EditorFor(m => m.telefon, new { htmlAttributes = new { placeholder = "Telefon", @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.telefon, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div style="text-align:center;">
+                <hr />
+                <h4 class="subtitlu" style="display:inline-block; font-weight:bold; color:darkslategrey; opacity:0.75;">Adresa sediu social </h4>
+            </div>
+
+            @* Tara *@
+            <div class="form-group">
+                @Html.LabelFor(m => m.tara_sediu, new { @class = "col-md-5 control-label" })
+                <div class="col-md-7">
+                    @Html.EditorFor(m => m.tara_sediu, new { htmlAttributes = new { placeholder = "Tara", @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.tara_sediu, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @* Oraș *@
+            <div class="form-group">
+                @Html.LabelFor(m => m.oras_sediu, new { @class = "col-md-5 control-label" })
+                <div class="col-md-7">
+                    @Html.EditorFor(m => m.oras_sediu, new { htmlAttributes = new { placeholder = "Orasul in care se afla sediul", @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.oras_sediu, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @* Adresa *@
+            <div class="form-group">
+                @Html.LabelFor(m => m.adresa_sediu, new { @class = "col-md-5 control-label" })
+                <div class="col-md-7">
+                    @Html.EditorFor(m => m.adresa_sediu, new { htmlAttributes = new { placeholder = "Strada, numarul...", @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.adresa_sediu, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div style="text-align:center;">
+                    <input type="submit" value="Salvează" class="btn btn-default centralizat" />
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align:center;">
+            @Html.ActionLink("Inapoi", "Index", "Home", null, new { htmlAttributes = new { @class = "centralizat" } })
         </div>
     </div>
 }
 
-<div style="text-align:center;">
-    @Html.ActionLink("Inapoi", "Index", "Home", null, new { htmlAttributes = new { @class = "centralizat" } })
-</div>
+</body>
 
 <style>
     .centralizat{
         display: inline-block;
+        padding-bottom: 10px;
     }
 </style>

@@ -192,5 +192,6 @@
     <Property Name="email_angajat" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
     <Property Name="data_aplicare" Type="DateTime" Precision="0" />
     <Property Name="nume_angajat" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="aplicat" Type="Byte" />
   </EntityType>
 </Schema>

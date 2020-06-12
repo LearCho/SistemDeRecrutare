@@ -92,6 +92,7 @@
     <EntitySetMapping Name="aplicare_job">
       <EntityTypeMapping TypeName="DB_recrutareModel.aplicare_job">
         <MappingFragment StoreEntitySet="aplicare_job">
+          <ScalarProperty Name="aplicat" ColumnName="aplicat" />
           <ScalarProperty Name="nume_angajat" ColumnName="nume_angajat" />
           <ScalarProperty Name="data_aplicare" ColumnName="data_aplicare" />
           <ScalarProperty Name="email_angajat" ColumnName="email_angajat" />

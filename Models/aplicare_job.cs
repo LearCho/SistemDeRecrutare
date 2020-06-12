@@ -20,5 +20,6 @@ namespace SistemRecrutare.Models
         public string email_angajat { get; set; }
         public Nullable<System.DateTime> data_aplicare { get; set; }
         public string nume_angajat { get; set; }
+        public Nullable<byte> aplicat { get; set; }
     }
 }

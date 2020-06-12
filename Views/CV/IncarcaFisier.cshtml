@@ -23,7 +23,7 @@
 <body style="background-color: white;">
     <div style=" text-align:center;">
         <br /><br />
-        <h2 style="display:inline-block;">Incarca un CV</h2>
+        <h2 style="display:inline-block;">Incarcă un CV</h2>
 
         @using (Html.BeginForm("IncarcaFisier", "CV", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
@@ -38,13 +38,13 @@
             <div class="col-md-10">
                 @Html.TextBoxFor(model => model.fisiere, "", new { @type = "file", @multiple = "multiple", @class = "fisier" })
                 @Html.ValidationMessageFor(model => model.fisiere, "", new { @class = "text-danger" })
-                <h6>(Urmatoarele formate sunt valide: .DOC, .DOCX, .PDF)</h6>
+                <h6>(Următoarele formate sunt valide: .DOC, .DOCX, .PDF)</h6>
             </div>
         </div>
 
         <div class=" but">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Incarca CV" class="btn btn-primary" />
+                <input type="submit" value="Incarcă CV" class="btn btn-primary" />
             </div>
         </div>
 

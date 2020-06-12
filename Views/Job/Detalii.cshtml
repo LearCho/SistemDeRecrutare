@@ -24,7 +24,7 @@
                 {
                     <img src="~/Content/Img/jobs1.png" style="max-width:240px; max-height:170px" class="imageclass" />
                 }
-                <h1 class="data">Rol:</h1>
+                <h2 class="rol">Rol:</h2>
                 <h1 style="color:darkcyan; font-family:'Lato', sans-serif; width: 300px;"> @Model.Rows[i - 1][1]</h1>
                 <p class="angajator">@Model.Rows[i - 1][4]</p>
                 <p class="data">Data adăugare: @string.Format("{0:MM/dd/yyyy}", Convert.ToDateTime(Model.Rows[i - 1][7]))</p>
@@ -40,20 +40,21 @@
             </div>
 
             <div class="cv-2" style="text-align:left; padding-left:45px;">
-                <p class="data">Email aplicant: @Model.Rows[i - 1][14]</p>
+                <h2 class="rol">Aplicant:</h2>
+                <h1 style="color:darkcyan; font-family:'Lato', sans-serif">@Model.Rows[i - 1][16]</h1>
+                <p class="data">Email: @Model.Rows[i - 1][14]</p>
                 <p class="data">Data aplicare: @string.Format("{0:MM/dd/yyyy}", Convert.ToDateTime(Model.Rows[i - 1][15]))</p>
             </div>
             @* Detalii Documente incarcate *@
             <div class="" style="text-align:right; padding-right: 180px;">
-                <h2 style="margin-top: -560px; color:darkslategrey; font-family:'Lato', sans-serif;">Documente încărcate de aplicant</h2>
+                <h2 style="margin-top: -660px; color:darkslategrey; font-family:'Lato', sans-serif;">Documente încărcate de aplicant</h2>
             </div>
 
-            <div class="form-group" style="padding-left: 275px;">
+            <div class="form-group" style="padding-left: 275px; padding-bottom: 90px;">
                 <div>
-                    @Html.Action("DetaliiCV", "CV", new { @email = @HttpContext.Current.Application["Email"] })
+                    @Html.Action("DetaliiCV", "CV", new { @email = @Model.Rows[i - 1][14] })
                 </div>
             </div>
-            <br />
             <hr />
         }
 
@@ -92,7 +93,7 @@
         padding-left: 50px;
         padding-right: 10px;
         padding-top: 55px;
-        padding-bottom: 60px;
+        padding-bottom: 40px;
     }
 
     .cv-1:hover{
@@ -127,14 +128,19 @@
         text-align: center;
         font-family: arial;
         transition: 0.3s;
-        padding-left: 20px;
+        padding-left: 10px;
         padding-right: 10px;
-        padding-top: 5px;
+        padding-top: 2px;
         padding-bottom: 10px;
     }
 
     .cv-2:hover{
           box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+
+       .rol {
+          height: 8px;
+          color: gray;
     }
 </style>
 @*-------------------------------------------------------------*@

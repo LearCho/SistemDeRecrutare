@@ -6,7 +6,7 @@
     ViewBag.Title = "Cont nou";
 }
 
-<div class="row" style="background-color:white">
+<div class="row" style="background-color:white; margin-left:-50px;margin-right:-50px;">
     <div style="text-align:center;">
         <br /><br />
         <h2 class="titlu">@ViewBag.Title</h2>
@@ -52,7 +52,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.parola, new { @class = "col-md-5 control-label" })
                     <div class="col-md-7">
-                        @Html.PasswordFor(m => m.parola, new { placeholder = "Introduceti Parola", @class = "form-control" })
+                        @Html.PasswordFor(m => m.parola, new { placeholder = "Introduceți Parola", @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.parola, "", new { @class = "text-danger" })
 
                     </div>
@@ -62,7 +62,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.confirma_parola, new { @class = "col-md-5 control-label" })
                     <div class="col-md-7">
-                        @Html.PasswordFor(m => m.confirma_parola, new { placeholder = "Confirmare Parola", @class = "form-control" })
+                        @Html.PasswordFor(m => m.confirma_parola, new { placeholder = "Confirmare Parolă", @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.confirma_parola, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -85,7 +85,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.nr_ordine_registru_comert, new { @class = "col-md-5 control-label" })
                     <div class="col-md-7">
-                        @Html.TextBoxFor(m => m.nr_ordine_registru_comert, new { placeholder = "Numar de ordine la Registru Comertului", @class = "form-control" })
+                        @Html.TextBoxFor(m => m.nr_ordine_registru_comert, new { placeholder = "Număr de ordine la Registrul Comerțului", @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.nr_ordine_registru_comert, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -126,7 +126,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.adresa_sediu, new { @class = "col-md-5 control-label" })
                     <div class="col-md-7">
-                        @Html.TextBoxFor(m => m.adresa_sediu, new { placeholder = "Strada, numarul...", @class = "form-control" })
+                        @Html.TextBoxFor(m => m.adresa_sediu, new { placeholder = "Strada, numărul...", @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.adresa_sediu, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -135,7 +135,7 @@
             @* Creare Cont *@
             <div class="form-group" style="align-content:center;">
                 <div class="col-md-offset-2 col-md-10" style="display:inline-block; margin-left:185px;">
-                    <input type="submit" class="btn btn-default button" value="Creeaza cont" />
+                    <input type="submit" class="btn btn-default button" value="Creează cont" />
                 </div>
             </div>
         }
@@ -150,7 +150,7 @@
 
     @* spre Login *@
     <div style="text-align:center; padding-bottom: 30px;">
-        @Html.ActionLink("Ai deja un cont? Conecteaza-te.", "IntraInContAngajator", "Account", null, new { @class = "btn" })
+        @Html.ActionLink("Ai deja un cont? Conectează-te.", "IntraInContAngajator", "Account", null, new { @class = "btn" })
     </div>
 </div>
 
@@ -165,14 +165,14 @@
         /*margin-left: 49%;*/
         display: inline-block;
         /*margin-bottom: 2%;*/
-        font-family: 'Calibri';
+        font-family: 'Lato', sans-serif;
         font-weight: bold;
     }
 
     .subtitlu {
         /*margin-left: 37%;*/
         /*margin-bottom: 2%;*/
-        font-family: 'Calibri';
+        font-family: 'Lato', sans-serif;
     }
 
     .button {
@@ -180,8 +180,9 @@
         margin-top: 1%;
         margin-left: 36%;
         margin-bottom: 2%;
-        font-family: 'Berlin Sans FB';
+        font-family: 'Lato', sans-serif;
         background-color: white;
+        font-weight: bold;
         color: darkcyan;
     }
 

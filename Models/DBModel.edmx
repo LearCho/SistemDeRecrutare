@@ -32,6 +32,7 @@
           <Property Name="email_angajat" Type="varchar" MaxLength="64" Nullable="false" />
           <Property Name="data_aplicare" Type="date" />
           <Property Name="nume_angajat" Type="varchar" MaxLength="128" />
+          <Property Name="aplicat" Type="tinyint" />
         </EntityType>
         <EntityType Name="cv">
           <Key>
@@ -384,6 +385,7 @@
           <Property Name="email_angajat" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
           <Property Name="data_aplicare" Type="DateTime" Precision="0" />
           <Property Name="nume_angajat" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="aplicat" Type="Byte" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -482,6 +484,7 @@
           <EntitySetMapping Name="aplicare_job">
             <EntityTypeMapping TypeName="DB_recrutareModel.aplicare_job">
               <MappingFragment StoreEntitySet="aplicare_job">
+                <ScalarProperty Name="aplicat" ColumnName="aplicat" />
                 <ScalarProperty Name="nume_angajat" ColumnName="nume_angajat" />
                 <ScalarProperty Name="data_aplicare" ColumnName="data_aplicare" />
                 <ScalarProperty Name="email_angajat" ColumnName="email_angajat" />

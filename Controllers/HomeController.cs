@@ -16,7 +16,9 @@ namespace SistemRecrutare.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            DBrecrutare db = new DBrecrutare();
+
+                return View(db.jobs.ToList());
         }
 
         // GET: /Home/CautaJobCuvantCheie

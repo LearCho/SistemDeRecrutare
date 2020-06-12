@@ -1,10 +1,10 @@
 ﻿@using SistemRecrutare.Models
 @model Logare
 @{
-    ViewBag.Title = "Intra in Cont";
+    ViewBag.Title = "Intră in Cont";
 }
 
-<div class="row" style="background-color:white">
+<div class="row" style="background-color:white; margin-left:-50px;margin-right:-50px;">
     
     <div style="text-align:center;">
         <br /><br />
@@ -57,7 +57,7 @@
                 @* Intra in Cont *@
                 <div class="form-group" style="align-content:center;">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Intra in Cont" class="btn btn-default button" />
+                        <input type="submit" value="Intră in Cont" class="btn btn-default button" />
                     </div>
                 </div>
 
@@ -66,7 +66,7 @@
                     <br />
                     @* Spre Cont Nou *@
                     <p style="margin-left: 62%;">
-                        @Html.ActionLink("Inregistreaza un cont nou", "ContNouAngajat", new { ReturnUrl = Request.RawUrl }, null)
+                        @Html.ActionLink("Inregistrează un cont nou", "ContNouAngajat", new { ReturnUrl = Request.RawUrl }, null)
                     </p>
 
                     @*  password reset functionality
@@ -97,14 +97,14 @@
         /*margin-left: 46%;*/
         display: inline-block;
         margin-bottom: 2%;
-        font-family: 'Calibri';
+        font-family: 'Lato', sans-serif;
         font-weight: bold;
     }
 
     .subtitlu {
         margin-left: 60%;
         margin-bottom: 2%;
-        font-family: 'Calibri';
+        font-family: 'Lato', sans-serif;
     }
 
     .button {
@@ -113,8 +113,9 @@
         margin-left: 62%;
         display:inline-block;
         margin-bottom: 2%;
-        font-family: 'Berlin Sans FB';
+        font-family: 'Lato', sans-serif;
         background-color: white;
+        font-weight: bold;
         color: darkcyan;
     }
 

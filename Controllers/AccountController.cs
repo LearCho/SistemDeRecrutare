@@ -720,6 +720,15 @@ namespace SistemRecrutare.Controllers
             }
         }
 
+        public JsonResult VeziNotificareAplicare()
+        {
+            var data_inreg_notif = HttpContext.Application["LastUpdated"] != null ? Convert.ToDateTime(HttpContext.Application["LastUpdated"]) : DateTime.Now;
+            Notificari n = new Notificari();
+            var lista = n.ListareAplicari(data_inreg_notif/*, HttpContext.Application["Nume"].ToString()*/);
+            HttpContext.Application["LastUpdate"] = DateTime.Now;
+            return new JsonResult { Data = lista, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
         //GET: /Account/Login
         //[AllowAnonymous]
         //public ActionResult Login(string returnUrl)

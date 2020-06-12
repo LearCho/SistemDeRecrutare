@@ -12,6 +12,8 @@
 <script type="text/javascript" src="~/Scripts/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="~/Scripts/chosen.jquery.min.js"></script>
 
+<body style="">
+    <div class="row" style="background-color:white; margin-left:-50px;margin-right:-50px;">
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -43,7 +45,6 @@
             </div>*@
 
         <div style="text-align:center;">
-            <hr />
             <h3 class="subtitlu" style="display:inline-block; font-weight:bold; color:darkslategrey; opacity:0.75;">Editare Profil </h3>
         </div>
 
@@ -112,7 +113,7 @@
         <div class="form-group">
             @Html.LabelFor(m => m.Utilizator.oras, new { @class = "col-md-5 control-label" })
             <div class="col-md-7">
-                @Html.EditorFor(m => m.Utilizator.oras, new { htmlAttributes = new { placeholder = "Orașul in care locuiti", @class = "form-control" } })
+                @Html.EditorFor(m => m.Utilizator.oras, new { htmlAttributes = new { placeholder = "Orașul in care locuiți", @class = "form-control" } })
                 @Html.ValidationMessageFor(m => m.Utilizator.oras, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -124,18 +125,18 @@
                 @if (Model.ListaDomenii != null)
                 {
                     @Html.DropDownList("DomeniiSelectateIds", Model.ListaDomenii, new { @class = "col-md-5 control-label chosen-select", multiple = "" })
-                    <div style="font-size:smaller">Te rugam sa selectezi cel putin un domeniu</div>
+                    <div style="font-size:smaller">Te rugăm să selectezi cel puțin un domeniu</div>
                 }
                 else
                 {
-                    <div style="color:firebrick">Te rugam sa selecteazi unul sau mai multe domenii</div>
+                    <div style="color:firebrick">Te rugăm să selecteazi unul sau mai multe domenii</div>
                 }
             </div>
         </div>
 
         <div class="form-group">
             <div style="text-align:center;">
-                <input type="submit" value="Salveaza" class="btn btn-default centralizat" />
+                <input type="submit" value="Salvează" class="btn btn-default centralizat" />
             </div>
         </div>
     </div>
@@ -144,6 +145,7 @@
 <div style="text-align:center;">
     @Html.ActionLink("Inapoi", "Index", "Home", null, new { htmlAttributes = new { @class = "centralizat" } })
 </div>
+  </div>
 
 <style>
     .centralizat {
@@ -155,3 +157,4 @@
 <script type="text/javascript">
     $('.chosen-select').chosen();
 </script>
+    </body>

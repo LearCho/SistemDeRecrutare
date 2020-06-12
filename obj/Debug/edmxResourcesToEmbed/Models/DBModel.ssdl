@@ -27,6 +27,7 @@
     <Property Name="email_angajat" Type="varchar" MaxLength="64" Nullable="false" />
     <Property Name="data_aplicare" Type="date" />
     <Property Name="nume_angajat" Type="varchar" MaxLength="128" />
+    <Property Name="aplicat" Type="tinyint" />
   </EntityType>
   <EntityType Name="cv">
     <Key>

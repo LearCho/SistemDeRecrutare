@@ -30,7 +30,9 @@ namespace SistemRecrutare.Controllers
         [HttpGet]
         public ActionResult ListaAdmin(string val_cautare, string angajator) // afiseaza joburi in dataTable
         {
-            DBrecrutare db = new DBrecrutare();            
+            DBrecrutare db = new DBrecrutare();
+            HttpContext.Application["Cautare"] = val_cautare;
+
             //TODO : de creat pagini cu PagedList
             try
             {    // DataTable dataTable_Joburi = new DataTable();
@@ -40,12 +42,11 @@ namespace SistemRecrutare.Controllers
                 //    sqlDataA.Fill(dataTable_Joburi);}         
 
                 var joburi = from job in db.jobs where job.angajator == angajator
-                             select job ;
+                             select job;              
 
                 return View(joburi.Where(j => /*(j.angajator.ToUpper() == angajator) &&*/
                 (j.cod_job.Contains(val_cautare) || j.denumire_job.Contains(val_cautare) ||
-                /*j.data_creare_job.ToString().Contains(val_cautare) ||*/ j.angajator.Contains(val_cautare) || 
-                /*j.data_expirare_job.ToString().Contains(val_cautare) ||*/ j.tara.Contains(val_cautare) || 
+                j.angajator.Contains(val_cautare) || j.tara.Contains(val_cautare) || 
                 j.oras.Contains(val_cautare) || j.descriere_job.Contains(val_cautare) || 
                 val_cautare == null)).ToList());
             }
@@ -323,31 +324,46 @@ namespace SistemRecrutare.Controllers
         [HttpGet]
         public ActionResult ListaUtilizatorCauta(string val_cautare) //
         {
-            DataTable dataTable_Job = new DataTable();
-            try
-            {
-                using (SqlConnection sqlCon = new SqlConnection(connectionString))
-                {
-                    sqlCon.Open();
-                    SqlDataAdapter sqlDataA;
-                    if (val_cautare == "")
-                    {
-                        sqlDataA = new SqlDataAdapter("SELECT * FROM dbo.job", sqlCon);
-                    }
-                    else
-                    {
-                        sqlDataA = new SqlDataAdapter("SELECT * FROM dbo.job WHERE job.cod_job = '" + val_cautare +
-                        "' OR job.denumire_job = '" + val_cautare + "' OR job.descriere_job = '" + val_cautare + "'", sqlCon);
-                    }
-                    sqlDataA.Fill(dataTable_Job);
-                }
-            }
-            catch (SqlException exc)
-            {
-                throw new InvalidOperationException("Datele nu au putut fi citite.", exc);
-            }
+            //DataTable dataTable_Job = new DataTable();
+            //try
+            //{
+            //    using (SqlConnection sqlCon = new SqlConnection(connectionString))
+            //    {
+            //        sqlCon.Open();
+            //        SqlDataAdapter sqlDataA;
+            //        if (val_cautare == "")
+            //        {
+            //            sqlDataA = new SqlDataAdapter("SELECT * FROM dbo.job", sqlCon);
+            //        }
+            //        else
+            //        {
+            //            sqlDataA = new SqlDataAdapter("SELECT * FROM dbo.job WHERE job.cod_job = '" + val_cautare +
+            //            "' OR job.denumire_job = '" + val_cautare + "' OR job.descriere_job = '" + val_cautare + "'", sqlCon);
+            //        }
+            //        sqlDataA.Fill(dataTable_Job);
+            //    }
+            //}
+            //catch (SqlException exc)
+            //{
+            //    throw new InvalidOperationException("Datele nu au putut fi citite.", exc);
+            //}
 
-            return View(dataTable_Job);
+            //return View(dataTable_Job);
+
+            DBrecrutare db = new DBrecrutare();
+            HttpContext.Application["Cauta"] = val_cautare;
+
+            try
+            {    
+                return View(db.jobs.Where(j => (j.cod_job.Contains(val_cautare) || 
+                j.denumire_job.Contains(val_cautare) || j.angajator.Contains(val_cautare) || 
+                j.tara.Contains(val_cautare) || j.oras.Contains(val_cautare) || 
+                j.descriere_job.Contains(val_cautare) || val_cautare == null)).ToList());
+            }
+            catch
+            {
+                return View("Error");
+            }
         }
 
         [AllowAnonymous]
@@ -410,16 +426,35 @@ namespace SistemRecrutare.Controllers
             angajator angajatorModel = new angajator();
             aplicare_job aplicareModel = new aplicare_job();
 
+            DataTable dataTable_verificare = new DataTable();
             DataTable dataTable_angajat = new DataTable();
             DataTable dataTable_angajator = new DataTable();
             DataTable dataTable_mail = new DataTable();
             string email = HttpContext.Application["Email"].ToString();
+            HttpContext.Application["Cod"] = cod_job;
 
             try
             {
                 using (SqlConnection sqlCon = new SqlConnection(connectionString))
                 {
                     sqlCon.Open();
+                    //verificare daca a aplicat deja la jobul curent
+                    string query_verificare = "SELECT aplicat FROM dbo.aplicare_job WHERE email_angajat = @email_angajat " +
+                        "AND cod_job = @cod_job;";
+                    SqlDataAdapter sqlData00 = new SqlDataAdapter(query_verificare, sqlCon);
+                    sqlData00.SelectCommand.Parameters.AddWithValue("@email_angajat", email);
+                    sqlData00.SelectCommand.Parameters.AddWithValue("@cod_job", cod_job);
+                    sqlData00.Fill(dataTable_verificare);
+
+                    if (dataTable_verificare.Rows.Count > 0)
+                    {
+                       if(Convert.ToInt16(dataTable_verificare.Rows[0][0]) == 1)
+                        {
+                            ViewBag.MesajAplicare = "Ai aplicat deja la acest job!!";
+                            return View("Error");                       
+                        }
+                    }
+
                     // angajat
                     string query_Angajat = "SELECT prenume_utilizator, nume_utilizator FROM dbo.utilizator WHERE " +
                         "email = @email;";
@@ -492,6 +527,7 @@ namespace SistemRecrutare.Controllers
 
                 aplicareModel.data_aplicare = DateTime.Now;
                 aplicareModel.email_angajat = email;
+                aplicareModel.aplicat = 1;
 
                 // salvare campuri in aplicare_job din bd 
                 using (DBrecrutare db = new DBrecrutare())
@@ -513,8 +549,8 @@ namespace SistemRecrutare.Controllers
         {
             HttpContext.Application["Email"] = email;
 
-            //try
-            //{
+            try
+            {
                 JobModel jobModel = new JobModel();
                 DataTable dataTable_Job = new DataTable();
 
@@ -556,11 +592,11 @@ namespace SistemRecrutare.Controllers
                     }
                 }
                 return View(dataTable_Job);
-            //}
-            //catch
-            //{
-            //    return View("Error");
-            //}
+            }
+            catch
+            {
+                return View("Error");
+            }
         }
     }
 }

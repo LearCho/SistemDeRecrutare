@@ -73,7 +73,7 @@ namespace SistemRecrutare.Controllers
             return File(Fisier.continut_fisier, "application/pdf", Fisier.nume_fisier);
         }
 
-        //[HttpGet]
+        // pentru un utlizator
         public PartialViewResult DetaliiCV(string email) // afisare pentru descarcare
         {
             email = HttpContext.Application["Email"].ToString();
@@ -99,6 +99,79 @@ namespace SistemRecrutare.Controllers
                 return ListaFisiere;
             }
         }
+
+        // pentru angajator
+        public PartialViewResult DetaliiCV_Angajator() // afisare pentru descarcare
+        {
+            List<DetaliiCvModel> ListaFisiereA = VeziListaFisiereAngajator();
+
+            return PartialView("DetaliiCV_Angajator", ListaFisiereA);
+        }
+
+        // pentru angajator
+        private List<DetaliiCvModel> VeziListaFisiereAngajator()
+        {
+            List<DetaliiCvModel> ListaFisiereA = new List<DetaliiCvModel>();
+
+            using (SqlConnection sqlCon = new SqlConnection(JobController.connectionString))
+            {
+                sqlCon.Open();
+
+                ListaFisiereA = SqlMapper.Query<DetaliiCvModel>(sqlCon, "vezi_detalii_cvuri_angajator", commandType: CommandType.StoredProcedure).ToList();
+                return ListaFisiereA;
+            }
+        }
+
+        // pentru angajator
+        [HttpGet]
+        public FileResult DescarcaFisierAngajator(int id_cv)
+        {
+                List<DetaliiCvModel> ListaFisiereA = VeziListaFisiereAngajator();
+
+                var Fisier = (from fis in ListaFisiereA
+                              where fis.id_cv.Equals(id_cv)
+                              select new { fis.nume_fisier, fis.continut_fisier })
+                                .ToList().FirstOrDefault();
+
+                return File(Fisier.continut_fisier, "application/pdf", Fisier.nume_fisier);
+       
+        }
+
+        public ActionResult CVuri_Angajator()
+        {
+            try
+            {
+                UtilizatorAngajatViewModel utilizatorModel = new UtilizatorAngajatViewModel();
+                DataTable dataTable_angajati = new DataTable();
+
+                using (SqlConnection sqlCon = new SqlConnection(JobController.connectionString))
+                {
+                    sqlCon.Open();
+
+                    string query = "select distinct nume_utilizator, prenume_utilizator, email, telefon, oras from " +
+                        "dbo.cv inner join dbo.utilizator on utilizator.id_utilizator = cv.id_angajat";
+
+                    SqlDataAdapter sqlData = new SqlDataAdapter(query, sqlCon);
+                  //  sqlData.SelectCommand.Parameters.AddWithValue("@cod_job", cod_job);
+                    sqlData.Fill(dataTable_angajati);
+
+                    //if (dataTable_angajati.Rows.Count > 0)
+                    //{
+                    //    utilizatorModel.Utilizator.nume_utilizator = dataTable_angajati.Rows[0][0].ToString();
+                    //    utilizatorModel.Utilizator.prenume_utilizator = dataTable_angajati.Rows[0][1].ToString();
+                    //    utilizatorModel.Utilizator.email = dataTable_angajati.Rows[0][2].ToString();
+                    //    utilizatorModel.Utilizator.telefon = dataTable_angajati.Rows[0][3].ToString();
+                    //    utilizatorModel.Utilizator.oras = dataTable_angajati.Rows[0][4].ToString();
+                    //}
+                }
+                return View(dataTable_angajati);
+            }
+            catch
+            {
+                return View("Error");
+            }
+        }
+
         #endregion
 
         #region Salvare in baza de date prin proceduri stocate  
@@ -132,7 +205,7 @@ namespace SistemRecrutare.Controllers
         #endregion
 
 
-        #region Database connection  
+        #region Conexiune cu baza de date  
         //private SqlConnection con;
         //private string connection_str;
         //private void DbConnection()

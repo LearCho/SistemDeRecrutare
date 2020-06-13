@@ -3,86 +3,87 @@
 @{
     ViewBag.Title = "Intră in Cont";
 }
+    <body>
+        <div class="row" style="background-color:white; margin-left:135px;margin-right:135px;">
 
-<div class="row" style="background-color:white; margin-left:-50px;margin-right:-50px;">
-    
-    <div style="text-align:center;">
-        <br /><br />
-        <h2 class="titlu">@ViewBag.Title</h2>
-    </div>
-    
-    <div class="col-md-8">
+            <div style="text-align:center;">
+                <br /><br />
+                <h2 class="titlu">@ViewBag.Title</h2>
+            </div>
 
-        <section id="loginForm">
-            @using (Html.BeginForm("IntraInContAngajat", "Account",  new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                <hr />
+            <div class="col-md-8">
 
-                <div class="aliniament-cp">
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <br />
+                <section id="loginForm">
+                    @using (Html.BeginForm("IntraInContAngajat", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <hr />
 
-                    @* Email *@
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Email, htmlAttributes: new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+                        <div class="aliniament-cp">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <br />
 
-                    @* Parola *@
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Parola, htmlAttributes: new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(m => m.Parola, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(m => m.Parola, "", new { @class = "text-danger" })
-                            @Html.ValidationMessage("ParolaInvalida", new { @class = "text-danger" })
-                        </div>
-                    </div>
+                            @* Email *@
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Email, htmlAttributes: new { @class = "col-md-2 control-label" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-                    @* Retine-ma *@
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.TineMinte, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="checkbox">
-                            <div class="col-md-10">
-                                @Html.EditorFor(m => m.TineMinte, new { htmlAttributes = new { @class = " col-md-4" } })
-                                @Html.ValidationMessageFor(m => m.TineMinte, "", new { @class = "text-danger" })
+                            @* Parola *@
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Parola, htmlAttributes: new { @class = "col-md-2 control-label" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(m => m.Parola, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(m => m.Parola, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessage("ParolaInvalida", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            @* Retine-ma *@
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.TineMinte, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="checkbox">
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(m => m.TineMinte, new { htmlAttributes = new { @class = " col-md-4" } })
+                                        @Html.ValidationMessageFor(m => m.TineMinte, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                @* Intra in Cont *@
-                <div class="form-group" style="align-content:center;">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Intră in Cont" class="btn btn-default button" />
-                    </div>
-                </div>
+                        @* Intra in Cont *@
+                        <div class="form-group" style="align-content:center;">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Intră in Cont" class="btn btn-default button" />
+                            </div>
+                        </div>
 
-                <div>
-                    <br />
-                    <br />
-                    @* Spre Cont Nou *@
-                    <p style="margin-left: 62%;">
-                        @Html.ActionLink("Inregistrează un cont nou", "ContNouAngajat", new { ReturnUrl = Request.RawUrl }, null)
-                    </p>
+                        <div>
+                            <br />
+                            <br />
+                            @* Spre Cont Nou *@
+                            <p style="margin-left: 62%;">
+                                @Html.ActionLink("Inregistrează un cont nou", "ContNouAngajat", new { ReturnUrl = Request.RawUrl }, null)
+                            </p>
 
-                    @*  password reset functionality
-                   <p> @Html.ActionLink("Ti-ai uitat parola?", "ForgotPassword") </p>*@
-                </div>           
-            }
-        </section>
-    </div>
+                            @*  password reset functionality
+                            <p> @Html.ActionLink("Ti-ai uitat parola?", "ForgotPassword") </p>*@
+                        </div>
+                    }
+                </section>
+            </div>
 
-    @* Logare Externa *@
-    <div class="col-md-8" style="align-content:center;">
-        <section id="socialLoginForm" style="margin-left: 50%; display:inline-block;">
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-        </section>
-    </div>
-</div>
+            @* Logare Externa *@
+            <div class="col-md-8" style="align-content:center;">
+                <section id="socialLoginForm" style="margin-left: 50%; display:inline-block;">
+                    @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                </section>
+            </div>
+        </div>
+    </body>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -93,12 +94,17 @@
 
 @*-----------------------------css-----------------------------*@
 <style type="text/css">
+    body {
+        background-image:  url(/Content/Img/bg.jpg);
+    }
+
     .titlu {
         /*margin-left: 46%;*/
         display: inline-block;
         margin-bottom: 2%;
         font-family: 'Lato', sans-serif;
         font-weight: bold;
+        margin-top:-20px;
     }
 
     .subtitlu {
@@ -127,6 +133,8 @@
     }
 
     .row {
-        opacity: 0.9;
+        margin-top:100px;
+        opacity: 0.95;
+        margin-bottom:30px;
     }
 </style>

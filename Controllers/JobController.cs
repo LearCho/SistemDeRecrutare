@@ -559,10 +559,12 @@ namespace SistemRecrutare.Controllers
                     sqlCon.Open();
 
                     string query = "SELECT * FROM dbo.job inner join dbo.aplicare_job ON " +
-                        "job.cod_job = aplicare_job.cod_job WHERE job.cod_job = @cod_job;";
+                        "job.cod_job = aplicare_job.cod_job WHERE job.cod_job = @cod_job AND " +
+                        "aplicare_job.email_angajat = @email_angajat;";
 
                     SqlDataAdapter sqlData = new SqlDataAdapter(query, sqlCon);
                     sqlData.SelectCommand.Parameters.AddWithValue("@cod_job", cod_job);
+                    sqlData.SelectCommand.Parameters.AddWithValue("@email_angajat", email);
                     sqlData.Fill(dataTable_Job);
 
                     if (dataTable_Job.Rows.Count == 1)
@@ -571,7 +573,7 @@ namespace SistemRecrutare.Controllers
 
                         if (dataTable_Job.Rows[0][10].ToString() == "0")
                         {
-                            dataTable_Job.Rows[0][10] = "Fulltime";
+                            dataTable_Job.Rows[0][10] = "Fullime";
                         }
                         if (dataTable_Job.Rows[0][10].ToString() == "1")
                         {

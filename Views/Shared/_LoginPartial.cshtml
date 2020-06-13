@@ -1,63 +1,63 @@
 ﻿@*@using SistemRecrutare.Models
     @model UtilizatorAngajatViewModel*@
 
-    <html>
-    <head>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script type="text/javascript"></script>
-        <script src="~/Scripts/jquery-3.3.1.min.js"></script>
-        <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
-        <script src="/signalr/hubs"></script>
-        <script src="~/Scripts/bootstrap.min.js"></script>
-        <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="/signalr/hubs"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 
-        @*------------------------------css----------------------------*@
-        <style type="text/css">
-            .btn-register {
-                background-color: mediumpurple;
-                height: 45px;
+    @*------------------------------css----------------------------*@
+    <style type="text/css">
+        .btn-register {
+            background-color: mediumpurple;
+            height: 45px;
+            border: none;
+            color: white;
+            padding: 8px 8px;
+            text-align: center;
+            font-size: 14px;
+            margin: -8px 4px;
+            border-radius: 22px;
+            opacity: 1;
+            transition: 0.7s;
+        }
+
+            .btn-register:hover {
+                opacity: 0.6
+            }
+
+        .dropdown {
+            float: left;
+            padding-right: 5px;
+        }
+
+            .dropdown .dropbtn {
+                font-size: 15px;
                 border: none;
-                color: white;
-                padding: 8px 8px;
-                text-align: center;
-                font-size: 14px;
-                margin: -8px 4px;
-                border-radius: 22px;
-                opacity: 1;
-                transition: 0.7s;
+                outline: none;
+                color: darkslategrey;
+                padding: 14px 16px;
+                background-color: transparent;
+                font-family: inherit; /* vertical align */
+                margin: 0;
             }
 
-                .btn-register:hover {
-                    opacity: 0.6
-                }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #ffffff;
+            min-width: 180px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 22px;
+        }
 
-            .dropdown {
-                float: left;
-                padding-right: 5px;
-            }
-
-                .dropdown .dropbtn {
-                    font-size: 15px;
-                    border: none;
-                    outline: none;
-                    color: darkslategrey;
-                    padding: 14px 16px;
-                    background-color: transparent;
-                    font-family: inherit; /* vertical align */
-                    margin: 0;
-                }
-
-            .dropdown-content {
-                display: none;
-                position: absolute;
-                background-color: #ffffff;
-                min-width: 180px;
-                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-                z-index: 1;
-                border-radius: 22px;
-            }
-
-              /* Links dropdown */
+            /* Links dropdown */
             .dropdown-content a {
                 float: none;
                 color: black;
@@ -66,245 +66,245 @@
                 display: block;
             }
 
-             /* links on hover */
-            .dropdown-content a:hover {
-                background-color: #f0e5f0;
-                opacity: 0.85;
-               border-radius: 12px;
-            }
-
-            /* dropdown menu on hover */
-            .dropdown:hover .dropdown-content {
-                display: block;
-            }
-
-            .nume:hover {
-                opacity: 0.8;
-            }
-         
-            /* notificari */
-            .noti-content{
-                position:fixed;
-                right:700px;
-                background:#e5e5e5;
-                border-radius:4px;
-                top:197px;
-                width:250px;
-                display:none;
-                border:1px solid #9E988B;
-            }
-
-            .ul#notiContent{
-                max-height:200px;
-                overflow:auto;
-                padding:0px;
-                margin:0px;
-                padding-left:20px;
-            }
-
-             .ul#notiContent li{
-                 margin:3px;
-                 padding:6px;
-                 background:#fff;
-            }
-
-            .noti-top-arrow{
-                border-color:transparent;
-                border-bottom-color:#F5DEB3;
-                border-style:dashed dashed solid;
-                border-width:0 8.5px 8.5px;
-                position:absolute;
-                right:232px;
-                top:198px;
-            }
-
-            .span.noti{
-                color:#FF2323;
-                margin:15px;
-                /*position:fixed;*/
-                right:300px;
-                font-size:18px;
-                cursor:pointer;
-            }
-
-            span.count{
-                position:relative;
-                top:103px;
-            }
-        </style>
-
-        @* jQuery pentru notificari angajator prin signalr*@
-        <script>
-            $(function () {
-                // click pe icon-ul de notificare pentru a arata notificarea
-                $('span.noti').click(function (e) {
-                    e.stopPropagation();
-                    $('noti-content').show();
-                    var count = 0;
-                    count = parseInt($('span.count').html()) || 0;
-                    // incarcare notificare numai daca nu este deja incarcata
-                    if (count > 0) {
-                        updateNotificare();
-                    }
-                    $('span.count', this).html('&nbsp;');
-                })
-
-                // ascundere notificari (click inafara icon-ului)
-                $('html').click(function () {
-                    $('.noti-content').hide();
-                })
-
-                // update notificare
-                function updateNotificare() {
-                    $('#notiContent').empty();
-                    $('#notiContent').append($('<li>Se încarcă ...</li>'));
-
-                    $.ajax({
-                        type: 'GET',
-                        url: '/Account/VeziNotificareAplicare',
-                        succes: function (raspuns) {
-                            $('#notiContent').empty();
-                            if (raspuns.length == 0) {
-                                $('#notiContent').append($('<li>Nu există date </li>'));
-                            }
-                            $.each(raspuns, function (index, valoare) {
-                                $('#notiContent').append($('<li> ' + valoare.nume_angajat + ' a aplicat la jobul (' + valoare.cod_job + ')</li>'));
-                            });
-                        },
-                        error: function (error) {
-                            console.log(error);
-                        }
-                    })
+                /* links on hover */
+                .dropdown-content a:hover {
+                    background-color: #f0e5f0;
+                    opacity: 0.85;
+                    border-radius: 12px;
                 }
 
-                // update count notificare 
-                function updateCountNotificare() {
-                    var count = 0;
-                    count = parseInt($('span.count').html()) || 0;
-                    count++;
-                    $('span.count').html(count);
-                }
+        /* dropdown menu on hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
 
-                // signalr js pentru start hub si trimitere-primire notificare
-                var hubNotificari = $.connection.hubNotificari;
-                $.connection.hub.start().done(function () {
-                    console.log('Hub-ul de notificari a fost pornit.');
-                });
+        .nume:hover {
+            opacity: 0.8;
+        }
 
-                // metoda signalr pentru push-uirea mesajului de la server la client
-                hubNotificari.client.notify = function (mesaj) {
-                    if (mesaj && mesaj.toLowerCase() == "aplicat") {
-                        updateCountNotificare();
-                    }
+        /* notificari */
+        .noti-content {
+            position: fixed;
+            right: 700px;
+            background: #e5e5e5;
+            border-radius: 4px;
+            top: 197px;
+            width: 250px;
+            display: none;
+            border: 1px solid #9E988B;
+        }
+
+        .ul#notiContent {
+            max-height: 200px;
+            overflow: auto;
+            padding: 0px;
+            margin: 0px;
+            padding-left: 20px;
+        }
+
+            .ul#notiContent li {
+                margin: 3px;
+                padding: 6px;
+                background: #fff;
+            }
+
+        .noti-top-arrow {
+            border-color: transparent;
+            border-bottom-color: #F5DEB3;
+            border-style: dashed dashed solid;
+            border-width: 0 8.5px 8.5px;
+            position: absolute;
+            right: 232px;
+            top: 198px;
+        }
+
+        .span.noti {
+            color: #FF2323;
+            margin: 15px;
+            /*position:fixed;*/
+            right: 300px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        span.count {
+            position: relative;
+            top: 103px;
+        }
+    </style>
+
+    @* jQuery pentru notificari angajator prin signalr*@
+    <script>
+        $(function () {
+            // click pe icon-ul de notificare pentru a arata notificarea
+            $('span.noti').click(function (e) {
+                e.stopPropagation();
+                $('noti-content').show();
+                var count = 0;
+                count = parseInt($('span.count').html()) || 0;
+                // incarcare notificare numai daca nu este deja incarcata
+                if (count > 0) {
+                    updateNotificare();
                 }
+                $('span.count', this).html('&nbsp;');
             })
-        </script>
-    </head>
 
-    <body>
-        @using Microsoft.AspNet.Identity
+            // ascundere notificari (click inafara icon-ului)
+            $('html').click(function () {
+                $('.noti-content').hide();
+            })
 
-        @* --    utilizatorul este autentificat  -- *@
-        @if (Request.IsAuthenticated)
-        {
-            using (Html.BeginForm("LogOut", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-            {
-                @Html.AntiForgeryToken()
+            // update notificare
+            function updateNotificare() {
+                $('#notiContent').empty();
+                $('#notiContent').append($('<li>Se încarcă ...</li>'));
 
-                if (HttpContext.Current.Application["Rol"] == "3")
-                {
-                    <span class="noti glyphicon glyphicon-bell">
-                        <span class="count">
-                            &nbsp;
-                        </span>
-                    </span>
+                $.ajax({
+                    type: 'GET',
+                    url: '/Account/VeziNotificareAplicare',
+                    succes: function (raspuns) {
+                        $('#notiContent').empty();
+                        if (raspuns.length == 0) {
+                            $('#notiContent').append($('<li>Nu există date </li>'));
+                        }
+                        $.each(raspuns, function (index, valoare) {
+                            $('#notiContent').append($('<li> ' + valoare.nume_angajat + ' a aplicat la jobul (' + valoare.cod_job + ')</li>'));
+                        });
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                })
+            }
 
-                    <div class="noti-content">
-                        <div class="noti-top-arrow"></div>
-                        <ul id="notiContent">
-                        </ul>
-                    </div>
+            // update count notificare
+            function updateCountNotificare() {
+                var count = 0;
+                count = parseInt($('span.count').html()) || 0;
+                count++;
+                $('span.count').html(count);
+            }
+
+            // signalr js pentru start hub si trimitere-primire notificare
+            var hubNotificari = $.connection.hubNotificari;
+            $.connection.hub.start().done(function () {
+                console.log('Hub-ul de notificari a fost pornit.');
+            });
+
+            // metoda signalr pentru push-uirea mesajului de la server la client
+            hubNotificari.client.notify = function (mesaj) {
+                if (mesaj && mesaj.toLowerCase() == "aplicat") {
+                    updateCountNotificare();
                 }
+            }
+        })
+    </script>
+</head>
 
-                @* meniu dropdown*@
-                <div class="dropdown">
-                    <button class="dropbtn">
-                        @*@Html.ActionLink("Salut, " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
-                        <div class="nume">
-                            <img src="~/Content/Img/profile1.png" alt="Contul meu" height="18" width="19" />
-                            @HttpContext.Current.Application["Nume"]
-                        </div>
+<body>
+    @using Microsoft.AspNet.Identity
 
-                        <div class="dropdown-content">
-                            @if (HttpContext.Current.Application["Rol"] == "2")
-                            {
-                                @* Profil Angajat*@
-                                <a @*class="nav-link-white" data-toggle="tab"*@ href="@Url.Action("EditareProfilAngajat", "Account", new { @email = @HttpContext.Current.Application["Email"] })" title="Profil">
-                                    <img src="~/Content/Img/profil1.png" alt="Profil" height="20" width="21" style="float:left;" />
-                                    Profil
-                                </a>
+    @* --    utilizatorul este autentificat  -- *@
+    @if (Request.IsAuthenticated)
+    {
+        using (Html.BeginForm("LogOut", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        {
+            @Html.AntiForgeryToken()
 
-                                @* CV-uri*@
-                                <a href="@Url.Action("IncarcaFisier", "CV", new { @email = @HttpContext.Current.Application["Email"] })" title="Editare CV">
-                                    <img src="~/Content/Img/ist1.png" alt="CV" height="20" width="22" style="float:left;" />
-                                    CV-urile mele
-                                </a>
-                            }
+            if (HttpContext.Current.Application["Rol"] == "3")
+            {
+                <span class="noti glyphicon glyphicon-bell">
+                    <span class="count">
+                        &nbsp;
+                    </span>
+                </span>
 
-                            @if (HttpContext.Current.Application["Rol"] == "3")
-                            {
-                                @* Profil Angajator*@
-                                <a href="@Url.Action("EditareProfilAngajator", "Account", new { @email = @HttpContext.Current.Application["Email"] })" title="Profil">
-                                    <img src="~/Content/Img/profil1.png" alt="Profil" height="20" width="21" style="float:left;" />
-                                    Profil
-                                </a>
+                <div class="noti-content">
+                    <div class="noti-top-arrow"></div>
+                    <ul id="notiContent">
+                    </ul>
+                </div>
+            }
 
-                                @* Joburi adaugate*@
-                                @*<a href="@Url.Action("ListaAdmin", "Job", new { @angajator = @HttpContext.Current.Application["Nume"], @val_cautare = @HttpContext.Current.Application["Cautare"] })">
+            @* meniu dropdown*@
+            <div class="dropdown">
+                <button class="dropbtn">
+                    @*@Html.ActionLink("Salut, " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
+                    <div class="nume">
+                        <img src="~/Content/Img/profile1.png" alt="Contul meu" height="18" width="19" />
+                        @HttpContext.Current.Application["Nume"]
+                    </div>
+
+                    <div class="dropdown-content">
+                        @if (HttpContext.Current.Application["Rol"] == "2")
+                        {
+                            @* Profil Angajat*@
+                            <a @*class="nav-link-white" data-toggle="tab"*@ href="@Url.Action("EditareProfilAngajat", "Account", new { @email = @HttpContext.Current.Application["Email"] })" title="Profil">
+                                <img src="~/Content/Img/profil1.png" alt="Profil" height="20" width="21" style="float:left;" />
+                                Profil
+                            </a>
+
+                            @* CV-uri*@
+                            <a href="@Url.Action("IncarcaFisier", "CV", new { @email = @HttpContext.Current.Application["Email"] })" title="Editare CV">
+                                <img src="~/Content/Img/ist1.png" alt="CV" height="20" width="22" style="float:left;" />
+                                CV-urile mele
+                            </a>
+                        }
+
+                        @if (HttpContext.Current.Application["Rol"] == "3")
+                        {
+                            @* Profil Angajator*@
+                            <a href="@Url.Action("EditareProfilAngajator", "Account", new { @email = @HttpContext.Current.Application["Email"] })" title="Profil">
+                                <img src="~/Content/Img/profil1.png" alt="Profil" height="20" width="21" style="float:left;" />
+                                Profil
+                            </a>
+
+                            @* Joburi adaugate*@
+                            @*<a href="@Url.Action("ListaAdmin", "Job", new { @angajator = @HttpContext.Current.Application["Nume"], @val_cautare = @HttpContext.Current.Application["Cautare"] })">
                                     <img src="~/Content/Img/lista.png" alt="Joburi adaugate" height="18" width="19" style="float:left;" />
                                     Joburi adăugate
                                 </a>*@
 
-                                <a href="~/Job/ListaAdmin/?angajator=@HttpContext.Current.Application["Nume"]&val_cautare=@HttpContext.Current.Application["Cautare"]">
-                                    <img src="~/Content/Img/lista.png" alt="Joburi adaugate" height="18" width="19" style="float:left;" />
-                                    Joburi adăugate
-                                </a>
-
-                                @* Vezi CVuri*@
-                                <a href="#cv" title="Vezi CV-uri">
-                                    <img src="~/Content/Img/ist1.png" alt="CV" height="20" width="22" style="float:left;" />
-                                    Vezi CV-uri
-                                </a>
-                            }
-
-                            @*Iesi din Cont*@
-                            <a href="javascript:document.getElementById('logoutForm').submit()">
-                                <img src="~/Content/Img/logout2.png" alt="Profil" height="18" width="19" style="float:left;" />
-                                Iesi din Cont
+                            <a href="~/Job/ListaAdmin/?angajator=@HttpContext.Current.Application["Nume"]&val_cautare=@HttpContext.Current.Application["Cautare"]">
+                                <img src="~/Content/Img/lista.png" alt="Joburi adaugate" height="18" width="19" style="float:left;" />
+                                Joburi adăugate
                             </a>
-                        </div>
-                    </button>
-                </div>
 
-                @*<ul class="nav navbar-nav navbar-right">*@
-                @*<li class="nav-item"> </li>*@
-                @*</ul>*@
-            }
-        }
+                            @* Vezi CVuri*@
+                            <a href="@Url.Action("CVuri_Angajator", "CV")" title="Vezi CV-uri">
+                                <img src="~/Content/Img/ist1.png" alt="CV" height="20" width="22" style="float:left;" />
+                                Vezi CV-uri
+                            </a>
+                        }
 
-        @* --   utilizatorul nu este autentificat  -- *@
-        else
-        {
-            <ul class="nav navbar-nav navbar-right">
-                @* Buton Cont Nou *@
-                <li>
-                    <%= @Html.ActionLink("Cont Nou", "Inregistrare", "Account", null, new { @class = "btn-register" }) %>
-                </li>
-                @* Buton Logare *@
-                <li>
-                    <%= @Html.ActionLink("Intră în Cont", "IntraInCont", "Account", null, new { @class = "btn-register" }) %>
-                </li>
-            </ul>
+                        @*Iesi din Cont*@
+                        <a href="javascript:document.getElementById('logoutForm').submit()">
+                            <img src="~/Content/Img/logout2.png" alt="Profil" height="18" width="19" style="float:left;" />
+                            Iesi din Cont
+                        </a>
+                    </div>
+                </button>
+            </div>
+
+            @*<ul class="nav navbar-nav navbar-right">*@
+            @*<li class="nav-item"> </li>*@
+            @*</ul>*@
         }
-    </body>
-    </html>
+    }
+
+    @* --   utilizatorul nu este autentificat  -- *@
+    else
+    {
+        <ul class="nav navbar-nav navbar-right">
+            @* Buton Cont Nou *@
+            <li>
+                <%= @Html.ActionLink("Cont Nou", "Inregistrare", "Account", null, new { @class = "btn-register" }) %>
+            </li>
+            @* Buton Logare *@
+            <li>
+                <%= @Html.ActionLink("Intră în Cont", "IntraInCont", "Account", null, new { @class = "btn-register" }) %>
+            </li>
+        </ul>
+    }
+</body>
+</html>

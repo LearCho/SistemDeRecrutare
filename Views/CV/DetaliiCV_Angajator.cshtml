@@ -4,20 +4,21 @@
     ViewBag.Title = "DetaliiCV";
 }
 
-    <div class="cvv" style="height:520px; display:inline-block;">
-        @foreach (var cv in Model)
-        {
-    <p class="nume">
-        @Html.DisplayNameFor(model => model.nume_fisier)
-        @Html.DisplayFor(modelItem => cv.nume_fisier)
-    </p>
-            <a href="@Url.Action("DescarcaFisier", "CV", new { @id_cv = @cv.id_cv})">
-                <img src="~/Content/Img/download1.png" alt="Descarcă" height="25" width="25" style="" />
-                Descarcă Fișier
-            </a>
-            @*@Html.ActionLink("Descarca CV", "DescarcaFisier", new { id_cv = @cv.id_cv })*@
-        }
+@foreach (var cv in Model)
+{
+    <div class="cvs" style="height:115px; display:inline-block;">
+
+        <p class="nume">
+            @Html.DisplayNameFor(model => model.nume_fisier)
+            @Html.DisplayFor(modelItem => cv.nume_fisier)
+        </p>
+        <a href="@Url.Action("DescarcaFisierAngajator", "CV", new { @id_cv = @cv.id_cv})">
+            <img src="~/Content/Img/download1.png" alt="Descarcă" height="22" width="25" style="" />
+            Descarcă Fișier
+        </a>
     </div>
+}
+
 
 @*------------------------------------------------------------*@
 @*-----------------------------css----------------------------*@
@@ -38,8 +39,8 @@
         padding-right:30px;
     }
 
-     @* div cvv *@
-    .cvv {
+     @* div cvs *@
+    .cvs {
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
         width: 520px;
         margin-left: 9px;
@@ -53,14 +54,14 @@
         padding-bottom: 15px;
     }
 
-    .cvv:hover{
+    .cvs:hover{
           box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
     }
 
     .nume {
           color: orangered;
           font-size: 17px;
-          height: 25px;
+          height: 22px;
     }
 
      .data {
@@ -71,6 +72,7 @@
     .descriere {
         height: 50px;
      }
+
 
 </style>
 @*-------------------------------------------------------------*@

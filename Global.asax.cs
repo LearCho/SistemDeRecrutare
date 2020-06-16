@@ -25,10 +25,11 @@ namespace SistemRecrutare
         }
 
         protected void Session_Start(object sender, EventArgs e)
-        {
+        { 
             Notificari n = new Notificari();
             var data_curenta = DateTime.Now;
             HttpContext.Current.Application["LastUpdated"] = data_curenta;
+            HttpContext.Current.Session["LastUpdated"] = data_curenta;
             n.InregistrareNotificari(data_curenta/*HttpContext.Current.Application["Nume"].ToString()*/);
         }
 

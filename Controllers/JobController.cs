@@ -41,21 +41,22 @@ namespace SistemRecrutare.Controllers
                 //    SqlDataAdapter sqlDataA = new SqlDataAdapter("SELECT * FROM dbo.job", sqlCon);
                 //    sqlDataA.Fill(dataTable_Joburi);}         
 
-                var joburi = from job in db.jobs where job.angajator == angajator
-                             select job;              
+                var joburi = from job in db.jobs
+                             where job.angajator == angajator
+                             select job;
 
                 return View(joburi.Where(j => /*(j.angajator.ToUpper() == angajator) &&*/
                 (j.cod_job.Contains(val_cautare) || j.denumire_job.Contains(val_cautare) ||
-                j.angajator.Contains(val_cautare) || j.tara.Contains(val_cautare) || 
-                j.oras.Contains(val_cautare) || j.descriere_job.Contains(val_cautare) || 
+                j.angajator.Contains(val_cautare) || j.tara.Contains(val_cautare) ||
+                j.oras.Contains(val_cautare) || j.descriere_job.Contains(val_cautare) ||
                 val_cautare == null)).ToList());
             }
-            catch 
+            catch
             {
                 return View("Error");
             }
 
-          //  return View(dataTable_Joburi);
+            //  return View(dataTable_Joburi);
         }
 
         // GET: Job/Details/5
@@ -75,7 +76,7 @@ namespace SistemRecrutare.Controllers
         [HttpGet]
         //[Authorize(Roles = "Admin, Angajator")]
         public ActionResult Creare()
-        {          
+        {
             return View(new SistemRecrutare.Models.JobModel());
         }
 
@@ -86,45 +87,45 @@ namespace SistemRecrutare.Controllers
         {
             //try
             //{
-                // upload imagine in baza de date
-                foreach (string upload in Request.Files)
-                {
-                    if (!ExistaFisier(Request.Files[upload]))
-                        continue;
-                    Stream fileStream = Request.Files[upload].InputStream;
-                    int lungimeFisier = Request.Files[upload].ContentLength;
-                    jobModel.imagine_job = new byte[lungimeFisier];
-                    fileStream.Read(jobModel.imagine_job, 0, lungimeFisier);
-                }
+            // upload imagine in baza de date
+            foreach (string upload in Request.Files)
+            {
+                if (!ExistaFisier(Request.Files[upload]))
+                    continue;
+                Stream fileStream = Request.Files[upload].InputStream;
+                int lungimeFisier = Request.Files[upload].ContentLength;
+                jobModel.imagine_job = new byte[lungimeFisier];
+                fileStream.Read(jobModel.imagine_job, 0, lungimeFisier);
+            }
 
-                using (SqlConnection sqlCon = new SqlConnection(connectionString))
-                {
-                    sqlCon.Open();
+            using (SqlConnection sqlCon = new SqlConnection(connectionString))
+            {
+                sqlCon.Open();
 
-                    string query = "INSERT INTO dbo.job VALUES(@denumire_job, @cod_job, @data_expirare_job," +
-                        " @angajator,  @imagine_job, @descriere_job, @data_creare_job, @tara, @oras, @norma_job)";
-                    SqlCommand sql_cmd = new SqlCommand(query, sqlCon);
-                   
-                    //sql_cmd.Parameters.AddWithValue("@id_job", id_job);
-                    sql_cmd.Parameters.AddWithValue("@denumire_job", jobModel.denumire_job);
-                    sql_cmd.Parameters.AddWithValue("@cod_job", jobModel.cod_job);
-                    sql_cmd.Parameters.AddWithValue("@data_creare_job", jobModel.data_creare_job);
-                    sql_cmd.Parameters.AddWithValue("@data_expirare_job", jobModel.data_expirare_job);
-                    sql_cmd.Parameters.AddWithValue("@angajator", jobModel.angajator);
-                    sql_cmd.Parameters.AddWithValue("@tara", jobModel.tara);
-                    sql_cmd.Parameters.AddWithValue("@oras", jobModel.oras);
-                    sql_cmd.Parameters.AddWithValue("@imagine_job", jobModel.imagine_job);
-                    sql_cmd.Parameters.AddWithValue("@descriere_job", jobModel.descriere_job);
-                    sql_cmd.Parameters.AddWithValue("@norma_job", jobModel.norma_job);
-                    sql_cmd.ExecuteNonQuery();
-                }
+                string query = "INSERT INTO dbo.job VALUES(@denumire_job, @cod_job, @data_expirare_job," +
+                    " @angajator,  @imagine_job, @descriere_job, @data_creare_job, @tara, @oras, @norma_job)";
+                SqlCommand sql_cmd = new SqlCommand(query, sqlCon);
+
+                //sql_cmd.Parameters.AddWithValue("@id_job", id_job);
+                sql_cmd.Parameters.AddWithValue("@denumire_job", jobModel.denumire_job);
+                sql_cmd.Parameters.AddWithValue("@cod_job", jobModel.cod_job);
+                sql_cmd.Parameters.AddWithValue("@data_creare_job", jobModel.data_creare_job);
+                sql_cmd.Parameters.AddWithValue("@data_expirare_job", jobModel.data_expirare_job);
+                sql_cmd.Parameters.AddWithValue("@angajator", jobModel.angajator);
+                sql_cmd.Parameters.AddWithValue("@tara", jobModel.tara);
+                sql_cmd.Parameters.AddWithValue("@oras", jobModel.oras);
+                sql_cmd.Parameters.AddWithValue("@imagine_job", jobModel.imagine_job);
+                sql_cmd.Parameters.AddWithValue("@descriere_job", jobModel.descriere_job);
+                sql_cmd.Parameters.AddWithValue("@norma_job", jobModel.norma_job);
+                sql_cmd.ExecuteNonQuery();
+            }
             //}
             //catch
             //{
             //    return Content("<script language='javascript' type='text/javascript'>alert ('A aparut o eroare la introducerea datelor! ');</script>");
             //}  
-            
-            return RedirectToAction("ListaAdmin", "Job", new { angajator = jobModel.angajator });          
+
+            return RedirectToAction("ListaAdmin", "Job", new { angajator = jobModel.angajator });
         }
 
         // GET: Job/Editare/5
@@ -189,30 +190,30 @@ namespace SistemRecrutare.Controllers
             try
             {
                 using (SqlConnection sqlCon = new SqlConnection(connectionString))
-            {
-                sqlCon.Open();
+                {
+                    sqlCon.Open();
 
-                string query = "UPDATE dbo.job SET denumire_job = @denumire_job, cod_job = @cod_job," +
-                    " data_expirare_job = @data_expirare_job, angajator = @angajator, descriere_job = @descriere_job," +
-                    " data_creare_job = @data_creare_job, tara = @tara, oras = @oras, norma_job = @norma_job " +
-                    "WHERE cod_job = @cod_job;";
-                SqlCommand sql_cmd = new SqlCommand(query, sqlCon);
+                    string query = "UPDATE dbo.job SET denumire_job = @denumire_job, cod_job = @cod_job," +
+                        " data_expirare_job = @data_expirare_job, angajator = @angajator, descriere_job = @descriere_job," +
+                        " data_creare_job = @data_creare_job, tara = @tara, oras = @oras, norma_job = @norma_job " +
+                        "WHERE cod_job = @cod_job;";
+                    SqlCommand sql_cmd = new SqlCommand(query, sqlCon);
 
-                //sql_cmd.Parameters.AddWithValue("@id_job", id_job);
-                sql_cmd.Parameters.AddWithValue("@denumire_job", jobModel.denumire_job);
-                sql_cmd.Parameters.AddWithValue("@cod_job", jobModel.cod_job);
-                sql_cmd.Parameters.AddWithValue("@data_creare_job", jobModel.data_creare_job);
-                sql_cmd.Parameters.AddWithValue("@data_expirare_job", jobModel.data_expirare_job);
-                sql_cmd.Parameters.AddWithValue("@angajator", jobModel.angajator);
-                sql_cmd.Parameters.AddWithValue("@tara", jobModel.tara);
-                sql_cmd.Parameters.AddWithValue("@oras", jobModel.oras);
+                    //sql_cmd.Parameters.AddWithValue("@id_job", id_job);
+                    sql_cmd.Parameters.AddWithValue("@denumire_job", jobModel.denumire_job);
+                    sql_cmd.Parameters.AddWithValue("@cod_job", jobModel.cod_job);
+                    sql_cmd.Parameters.AddWithValue("@data_creare_job", jobModel.data_creare_job);
+                    sql_cmd.Parameters.AddWithValue("@data_expirare_job", jobModel.data_expirare_job);
+                    sql_cmd.Parameters.AddWithValue("@angajator", jobModel.angajator);
+                    sql_cmd.Parameters.AddWithValue("@tara", jobModel.tara);
+                    sql_cmd.Parameters.AddWithValue("@oras", jobModel.oras);
                     //sql_cmd.Parameters.AddWithValue("@imagine_job", jobModel.imagine_job);
                     sql_cmd.Parameters.AddWithValue("@descriere_job", jobModel.descriere_job);
                     sql_cmd.Parameters.AddWithValue("@norma_job", jobModel.norma_job);
 
                     sql_cmd.ExecuteNonQuery();
-            }
-            return RedirectToAction("ListaAdmin", "Job", new { angajator = jobModel.angajator });
+                }
+                return RedirectToAction("ListaAdmin", "Job", new { angajator = jobModel.angajator });
             }
             catch
             {
@@ -354,10 +355,10 @@ namespace SistemRecrutare.Controllers
             HttpContext.Application["Cauta"] = val_cautare;
 
             try
-            {    
-                return View(db.jobs.Where(j => (j.cod_job.Contains(val_cautare) || 
-                j.denumire_job.Contains(val_cautare) || j.angajator.Contains(val_cautare) || 
-                j.tara.Contains(val_cautare) || j.oras.Contains(val_cautare) || 
+            {
+                return View(db.jobs.Where(j => (j.cod_job.Contains(val_cautare) ||
+                j.denumire_job.Contains(val_cautare) || j.angajator.Contains(val_cautare) ||
+                j.tara.Contains(val_cautare) || j.oras.Contains(val_cautare) ||
                 j.descriere_job.Contains(val_cautare) || val_cautare == null)).ToList());
             }
             catch
@@ -389,7 +390,7 @@ namespace SistemRecrutare.Controllers
                     if (dataTable_Job.Rows.Count == 1)
                     {
                         jobModel.cod_job = dataTable_Job.Rows[0][2].ToString();
-                   
+
                         if (dataTable_Job.Rows[0][10].ToString() == "0")
                         {
                             dataTable_Job.Rows[0][10] = "Fulltime";
@@ -409,7 +410,7 @@ namespace SistemRecrutare.Controllers
                         if (dataTable_Job.Rows[0][10].ToString() == "4")
                         {
                             dataTable_Job.Rows[0][10] = "Practica";
-                        }           
+                        }
                     }
                 }
                 return View(dataTable_Job);
@@ -420,7 +421,7 @@ namespace SistemRecrutare.Controllers
             }
         }
 
-          // trimitere aplicatie prin email catre angajator
+        // trimitere aplicatie prin email catre angajator
         public ActionResult TrimiteNotificareAplicareEmail(string cod_job)
         {
             angajator angajatorModel = new angajator();
@@ -448,10 +449,10 @@ namespace SistemRecrutare.Controllers
 
                     if (dataTable_verificare.Rows.Count > 0)
                     {
-                       if(Convert.ToInt16(dataTable_verificare.Rows[0][0]) == 1)
+                        if (Convert.ToInt16(dataTable_verificare.Rows[0][0]) == 1)
                         {
                             ViewBag.MesajAplicare = "Ai aplicat deja la acest job!!";
-                            return View("Error");                       
+                            return View("Error");
                         }
                     }
 
@@ -464,9 +465,9 @@ namespace SistemRecrutare.Controllers
 
                     if (dataTable_angajat.Rows.Count == 1)
                     {
-                        aplicareModel.nume_angajat = dataTable_angajat.Rows[0][0].ToString() + " " + 
-                            dataTable_angajat.Rows[0][1].ToString(); 
-                    } 
+                        aplicareModel.nume_angajat = dataTable_angajat.Rows[0][0].ToString() + " " +
+                            dataTable_angajat.Rows[0][1].ToString();
+                    }
 
                     // angajator
                     string query_numeAngajator = "SELECT angajator, cod_job FROM dbo.job WHERE cod_job = @cod_job;";
@@ -477,8 +478,8 @@ namespace SistemRecrutare.Controllers
                     if (dataTable_angajator.Rows.Count == 1)
                     {
                         //angajatorModel.nume_angajator = dataTable_angajator.Rows[0][0].ToString();
-                        aplicareModel.angajator = dataTable_angajator.Rows[0][0].ToString(); 
-                        aplicareModel.cod_job = dataTable_angajator.Rows[0][1].ToString(); 
+                        aplicareModel.angajator = dataTable_angajator.Rows[0][0].ToString();
+                        aplicareModel.cod_job = dataTable_angajator.Rows[0][1].ToString();
                     }
 
                     string query_email = "SELECT email FROM dbo.angajator WHERE nume_angajator = @nume_angajator;";
@@ -520,7 +521,7 @@ namespace SistemRecrutare.Controllers
                     Body = email_body,
                     IsBodyHtml = true
                 })
-                    smtp.Send(mesaj_aplicare);              
+                    smtp.Send(mesaj_aplicare);
 
                 ViewBag.Message = "\tAi aplicat cu succes la acest loc de muncă!\n Angajatorul va fi " +
                     "notificat în scurt timp.";
@@ -536,7 +537,7 @@ namespace SistemRecrutare.Controllers
                     db.SaveChanges();
                 }
 
-                    return View(dataTable_mail);
+                return View(dataTable_mail);
             }
             catch
             {
@@ -594,6 +595,136 @@ namespace SistemRecrutare.Controllers
                     }
                 }
                 return View(dataTable_Job);
+            }
+            catch
+            {
+                return View("Error");
+            }
+        }
+
+        public ActionResult AprobaAplicatie(/*string cod_job,*/ string email)
+        {
+            try
+            {
+                //  email = HttpContext.Application["Email"].ToString();
+                email = HttpContext.Application["Email"].ToString();
+                aplicare_job aplicareModel = new aplicare_job();
+                DataTable dataTable_Aplicare = new DataTable();
+
+                using (SqlConnection sqlCon = new SqlConnection(connectionString))
+                {
+                    sqlCon.Open();
+
+                    string query = "SELECT distinct email_angajat, nume_angajat, angajator FROM dbo.aplicare_job WHERE " +
+                        "aplicare_job.email_angajat = @email_angajat;";
+
+                    SqlDataAdapter sqlData = new SqlDataAdapter(query, sqlCon);
+                    //sqlData.SelectCommand.Parameters.AddWithValue("@cod_job", cod_job);
+                    sqlData.SelectCommand.Parameters.AddWithValue("@email_angajat", email);
+                    sqlData.Fill(dataTable_Aplicare);
+
+                    if (dataTable_Aplicare.Rows.Count == 1)
+                    {
+                        aplicareModel.email_angajat = dataTable_Aplicare.Rows[0][0].ToString();
+                        aplicareModel.nume_angajat = dataTable_Aplicare.Rows[0][1].ToString();
+                        aplicareModel.angajator = dataTable_Aplicare.Rows[0][2].ToString();
+                    }
+
+                    var email_deLa = new MailAddress("sis.rec.utcb@gmail.com", "Sistem Recrutare");
+                    var email_pentru = new MailAddress(email);
+                    var email_deLa_parola = "licenta2020"; // parola actuala
+                    string email_titlu = "Aplicatia ta a primit un raspuns!";
+
+                    var smtp = new SmtpClient
+                    {
+                        Host = "smtp.gmail.com",
+                        Port = 587,
+                        EnableSsl = true,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false,
+                        Credentials = new NetworkCredential(email_deLa.Address, email_deLa_parola)
+                    };
+
+                    string email_body = "<br/><br/><p>Felicitari!</p> <p>Angajatorul <b> " + aplicareModel.angajator + "</b> ti-a evaluat " +
+                        "aplicatia si urmeaza sa fi contactat pentru urmatorul pas.</p><p> Stai cu ochii pe telefon si pe email!</p><br/> " +
+                        "<br/><br/><b>Platforma de Joburi</b>";                   
+                    using (var mesaj_aplicare = new MailMessage(email_deLa, email_pentru)
+                    {
+                        Subject = email_titlu,
+                        Body = email_body,
+                        IsBodyHtml = true
+                    })
+                        smtp.Send(mesaj_aplicare);
+
+                    ViewBag.Message = "\tRăspunsul a fost trimis. Puteți programa un interviu pentru candidatul selectat.";
+                }
+                return View(dataTable_Aplicare);
+        }
+            catch
+            {
+                return View("Error");
+            }
+        }
+
+        public ActionResult RespingeAplicatie(/*string cod_job,*/ string email)
+        {
+            try
+            {
+                //  email = HttpContext.Application["Email"].ToString();
+                email = HttpContext.Application["Email"].ToString();
+                aplicare_job aplicareModel = new aplicare_job();
+                DataTable dataTable_Aplicare = new DataTable();
+
+                using (SqlConnection sqlCon = new SqlConnection(connectionString))
+                {
+                    sqlCon.Open();
+
+                    string query = "SELECT distinct email_angajat, nume_angajat, angajator FROM dbo.aplicare_job WHERE " +
+                        "aplicare_job.email_angajat = @email_angajat;";
+
+                    SqlDataAdapter sqlData = new SqlDataAdapter(query, sqlCon);
+                    //sqlData.SelectCommand.Parameters.AddWithValue("@cod_job", cod_job);
+                    sqlData.SelectCommand.Parameters.AddWithValue("@email_angajat", email);
+                    sqlData.Fill(dataTable_Aplicare);
+
+                    if (dataTable_Aplicare.Rows.Count == 1)
+                    {
+                        aplicareModel.email_angajat = dataTable_Aplicare.Rows[0][0].ToString();
+                        aplicareModel.nume_angajat = dataTable_Aplicare.Rows[0][1].ToString();
+                        aplicareModel.angajator = dataTable_Aplicare.Rows[0][2].ToString();
+                    }
+
+                    var email_deLa = new MailAddress("sis.rec.utcb@gmail.com", "Sistem Recrutare");
+                    var email_pentru = new MailAddress(email);
+                    var email_deLa_parola = "licenta2020"; // parola actuala
+                    string email_titlu = "Aplicatia ta a primit un raspuns!";
+
+                    var smtp = new SmtpClient
+                    {
+                        Host = "smtp.gmail.com",
+                        Port = 587,
+                        EnableSsl = true,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false,
+                        Credentials = new NetworkCredential(email_deLa.Address, email_deLa_parola)
+                    };
+
+                    string email_body = "<br/><br/><p>Din pacate, </p> <p>angajatorul <b> " + aplicareModel.angajator + "</b> ti-a evaluat " +
+                        "aplicatia, alegand sa nu mearga mai departe cu ea in procesul de recrutare.</p><p> Nu te descumpani! Continua sa iti " +
+                        "imbunatatesti cv-ul, nu uita sa adaugi o scrisoare de intentie pentru a-ti creste sansele de selectie si aplica, " +
+                        "aplica, aplica! la cele mai noi locuri de munca de pe patforma noastra.</p><p>Iti uram succes!</p><br/> " +
+                        "<br/><br/><b>Platforma de Joburi</b>";
+                    using (var mesaj_aplicare = new MailMessage(email_deLa, email_pentru)
+                    {
+                        Subject = email_titlu,
+                        Body = email_body,
+                        IsBodyHtml = true
+                    })
+                        smtp.Send(mesaj_aplicare);
+
+                    ViewBag.Message = "\tAi respins aplicația candidatului. Răspunsul a fost trimis cu succes!";
+                }
+                return View(dataTable_Aplicare);
             }
             catch
             {

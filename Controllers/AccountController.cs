@@ -428,7 +428,7 @@ namespace SistemRecrutare.Controllers
                     if (string.Compare(CriptareParola.Hash(logare.Parola),
                         utilizator.parola) == 0)
                     {
-                        int sesiune = logare.TineMinte ? 525600 : 3; //525600 min = 1 an
+                        int sesiune = logare.TineMinte ? 525600 : 4; //525600 min = 1 an
                         var ticket = new FormsAuthenticationTicket(logare.Email, logare.TineMinte,
                             sesiune);
                         string encriptare = FormsAuthentication.Encrypt(ticket);
@@ -722,10 +722,11 @@ namespace SistemRecrutare.Controllers
 
         public JsonResult VeziNotificareAplicare()
         {
-            var data_inreg_notif = HttpContext.Application["LastUpdated"] != null ? Convert.ToDateTime(HttpContext.Application["LastUpdated"]) : DateTime.Now;
+            var data_inreg_notif = HttpContext.Application["LastUpdated"] /*Session["LastUpdated"]*/ != null ? Convert.ToDateTime(/*Session["LastUpdated"]*/ HttpContext.Application["LastUpdated"]) : DateTime.Now;
             Notificari n = new Notificari();
             var lista = n.ListareAplicari(data_inreg_notif/*, HttpContext.Application["Nume"].ToString()*/);
             HttpContext.Application["LastUpdate"] = DateTime.Now;
+           // Session["LastUpdate"] = DateTime.Now;
             return new JsonResult { Data = lista, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
@@ -821,6 +822,12 @@ namespace SistemRecrutare.Controllers
         //    return View();
         //}
 
+        public ActionResult LoginFB(string returnUrl)
+        {
+            // Request a redirect to the external login provider
+            return new ChallengeResult("Facebook",
+              Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
+        }
 
         [HttpPost] // POST: /Account/ExternalLogin
         [AllowAnonymous]
@@ -833,33 +840,37 @@ namespace SistemRecrutare.Controllers
         
         // GET: /Account/ExternalLoginCallback
         [AllowAnonymous]
-        public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
-        {
-            var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
-            if (loginInfo == null)
-            {
-                return RedirectToAction("Login");
-            }
+        //public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
+        //{
+        //    var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
+        //    if (loginInfo == null)
+        //    {
+        //        return RedirectToAction("Login");
+        //    }
 
-            // Sign in the user with this external login provider if the user already has a login
-            var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
-                case SignInStatus.Failure:
-                default:
-                    // If the user does not have an account, then prompt the user to create an account
-                    ViewBag.ReturnUrl = returnUrl;
-                    ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
-            }
+        //    // Sign in the user with this external login provider if the user already has a login
+        //    var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
+        //    switch (result)
+        //    {
+        //        case SignInStatus.Success:
+        //            return RedirectToLocal(returnUrl);
+        //        case SignInStatus.LockedOut:
+        //            return View("Lockout");
+        //        case SignInStatus.RequiresVerification:
+        //            return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
+        //        case SignInStatus.Failure:
+        //        default:
+        //            // If the user does not have an account, then prompt the user to create an account
+        //            ViewBag.ReturnUrl = returnUrl;
+        //            ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
+        //            return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+        //    }
+        //}
+        public ActionResult ExternalLoginCallback(string returnUrl)
+        {
+            return new RedirectResult(returnUrl);
         }
-       
+
         // POST: /Account/ExternalLoginConfirmation
         [HttpPost]
         [AllowAnonymous]
@@ -966,6 +977,8 @@ namespace SistemRecrutare.Controllers
             public ChallengeResult(string provider, string redirectUri)
                 : this(provider, redirectUri, null)
             {
+                LoginProvider = provider;
+                RedirectUri = redirectUri;
             }
 
             public ChallengeResult(string provider, string redirectUri, string userId)
@@ -982,10 +995,10 @@ namespace SistemRecrutare.Controllers
             public override void ExecuteResult(ControllerContext context)
             {
                 var properties = new AuthenticationProperties { RedirectUri = RedirectUri };
-                if (UserId != null)
-                {
-                    properties.Dictionary[XsrfKey] = UserId;
-                }
+                //if (UserId != null)
+                //{
+                //    properties.Dictionary[XsrfKey] = UserId;
+                //}
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
         }

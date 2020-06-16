@@ -13,6 +13,7 @@ namespace SistemRecrutare
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+          
             CreareRoluriUtilizatori();
 
             app.MapSignalR(); //SignalR pentru notificari push

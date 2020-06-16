@@ -271,6 +271,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SistemRecrutareBaseController.cs" />
     <Compile Include="Controllers\UtilizatorLogat.cs" />
+    <Compile Include="Facebook\FacebookBackChannelHandler.cs" />
     <Compile Include="FisiereCareSePierdLaAutoRegenerare\FisiereAutoRegenerare.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -311,6 +312,7 @@
     <Compile Include="Models\domeniu_lucru.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GoogleLoginViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\job.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
@@ -478,6 +480,8 @@
     <Content Include="Views\Job\Detalii.cshtml" />
     <Content Include="Views\CV\DetaliiCV_Angajator.cshtml" />
     <Content Include="Views\CV\CVuri_Angajator.cshtml" />
+    <Content Include="Views\Job\AprobaAplicatie.cshtml" />
+    <Content Include="Views\Job\RespingeAplicatie.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -15,8 +15,8 @@ namespace SistemRecrutare
         public void InregistrareNotificari(DateTime data_curenta/*, string angajator*/)
         {
             string conStr = ConfigurationManager.ConnectionStrings["sqlConStringDependencies"].ConnectionString;
-            string query = "SELECT cod_job, nume_angajat FROM dbo.aplicare_job WHERE " +
-                "data_aplicare > @data_aplicare" /*AND angajator = @angajator;"*/;
+            string query = @"SELECT [cod_job], [nume_angajat] FROM [dbo].[aplicare_job] WHERE " +
+                "[data_aplicare] > @data_aplicare" /*AND angajator = @angajator;"*/;
 
             using (SqlConnection con = new SqlConnection(conStr))
             {
@@ -41,7 +41,6 @@ namespace SistemRecrutare
          void sqlDep_OnChange(object sender, SqlNotificationEventArgs e)
         {
             //string angajator;
-
            //  angajator = HttpContext.Current.Application["Nume"].ToString();
 
             if (e.Type == SqlNotificationType.Change)

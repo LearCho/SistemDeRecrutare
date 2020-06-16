@@ -38,7 +38,7 @@
                         @Model.Rows[i - 1][6]
                     </p>
                     <p hidden>@Model.Rows[i - 1][2]</p><br />
-                    <p>
+                    <p style="padding:20px;">
                         <button>
                             <a href="@Url.Action("TrimiteNotificareAplicareEmail", "Job", new { @cod_job = @Model.Rows[i - 1][2], @class = "text-buton" })">
                                 Aplică
@@ -95,7 +95,7 @@
         padding-left: 10px;
         padding-right: 10px;
         padding-top: 45px;
-        padding-bottom: 45px;
+        padding-bottom: 69px;
     }
 
     .job:hover{
@@ -138,8 +138,13 @@
          color: white;
      }
 
-      .job a:visited {
-         color: white;
+      .job a {
+        color: white;
+    }
+
+    .job a:visited {
+        color: white;
+    }
 </style>
 @*-------------------------------------------------------------*@
 

@@ -647,7 +647,7 @@ namespace SistemRecrutare.Controllers
 
                     string email_body = "<br/><br/><p>Felicitari!</p> <p>Angajatorul <b> " + aplicareModel.angajator + "</b> ti-a evaluat " +
                         "aplicatia si urmeaza sa fi contactat pentru urmatorul pas.</p><p> Stai cu ochii pe telefon si pe email!</p><br/> " +
-                        "<br/><br/><b>Platforma de Joburi</b>";                   
+                        "<br/><br/><b>Platforma de Joburi</b><br/>Acesta este un email trimis automat. Angajatorul nu poate fi contactat pe această adresă.";                   
                     using (var mesaj_aplicare = new MailMessage(email_deLa, email_pentru)
                     {
                         Subject = email_titlu,
@@ -709,11 +709,11 @@ namespace SistemRecrutare.Controllers
                         Credentials = new NetworkCredential(email_deLa.Address, email_deLa_parola)
                     };
 
-                    string email_body = "<br/><br/><p>Din pacate, </p> <p>angajatorul <b> " + aplicareModel.angajator + "</b> ti-a evaluat " +
+                    string email_body = "<br/><br/>Salut!<p> Din pacate, angajatorul <b> " + aplicareModel.angajator + "</b> ti-a evaluat " +
                         "aplicatia, alegand sa nu mearga mai departe cu ea in procesul de recrutare.</p><p> Nu te descumpani! Continua sa iti " +
                         "imbunatatesti cv-ul, nu uita sa adaugi o scrisoare de intentie pentru a-ti creste sansele de selectie si aplica, " +
                         "aplica, aplica! la cele mai noi locuri de munca de pe patforma noastra.</p><p>Iti uram succes!</p><br/> " +
-                        "<br/><br/><b>Platforma de Joburi</b>";
+                        "<br/><br/><b>Platforma de Joburi</b><br/>Acesta este un email trimis automat. Angajatorul nu poate fi contactat pe această adresă.";
                     using (var mesaj_aplicare = new MailMessage(email_deLa, email_pentru)
                     {
                         Subject = email_titlu,

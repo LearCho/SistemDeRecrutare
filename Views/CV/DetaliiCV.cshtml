@@ -7,13 +7,17 @@
     <div class="cvv" style="height:520px; display:inline-block;">
         @foreach (var cv in Model)
         {
-    <p class="nume">
-        @Html.DisplayNameFor(model => model.nume_fisier)
-        @Html.DisplayFor(modelItem => cv.nume_fisier)
-    </p>
+            <p class="nume">
+                @Html.DisplayNameFor(model => model.nume_fisier)
+                @Html.DisplayFor(modelItem => cv.nume_fisier)
+            </p>
             <a href="@Url.Action("DescarcaFisier", "CV", new { @id_cv = @cv.id_cv})">
                 <img src="~/Content/Img/download1.png" alt="Descarcă" height="25" width="25" style="" />
                 Descarcă Fișier
+            </a>
+            <a href="@Url.Action("StergeFisier", "CV", new { @id_cv = @cv.id_cv})">
+                <img src="~/Content/Img/delete1.png" alt="Șterge" height="25" width="25" style="" />
+                Șterge Fișier
             </a>
             @*@Html.ActionLink("Descarca CV", "DescarcaFisier", new { id_cv = @cv.id_cv })*@
         }

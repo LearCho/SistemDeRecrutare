@@ -204,6 +204,33 @@ namespace SistemRecrutare.Controllers
         }
         #endregion
 
+        #region Stergere Fisier
+        public ActionResult StergeFisier(int id_cv)
+        {
+            //List<DetaliiCvModel> ListaFisiere = VeziListaFisiere();
+            try
+            {
+                using (SqlConnection sqlCon = new SqlConnection(JobController.connectionString))
+                {
+                    sqlCon.Open();
+
+                    string query = "DELETE FROM dbo.cv WHERE id_cv = @id_cv;";
+
+                    SqlCommand sql_cmd = new SqlCommand(query, sqlCon);
+                    sql_cmd.Parameters.AddWithValue("@id_cv", id_cv);
+
+                    sql_cmd.ExecuteNonQuery();
+                }
+
+                return RedirectToAction("IncarcaFisier", "CV", new { email = HttpContext.Application["Email"] });
+            }
+            catch
+            {
+                return View("Error");
+            }
+        }
+        #endregion
+
 
         #region Conexiune cu baza de date  
         //private SqlConnection con;

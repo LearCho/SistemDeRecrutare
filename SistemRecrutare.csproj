@@ -359,6 +359,7 @@
     <Content Include="Content\Img\cv1.jpg" />
     <Content Include="Content\Img\cv2.jpg" />
     <Content Include="Content\Img\cv2.png" />
+    <Content Include="Content\Img\delete1.png" />
     <Content Include="Content\Img\download1.png" />
     <Content Include="Content\Img\edit1.png" />
     <Content Include="Content\Img\edit2.png" />

@@ -53,7 +53,7 @@
 
             <div class="form-group" style="padding-left: 275px; padding-bottom: 90px; margin-top:15px;">
                 <div>
-                    @Html.Action("DetaliiCV", "CV", new { @email = @Model.Rows[i - 1][14] })
+                    @Html.Action("DetaliiCV", "CV", new { @email = @Model.Rows[i - 1][14], @AplicantSauAngajator = "Angajator" })
                 </div>
             </div>
             <br /><br /><br /><br /><br />

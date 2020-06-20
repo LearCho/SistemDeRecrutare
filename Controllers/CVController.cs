@@ -74,11 +74,12 @@ namespace SistemRecrutare.Controllers
         }
 
         // pentru un utlizator
-        public PartialViewResult DetaliiCV(string email) // afisare pentru descarcare
+        public PartialViewResult DetaliiCV(string email, string AplicantSauAngajator = "") // afisare pentru descarcare
         {
             email = HttpContext.Application["Email"].ToString();
 
             List<DetaliiCvModel> ListaFisiere = VeziListaFisiere(/*email*/);
+            HttpContext.Application["AplicantSauAngajator"] = AplicantSauAngajator; // arata sau nu buton stergere
 
             return PartialView("DetaliiCV", ListaFisiere);
         }

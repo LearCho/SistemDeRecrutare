@@ -80,12 +80,12 @@ namespace SistemRecrutare
             //   appId: "1191785347835839",
             //   appSecret: "1b710adf3960e87e2b181eb339da5be5");
 
-            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            {
-                ClientId = "397772867081-1nimjg1gg1ohg266ul9rca9jamtsm1kq.apps.googleusercontent.com",
-                ClientSecret = "UwJMPG6nggk-gltFvEmYNkew",
-                CallbackPath = new PathString("/GoogleLoginCallback")
-            });
+            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            //{
+            //    ClientId = "397772867081-1nimjg1gg1ohg266ul9rca9jamtsm1kq.apps.googleusercontent.com",
+            //    ClientSecret = "UwJMPG6nggk-gltFvEmYNkew",
+            //    CallbackPath = new PathString("/GoogleLoginCallback")
+            //});
         }
     }
 }

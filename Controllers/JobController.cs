@@ -35,12 +35,7 @@ namespace SistemRecrutare.Controllers
 
             //TODO : de creat pagini cu PagedList
             try
-            {    // DataTable dataTable_Joburi = new DataTable();
-                //using (SqlConnection sqlCon = new SqlConnection(connectionString))
-                //{   sqlCon.Open();
-                //    SqlDataAdapter sqlDataA = new SqlDataAdapter("SELECT * FROM dbo.job", sqlCon);
-                //    sqlDataA.Fill(dataTable_Joburi);}         
-
+            {         
                 var joburi = from job in db.jobs
                              where job.angajator == angajator
                              select job;
@@ -85,10 +80,10 @@ namespace SistemRecrutare.Controllers
         //[Authorize(Roles = "Admin, Angajator")]
         public ActionResult Creare(Models.JobModel jobModel)
         {
-            //try
-            //{
-            // upload imagine in baza de date
-            foreach (string upload in Request.Files)
+            try
+            {
+                // upload imagine in baza de date
+                foreach (string upload in Request.Files)
             {
                 if (!ExistaFisier(Request.Files[upload]))
                     continue;
@@ -119,11 +114,12 @@ namespace SistemRecrutare.Controllers
                 sql_cmd.Parameters.AddWithValue("@norma_job", jobModel.norma_job);
                 sql_cmd.ExecuteNonQuery();
             }
-            //}
-            //catch
-            //{
-            //    return Content("<script language='javascript' type='text/javascript'>alert ('A aparut o eroare la introducerea datelor! ');</script>");
-            //}  
+            }
+            catch
+            {
+                ViewBag.MesajJob = "Completati cu atentie campurile!";
+                return View("Error");
+            }
 
             return RedirectToAction("ListaAdmin", "Job", new { angajator = jobModel.angajator });
         }
@@ -136,50 +132,60 @@ namespace SistemRecrutare.Controllers
             //{
             //    return View(db.jobs.Where(j => j.cod_job == cod_job).FirstOrDefault());
             //}
-
-            Models.JobModel jobModel = new Models.JobModel();
-
-            DataTable dataTable_Job = new DataTable();
-            using (SqlConnection sqlCon = new SqlConnection(connectionString))
+            try
             {
-                sqlCon.Open();
-                string query1 = "SELECT id_job, denumire_job AS 'DENUMIRE JOB', cod_job AS 'COD', data_expirare_job AS" +
-                    "'DATA EXPIRARE', angajator AS 'ANGAJATOR', imagine_job AS ' ', descriere_job AS 'DESPRE', tara AS" +
-                    " 'TARA', oras AS 'ORAS', data_creare_job, norma_job FROM dbo.job WHERE cod_job = @cod_job;";
-                SqlDataAdapter sqlData = new SqlDataAdapter(query1, sqlCon);
-                sqlData.SelectCommand.Parameters.AddWithValue("@cod_job", cod_job);
-                sqlData.Fill(dataTable_Job);
-            }
+                Models.JobModel jobModel = new Models.JobModel();
 
-            if (dataTable_Job.Rows.Count == 1)
-            {
-                jobModel.id_job = Convert.ToInt32(dataTable_Job.Rows[0][0].ToString());
-                jobModel.denumire_job = dataTable_Job.Rows[0][1].ToString();
-                jobModel.cod_job = dataTable_Job.Rows[0][2].ToString();
-                if (dataTable_Job.Rows[0][3].ToString() != "")
+                DataTable dataTable_Job = new DataTable();
+                using (SqlConnection sqlCon = new SqlConnection(connectionString))
                 {
-                    jobModel.data_expirare_job = Convert.ToDateTime(dataTable_Job.Rows[0][3]);
+                    sqlCon.Open();
+                    string query1 = "SELECT id_job, denumire_job AS 'DENUMIRE JOB', cod_job AS 'COD', data_expirare_job AS" +
+                        "'DATA EXPIRARE', angajator AS 'ANGAJATOR', imagine_job AS ' ', descriere_job AS 'DESPRE', tara AS" +
+                        " 'TARA', oras AS 'ORAS', data_creare_job, norma_job FROM dbo.job WHERE cod_job = @cod_job;";
+                    SqlDataAdapter sqlData = new SqlDataAdapter(query1, sqlCon);
+                    sqlData.SelectCommand.Parameters.AddWithValue("@cod_job", cod_job);
+                    sqlData.Fill(dataTable_Job);
                 }
-                jobModel.angajator = dataTable_Job.Rows[0][4].ToString();
-                if (dataTable_Job.Rows[0][5].ToString() != "")
+
+                if (dataTable_Job.Rows.Count == 1)
                 {
-                    jobModel.imagine_job = (byte[])(dataTable_Job.Rows[0][5]); // nu se mai editeaza
+                    jobModel.id_job = Convert.ToInt32(dataTable_Job.Rows[0][0].ToString());
+                    jobModel.denumire_job = dataTable_Job.Rows[0][1].ToString();
+                    jobModel.cod_job = dataTable_Job.Rows[0][2].ToString();
+                    if (dataTable_Job.Rows[0][3].ToString() != "")
+                    {
+                        jobModel.data_expirare_job = Convert.ToDateTime(dataTable_Job.Rows[0][3]);
+                    }
+                    jobModel.angajator = dataTable_Job.Rows[0][4].ToString();
+                    if (dataTable_Job.Rows[0][5].ToString() != "")
+                    {
+                        jobModel.imagine_job = (byte[])(dataTable_Job.Rows[0][5]); // nu se mai editeaza
+                    }
+                    jobModel.descriere_job = dataTable_Job.Rows[0][6].ToString();
+                    jobModel.tara = dataTable_Job.Rows[0][7].ToString();
+                    jobModel.oras = dataTable_Job.Rows[0][8].ToString();
+                    if (dataTable_Job.Rows[0][9].ToString() != "")
+                    {
+                        jobModel.data_creare_job = Convert.ToDateTime(dataTable_Job.Rows[0][9]);
+                    }
+                    if (dataTable_Job.Rows[0][10] != null)
+                    {
+                        jobModel.norma_job = (Norma_Job)Enum.Parse(typeof(Norma_Job), dataTable_Job.Rows[0][10].ToString());
+                    }
+                    return View(jobModel);
                 }
-                jobModel.descriere_job = dataTable_Job.Rows[0][6].ToString();
-                jobModel.tara = dataTable_Job.Rows[0][7].ToString();
-                jobModel.oras = dataTable_Job.Rows[0][8].ToString();
-                if (dataTable_Job.Rows[0][9].ToString() != "")
+                else
                 {
-                    jobModel.data_creare_job = Convert.ToDateTime(dataTable_Job.Rows[0][9]);
+                    ViewBag.MesajJob = "Prea multe inregistrari";
+
+                    return View("Error");
                 }
-                if (dataTable_Job.Rows[0][10] != null)
-                {
-                    jobModel.norma_job = (Norma_Job)Enum.Parse(typeof(Norma_Job), dataTable_Job.Rows[0][10].ToString());
-                }
-                return View(jobModel);
             }
-            else
+            catch
+            {
                 return View("Error");
+            }
         }
 
         // POST: Job/Editare/5
@@ -217,6 +223,7 @@ namespace SistemRecrutare.Controllers
             }
             catch
             {
+                ViewBag.MesajJob = "Completati cu atentie campurile!";
                 return View("Error");
             }
         }

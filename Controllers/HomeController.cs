@@ -51,7 +51,7 @@ namespace SistemRecrutare.Controllers
 
         public ActionResult Cariera()
         {
-            ViewBag.Message = "Ai nevoie de sfaturi despre cum poti avea success?";
+            ViewBag.Message = "Ai nevoie de sfaturi despre cum poti avea succes?";
 
             return View();
         }

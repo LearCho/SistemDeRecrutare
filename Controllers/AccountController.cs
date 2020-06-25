@@ -644,6 +644,7 @@ namespace SistemRecrutare.Controllers
             }
             catch
             {
+                ViewBag.MesajProfil = "Completati cu atentie campurile!";
                 return View("Error");
             }
         }
@@ -653,11 +654,6 @@ namespace SistemRecrutare.Controllers
         [HttpGet]
         public ActionResult EditareProfilAngajator(string email)
         {
-            //using (DBrecrutare db = new DBrecrutare())
-            //{
-            //    return View(db.angajators.Where(a => a.email == email).FirstOrDefault());
-            //}
-
             Models.angajator angajatorModel = new Models.angajator();
 
             DataTable dataTable_Angajator = new DataTable();
@@ -716,6 +712,7 @@ namespace SistemRecrutare.Controllers
             }
             catch
             {
+                ViewBag.MesajProfil = "Completati cu atentie campurile!";
                 return View("Error");
             }
         }

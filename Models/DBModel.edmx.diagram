@@ -10,14 +10,14 @@
         <EntityTypeShape EntityType="DB_recrutareModel.utilizator_domeniu_leg" Width="1.5" PointX="2.875" PointY="3.125" IsExpanded="true" />
         <AssociationConnector Association="DB_recrutareModel.FK_domeniu" />
         <AssociationConnector Association="DB_recrutareModel.FK_utilizator" />
-        <EntityTypeShape EntityType="DB_recrutareModel.job" Width="1.5" PointX="5.25" PointY="2.375" />
-        <EntityTypeShape EntityType="DB_recrutareModel.rol" Width="1.5" PointX="0.5" PointY="5.625" />
+        <EntityTypeShape EntityType="DB_recrutareModel.job" Width="1.5" PointX="5.375" PointY="1.875" />
+        <EntityTypeShape EntityType="DB_recrutareModel.rol" Width="1.5" PointX="0.5" PointY="5.25" />
         <AssociationConnector Association="DB_recrutareModel.FK_utilizator_rol" />
         <EntityTypeShape EntityType="DB_recrutareModel.angajator" Width="1.5" PointX="7.5" PointY="0.5" />
         <AssociationConnector Association="DB_recrutareModel.FK_angajator_rol" />
-        <EntityTypeShape EntityType="DB_recrutareModel.cv" Width="1.75" PointX="3.5" PointY="6.375" />
+        <EntityTypeShape EntityType="DB_recrutareModel.cv" Width="1.75" PointX="3.75" PointY="5.625" />
         <AssociationConnector Association="DB_recrutareModel.FK_cv_angajat" />
-        <EntityTypeShape EntityType="DB_recrutareModel.aplicare_job" Width="1.5" PointX="6.375" PointY="6.75" />
+        <EntityTypeShape EntityType="DB_recrutareModel.aplicare_job" Width="1.5" PointX="8.625" PointY="4.5" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

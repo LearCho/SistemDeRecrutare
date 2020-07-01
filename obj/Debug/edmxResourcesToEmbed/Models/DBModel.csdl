@@ -57,6 +57,7 @@
     <Property Name="id_rol" Type="Int32" />
     <NavigationProperty Name="rol" Relationship="DB_recrutareModel.FK_utilizator_rol" FromRole="utilizator" ToRole="rol" />
     <NavigationProperty Name="cvs" Relationship="DB_recrutareModel.FK_cv_angajat" FromRole="utilizator" ToRole="cv" />
+    <Property Name="cod_resetare_parola" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
   </EntityType>
   <EntityType Name="utilizator_domeniu_leg">
     <Key>
@@ -103,7 +104,7 @@
     <Property Name="data_expirare_job" Type="DateTime" Precision="0" />
     <Property Name="angajator" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
     <Property Name="imagine_job" Type="Binary" MaxLength="Max" FixedLength="false" />
-    <Property Name="descriere_job" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="descriere_job" Type="String" MaxLength="520" FixedLength="false" Unicode="false" />
     <Property Name="data_creare_job" Type="DateTime" Precision="0" />
     <Property Name="tara" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
     <Property Name="oras" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />

@@ -97,12 +97,12 @@ namespace SistemRecrutare.Controllers
         }
 
         [NonAction]  // trimitere link de verificare prin email
-        public void trimiteLinkVerificareEmail(string email_id, string cod_activare, string rol)
+        public void trimiteLinkVerificareEmail(string email_id, string cod_activare, string rol, string pentru = "VerificareCont")
         {
             var email_deLa = new MailAddress("sis.rec.utcb@gmail.com", "Sistem Recrutare");
             var email_pentru = new MailAddress(email_id);
             var email_deLa_parola = "licenta2020"; // parola actuala
-            string email_titlu = "Contul tau a fost creat cu succes!";
+            string email_titlu = "";
 
             var smtp = new SmtpClient
             {
@@ -117,13 +117,27 @@ namespace SistemRecrutare.Controllers
             switch (rol) 
             { 
                 case "Angajat":
-                    var url_verificare_angajat = "/Account/VerificareCont/" + cod_activare;
+                    string body_angajat = "";
+                    var url_verificare_angajat = "/Account/" + pentru + "/" + cod_activare;
                     var link_angajat = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, url_verificare_angajat);
 
-                    string body_angajat = "<br/><br/> Bine ai venit pe platforma de joburi! <p> Speram ca serviciile noastre sa " +
-                         "te ajute in cautarea celui mai potrivit loc de munca pentru tine! Inca un pas si te poti apuca de" +
-                         " treaba. <p> Te rugam sa dai click pe link-ul urmator pentru a finaliza inregistrarea : </p>" +
-                         "<br/><a href = '" + link_angajat + "'>" + link_angajat + "</a> ";
+                    if (pentru == "VerificareCont")
+                    {
+
+                        email_titlu = "Contul tau a fost creat cu succes!";
+                        body_angajat = "<br/><br/> Bine ai venit pe platforma de joburi! <p> Speram ca serviciile noastre sa " +
+                             "te ajute in cautarea celui mai potrivit loc de munca pentru tine! Inca un pas si te poti apuca de" +
+                             " treaba. <p> Te rugam sa dai click pe link-ul urmator pentru a finaliza inregistrarea : </p>" +
+                             "<br/><a href = '" + link_angajat + "'>" + link_angajat + "</a> <br/> <b>Platforma de joburi</b>";
+                    }
+
+                    else if (pentru == "ResetareParola")
+                    {
+                        email_titlu = "Resetare parolă";
+                        body_angajat = "<br/><br/> Am primit o cerere pentru resetarea parolei tale. Te rugăm să intri pe " +
+                            " link-ul următor pentru a-ți reseta parola: <br/><a href = '" + link_angajat + "'>" + link_angajat + "</a> <br/> " +
+                            "<br/><b>Platforma de joburi</b>";
+                    }
 
                     using (var mesaj_angajat = new MailMessage(email_deLa, email_pentru)
                     {
@@ -134,17 +148,30 @@ namespace SistemRecrutare.Controllers
                         smtp.Send(mesaj_angajat);
                     break;
 
+
                 case "Angajator":
-                    var url_verificare_angajator = "/Account/VerificareContAngajator/" + cod_activare;
+                    string body_angajator = "";
+                    var url_verificare_angajator = "/Account/" + pentru + "/" + cod_activare;
                     var link_angajator = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, url_verificare_angajator);
 
-                    string body_angajator = "<br/><br/> Bine ai venit pe platforma de joburi! <p> Iti dorim sa ai o " +
-                       "experienta placuta si speram ca serviciile noastre sa te ajute sa gasesti candidatii cei mai potriviti " +
-                       "pentru rolurile din compania ta! Inca un pas si iti poti completa profilul companiei tale! </p>" +
-                       "<p> Te rugam sa dai click pe link-ul urmator pentru a finaliza inregistrarea :</p> <br/><a href = '" + link_angajator + 
-                       "'>" + link_angajator + "</a> ";
+                    if (pentru == "VerificareContAngajator")
+                    {
+                        email_titlu = "Contul tau a fost creat cu succes!";
+                        body_angajator = "<br/><br/> Bine ai venit pe platforma de joburi! <p> Iti dorim sa ai o " +
+                           "experienta placuta si speram ca serviciile noastre sa te ajute sa gasesti candidatii cei mai potriviti " +
+                           "pentru rolurile din compania ta! Inca un pas si iti poti completa profilul companiei tale! </p>" +
+                           "<p> Te rugam sa dai click pe link-ul urmator pentru a finaliza inregistrarea :</p> <br/><a href = '" + link_angajator +
+                           "'>" + link_angajator + "</a> ";
+                    }
+                    else if (pentru == "ResetareParola")
+                    {
+                        email_titlu = "Resetare parolă";
+                        body_angajator = "<br/><br/> Am primit o cerere pentru resetarea parolei tale. Te rugăm să intri pe " +
+                            " link-ul următor pentru a-ți reseta parola: <br/><a href = '" + link_angajator + "'>" + link_angajator + "</a> <br/> " +
+                            "<br/><b>Platforma de joburi</b>";
+                    }
 
-                    using (var mesaj_angajator = new MailMessage(email_deLa, email_pentru)
+                        using (var mesaj_angajator = new MailMessage(email_deLa, email_pentru)
                     {
                         Subject = email_titlu,
                         Body = body_angajator,
@@ -250,7 +277,7 @@ namespace SistemRecrutare.Controllers
 
                     // trimitere email catre utilizator
                     trimiteLinkVerificareEmail(cont_angajat.Utilizator.email, cont_angajat.Utilizator.cod_activare.ToString(),
-                        "Angajat");
+                        "Angajat", "VerificareCont");
                     message = "Inregistrarea a fost efectuata cu succes. Un link de activare " +
                         "ti-a fost trimis pe email, la adresa " + cont_angajat.Utilizator.email;
                     status = true;
@@ -327,7 +354,7 @@ namespace SistemRecrutare.Controllers
                     db.SaveChanges();
 
                     // trimitere email catre angajator
-                    trimiteLinkVerificareEmail(cont_angajator.email, cont_angajator.cod_activare.ToString(), "Angajator");
+                    trimiteLinkVerificareEmail(cont_angajator.email, cont_angajator.cod_activare.ToString(), "Angajator", "VerificareContAngajator");
                     message = "Inregistrarea a fost efectuata cu succes. Un link de activare v-a fost trimis pe email, " +
                         "la adresa " + cont_angajator.email;
                     status = true;
@@ -759,57 +786,103 @@ namespace SistemRecrutare.Controllers
         //}
 
         // ------------ Logare: Parola Uitata ------------
-        // GET: /Account/ForgotPassword
-        //[AllowAnonymous]
-        //public ActionResult ForgotPassword()
-        //{
-        //    return View();
-        //}
+        // GET: /Account/AmUitatParola
+        [AllowAnonymous]
+        public ActionResult AmUitatParola()
+        {
+            return View();
+        }
 
-        // POST: /Account/ForgotPassword
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
-        //{
-        //if (ModelState.IsValid)
-        //{
-        //    var user = await UserManager.FindByNameAsync(model.Email);
-        //    if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
-        //    {
-        //        return View("ForgotPasswordConfirmation");
-        //    }
-        //}
-        //    return View(model);
-        //}
+        // POST: /Account/AmUitatParola
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult AmUitatParola(string Email)
+        {
+            string mesaj = "";
+            bool status = false;
 
-        //
+            using (DBrecrutare db = new DBrecrutare())
+            {
+                var cont = db.utilizators.Where(c => c.email == Email).FirstOrDefault();
+                if (cont != null) // trimitere link resetare prin email 
+                {
+                    string cod_reset = Guid.NewGuid().ToString();
+                    trimiteLinkVerificareEmail(cont.email, cod_reset, "Angajat", "ResetareParola");
+                    cont.cod_resetare_parola = cod_reset;
+
+                    db.Configuration.ValidateOnSaveEnabled = false; // nu trebuie validata confirmarea parolei
+                    db.SaveChanges();
+                    status = true;
+                    mesaj = "Un link ti-a fost trimis pe adresa de email";
+                }
+                else
+                {
+                    mesaj = "Email-ul nu corespunde unui cont valid";
+                }
+            }
+            ViewBag.Mesaj = mesaj;
+            ViewBag.Status = status;
+            return View();
+        }
+
         // GET: /Account/ForgotPasswordConfirmation
         //[AllowAnonymous]
         //public ActionResult ForgotPasswordConfirmation()
         //{
-        //    return View();
-        //}
-        //
-        // GET: /Account/ResetPassword
-        //[AllowAnonymous]
-        //public ActionResult ResetPassword(string code)
-        //{
-        //    return code == null ? View("Error") : View();
-        //}
+        //    return View(); }
+    
+        // GET: /Account/ResetareParola
+        [AllowAnonymous]
+        public ActionResult ResetareParola(string id)
+        {
+            using (DBrecrutare db = new DBrecrutare())
+            {
+                var ang = db.utilizators.Where(a => a.cod_resetare_parola == id).FirstOrDefault();
+                if (ang != null)
+                {
+                    ResetareParola resetareModel = new ResetareParola();
+                    resetareModel.CodReset = id;
+                    return View(resetareModel);
+                }
+                else
+                {
+                    return HttpNotFound();
+                }           
+            }
+        }
 
-        // POST: /Account/ResetPassword
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(model);
-        //    }
-        //    return View();
-        //}
+        // POST: /Account/ResetareParola
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetareParola(ResetareParola model)
+        {
+            var mesaj = "";
+
+            if (ModelState.IsValid)
+            {
+                using (DBrecrutare db = new DBrecrutare())
+                {
+                    var ang = db.utilizators.Where(a => a.cod_resetare_parola == model.CodReset).FirstOrDefault();
+                    if (ang != null)
+                    {
+                        ang.parola = SistemRecrutare.CriptareParola.Hash(model.ParolaNoua);
+                        ang.cod_resetare_parola = ""; //resetare
+
+                        db.Configuration.ValidateOnSaveEnabled = false;
+                        db.SaveChanges();
+                        mesaj = "Parola a fost schimbata!";
+                    }
+                }
+            }
+            else
+            {
+                mesaj = "Datele introduse sunt invalide!";
+            }
+            ViewBag.Mesaj = mesaj;
+            return View(model);
+        }
 
         //
         // GET: /Account/ResetPasswordConfirmation

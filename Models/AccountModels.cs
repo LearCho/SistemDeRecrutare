@@ -206,31 +206,26 @@ namespace SistemRecrutare.Models
         public Guid cod_activare { get; set; } 
     }
 
-
-    public class ResetPasswordViewModel
+    public class ResetareParola
     {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "E-mail")]
-        public string Email { get; set; }
-
-        [Required]
-        [StringLength(100, ErrorMessage = "{0} trebuie sa aiba cel putin {2} caractere.", MinimumLength = 6)]
+        [Required (ErrorMessage = "Introduceți noua parolă", AllowEmptyStrings = false)]
+        [StringLength(100, ErrorMessage = "{0} trebuie sa aiba cel putin {2} caractere", MinimumLength = 4)]
         [DataType(DataType.Password)]
-        [Display(Name = "Parola")]
-        public string Password { get; set; }
+        [Display(Name = "Parolă nouă")]
+        public string ParolaNoua { get; set; }
+
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirma parola")]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Parolele introduse nu corespund.")]
-        public string ConfirmPassword { get; set; }
-
-        public string Code { get; set; }
+        [Display(Name = "Confirmă parola")]
+        [System.ComponentModel.DataAnnotations.Compare("ParolaNoua", ErrorMessage = "Parolele introduse nu corespund")]
+        public string ConfirmaParola { get; set; }
+        //[Required]
+        public string CodReset { get; set; }
     }
 
-    public class ForgotPasswordViewModel
+    public class ParolaUitata
     {
-        [Required]
+        [Required(ErrorMessage = "Introduceți adresa de email", AllowEmptyStrings = false)]
         [EmailAddress]
         [Display(Name = "E-mail")]
         public string Email { get; set; }

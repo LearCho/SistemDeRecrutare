@@ -60,7 +60,7 @@
           <Property Name="data_expirare_job" Type="date" />
           <Property Name="angajator" Type="varchar" MaxLength="120" />
           <Property Name="imagine_job" Type="image" />
-          <Property Name="descriere_job" Type="varchar" MaxLength="200" />
+          <Property Name="descriere_job" Type="varchar" MaxLength="520" />
           <Property Name="data_creare_job" Type="date" />
           <Property Name="tara" Type="varchar" MaxLength="32" />
           <Property Name="oras" Type="varchar" MaxLength="32" />
@@ -89,6 +89,7 @@
           <Property Name="cod_activare" Type="uniqueidentifier" />
           <Property Name="id_utilizator" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="id_rol" Type="int" />
+          <Property Name="cod_resetare_parola" Type="nchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="utilizator_domeniu_leg">
           <Key>
@@ -250,6 +251,7 @@
           <Property Name="id_rol" Type="Int32" />
           <NavigationProperty Name="rol" Relationship="DB_recrutareModel.FK_utilizator_rol" FromRole="utilizator" ToRole="rol" />
           <NavigationProperty Name="cvs" Relationship="DB_recrutareModel.FK_cv_angajat" FromRole="utilizator" ToRole="cv" />
+          <Property Name="cod_resetare_parola" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="utilizator_domeniu_leg">
           <Key>
@@ -296,7 +298,7 @@
           <Property Name="data_expirare_job" Type="DateTime" Precision="0" />
           <Property Name="angajator" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
           <Property Name="imagine_job" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="descriere_job" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="descriere_job" Type="String" MaxLength="520" FixedLength="false" Unicode="false" />
           <Property Name="data_creare_job" Type="DateTime" Precision="0" />
           <Property Name="tara" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
           <Property Name="oras" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
@@ -404,6 +406,7 @@
           <EntitySetMapping Name="utilizators">
             <EntityTypeMapping TypeName="DB_recrutareModel.utilizator">
               <MappingFragment StoreEntitySet="utilizator">
+                <ScalarProperty Name="cod_resetare_parola" ColumnName="cod_resetare_parola" />
                 <ScalarProperty Name="id_rol" ColumnName="id_rol" />
                 <ScalarProperty Name="id_utilizator" ColumnName="id_utilizator" />
                 <ScalarProperty Name="cod_activare" ColumnName="cod_activare" />

@@ -13,7 +13,7 @@
             <div class="wrapper-centru">
                 @for (int i = 1; i <= Model.Rows.Count; i++)
                 {
-                <div class="job" style="height:560px; display:inline-block;">
+                <div class="job" style="height:595px; display:inline-block;">
                     @if (Model.Rows[i - 1][5].ToString() != "")
                     {
                         var base64 = Convert.ToBase64String((byte[])Model.Rows[i - 1][5]);
@@ -114,7 +114,7 @@
     }
 
     .descriere {
-        height: 50px;
+        height: 68px;
      }
 
     .job button {

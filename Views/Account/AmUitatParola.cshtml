@@ -1,0 +1,33 @@
+﻿@*@model SistemRecrutare.Models.ParolaUitata*@
+@{
+    ViewBag.Title = "Parolă uitată";
+}
+<br /><br /><br />
+      <div class="row" style="background-color:white;">
+          <h2 style="text-align:center;">@ViewBag.Title</h2>
+
+          @using (Html.BeginForm("AmUitatParola", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+          {
+              @Html.AntiForgeryToken()
+              <p class="text-info col-md-offset-4"> @ViewBag.Mesaj</p>
+              <hr />
+
+              @Html.ValidationSummary("", new { @class = "text-danger" })
+              <div class="form-group">
+                  <div class="col-md-2"></div>
+                  <label class="control-label col-md-2">Introduceti adresa de email</label>
+                  <div class="col-md-8">
+                      @Html.TextBox("Email", "", new { @class = "form-control" })
+                  </div>
+              </div>
+              <div class="form-group">
+                  <div class="col-md-offset-5 col-md-7">
+                      <input type="submit" class="btn btn-default" value="Trimite-mi link" style="background-color:darkorange"/>
+                  </div>
+              </div>
+          }
+      </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

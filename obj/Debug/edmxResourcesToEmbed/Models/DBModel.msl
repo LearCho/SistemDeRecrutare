@@ -12,6 +12,7 @@
     <EntitySetMapping Name="utilizators">
       <EntityTypeMapping TypeName="DB_recrutareModel.utilizator">
         <MappingFragment StoreEntitySet="utilizator">
+          <ScalarProperty Name="cod_resetare_parola" ColumnName="cod_resetare_parola" />
           <ScalarProperty Name="id_rol" ColumnName="id_rol" />
           <ScalarProperty Name="id_utilizator" ColumnName="id_utilizator" />
           <ScalarProperty Name="cod_activare" ColumnName="cod_activare" />

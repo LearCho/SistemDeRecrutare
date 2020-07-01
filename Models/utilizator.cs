@@ -33,6 +33,7 @@ namespace SistemRecrutare.Models
         public Nullable<System.Guid> cod_activare { get; set; }
         public int id_utilizator { get; set; }
         public Nullable<int> id_rol { get; set; }
+        public string cod_resetare_parola { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<utilizator_domeniu_leg> utilizator_domeniu_leg { get; set; }

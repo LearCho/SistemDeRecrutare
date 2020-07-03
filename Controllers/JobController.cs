@@ -32,6 +32,7 @@ namespace SistemRecrutare.Controllers
         {
             DBrecrutare db = new DBrecrutare();
             HttpContext.Application["Cautare"] = val_cautare;
+            angajator = @HttpContext.Application["Nume"].ToString();
 
             //TODO : de creat pagini cu PagedList
             try

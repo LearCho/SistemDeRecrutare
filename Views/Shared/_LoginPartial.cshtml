@@ -252,11 +252,6 @@
                             </a>
 
                             @* Joburi adaugate*@
-                            @*<a href="@Url.Action("ListaAdmin", "Job", new { @angajator = @HttpContext.Current.Application["Nume"], @val_cautare = @HttpContext.Current.Application["Cautare"] })">
-                                    <img src="~/Content/Img/lista.png" alt="Joburi adaugate" height="18" width="19" style="float:left;" />
-                                    Joburi adăugate
-                                </a>*@
-
                             <a href="~/Job/ListaAdmin/?angajator=@HttpContext.Current.Application["Nume"]&val_cautare=@HttpContext.Current.Application["Cautare"]">
                                 <img src="~/Content/Img/lista.png" alt="Joburi adaugate" height="18" width="19" style="float:left;" />
                                 Joburi adăugate

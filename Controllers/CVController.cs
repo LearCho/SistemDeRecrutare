@@ -153,17 +153,8 @@ namespace SistemRecrutare.Controllers
                         "dbo.cv inner join dbo.utilizator on utilizator.id_utilizator = cv.id_angajat";
 
                     SqlDataAdapter sqlData = new SqlDataAdapter(query, sqlCon);
-                  //  sqlData.SelectCommand.Parameters.AddWithValue("@cod_job", cod_job);
                     sqlData.Fill(dataTable_angajati);
 
-                    //if (dataTable_angajati.Rows.Count > 0)
-                    //{
-                    //    utilizatorModel.Utilizator.nume_utilizator = dataTable_angajati.Rows[0][0].ToString();
-                    //    utilizatorModel.Utilizator.prenume_utilizator = dataTable_angajati.Rows[0][1].ToString();
-                    //    utilizatorModel.Utilizator.email = dataTable_angajati.Rows[0][2].ToString();
-                    //    utilizatorModel.Utilizator.telefon = dataTable_angajati.Rows[0][3].ToString();
-                    //    utilizatorModel.Utilizator.oras = dataTable_angajati.Rows[0][4].ToString();
-                    //}
                 }
                 return View(dataTable_angajati);
             }

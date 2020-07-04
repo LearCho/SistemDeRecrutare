@@ -14,7 +14,7 @@
     <div class="wrapper-centru">
         @for (int i = 1; i <= Model.Rows.Count; i++)
         {
-        <div class="job" style="height:540px; display:inline-block;">
+        <div class="job" style="height:590px; display:inline-block;">
             @if (Model.Rows[i - 1][5].ToString() != "")
             {
                 var base64 = Convert.ToBase64String((byte[])Model.Rows[i - 1][5]);
@@ -31,10 +31,10 @@
             <p class="">Disponibil în: @Model.Rows[i - 1][8] @Model.Rows[i - 1][9]</p>
             <p class="data">Expiră la @string.Format("{0:MM/dd/yyyy}", Convert.ToDateTime(Model.Rows[i - 1][3]))</p>
             <p class="descriere">
-                <b>Tip Job</b> <br />
+                <b>Tip Job</b>
                 @Model.Rows[i - 1][10]
             </p>
-            <p hidden>@Model.Rows[i - 1][2]</p><br />
+            <p hidden>@Model.Rows[i - 1][2]</p>
             <p>
                 <button>
                     <a href="@Url.Action("AplicaLaJob", "Job", new { @cod_job = @Model.Rows[i - 1][2], @class = "text-buton" })">

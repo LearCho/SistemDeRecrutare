@@ -26,6 +26,7 @@ namespace SistemRecrutare.Models
         public string tara_sediu { get; set; }
         public string adresa_sediu { get; set; }
         public Nullable<int> id_rol { get; set; }
+        public string cod_resetare_parola { get; set; }
     
         public virtual rol rol { get; set; }
     }

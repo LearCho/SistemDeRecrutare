@@ -9,7 +9,7 @@
         <br /><br /> <br />
 
         @* Detalii Job *@
-    <div class="cv-1">
+    <div class="cv-1" style="height:1000px;">
         @for (int i = 1; i <= Model.Rows.Count; i++)
         {
             <div class="" style="text-align:left; padding-left:45px; padding-top:25px;">
@@ -48,7 +48,7 @@
             </div>
             @* Detalii Documente incarcate *@
             <div class="" style="text-align:right; padding-right: 180px;">
-                <h2 style="margin-top: -782px; color:darkslategrey; font-family:'Lato', sans-serif;">Documente încărcate de aplicant</h2>
+                <h2 style="margin-top: -882px; color:darkslategrey; font-family:'Lato', sans-serif;">Documente încărcate de aplicant</h2>
             </div>
 
             <div class="form-group" style="padding-left: 275px; padding-bottom: 90px; margin-top:15px;">
@@ -56,8 +56,7 @@
                     @Html.Action("DetaliiCV", "CV", new { @email = @Model.Rows[i - 1][14], @AplicantSauAngajator = "Angajator" })
                 </div>
             </div>
-            <br /><br /><br /><br /><br />
-            <hr />
+            <br /><br /><br /><br /><br /><br />
 
     <div class="box" style="margin-left: 410px; margin-top: -200px;">
         <p>Poți notifica aplicantul dacă aplicația sa a trecut mai departe.</p>
@@ -128,7 +127,7 @@
     }
 
     .descriere {
-        height: 50px;
+        height: 150px;
         width: 300px;
      }
 

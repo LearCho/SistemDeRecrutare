@@ -1,7 +1,7 @@
 ﻿@using SistemRecrutare.Models
 @model Logare
 @{
-    ViewBag.Title = "Intră in Cont";
+    ViewBag.Title = "Intră în Cont";
 }
     <body>
         <div class="row" style="background-color:white; margin-left:135px;margin-right:135px;">
@@ -65,12 +65,9 @@
                             <br />
                             <br />
                             @* Spre Cont Nou *@
-                            <p style="margin-left: 62%;">
-                                @Html.ActionLink("Inregistrează un cont nou", "ContNouAngajat", new { ReturnUrl = Request.RawUrl }, null)
+                            <p style="margin-left: 62%; text-align:center">
+                                @Html.ActionLink("Nu ai cont? Înregistrează un cont nou", "ContNouAngajat", new { ReturnUrl = Request.RawUrl }, null)
                             </p>
-
-                            @*  password reset functionality
-                        <p> @Html.ActionLink("Ti-ai uitat parola?", "ForgotPassword") </p>*@
                         </div>
                     }
                 </section>
@@ -78,7 +75,7 @@
 
             @* Parola Uitata *@
             <div class="col-md-offset-2 col-md-8" style="text-align:center;">
-                @Html.ActionLink("Ti-ai uitat parola?", "AmUitatParola", "Account")
+                @Html.ActionLink("Ți-ai uitat parola?", "AmUitatParola", "Account")
             </div>
 
             @* Logare Externa *@

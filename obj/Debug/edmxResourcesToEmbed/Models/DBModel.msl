@@ -65,6 +65,7 @@
     <EntitySetMapping Name="angajators">
       <EntityTypeMapping TypeName="DB_recrutareModel.angajator">
         <MappingFragment StoreEntitySet="angajator">
+          <ScalarProperty Name="cod_resetare_parola" ColumnName="cod_resetare_parola" />
           <ScalarProperty Name="id_rol" ColumnName="id_rol" />
           <ScalarProperty Name="adresa_sediu" ColumnName="adresa_sediu" />
           <ScalarProperty Name="tara_sediu" ColumnName="tara_sediu" />

@@ -148,6 +148,7 @@
     <Property Name="adresa_sediu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="id_rol" Type="Int32" />
     <NavigationProperty Name="rol" Relationship="DB_recrutareModel.FK_angajator_rol" FromRole="angajator" ToRole="rol" />
+    <Property Name="cod_resetare_parola" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
   </EntityType>
   <Association Name="FK_angajator_rol">
     <End Type="DB_recrutareModel.rol" Role="rol" Multiplicity="0..1" />

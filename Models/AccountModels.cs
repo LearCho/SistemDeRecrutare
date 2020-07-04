@@ -72,16 +72,16 @@ namespace SistemRecrutare.Models
     public class Logare
     {
         [Display(Name = "Email:")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Introduceti adresa de email")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Introduceți adresa de email")]
         [EmailAddress]
         public string Email { get; set; }
 
         [Display(Name = "Parola:")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Introduceti parola")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Introduceți parola")]
         [DataType(DataType.Password)]
         public string Parola { get; set; }
 
-        [Display(Name = "Retine-ma")]
+        [Display(Name = "Reține-mă")]
         public bool TineMinte { get; set; }
     }
 

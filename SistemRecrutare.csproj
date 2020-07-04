@@ -435,10 +435,8 @@
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\AmUitatParola.cshtml" />
-    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\ContNouAngajat.cshtml" />
     <Content Include="Views\Account\ResetareParola.cshtml" />
-    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\SendCode.cshtml" />
     <Content Include="Views\Account\VerifyCode.cshtml" />
     <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
@@ -473,6 +471,8 @@
     <Content Include="Views\CV\CVuri_Angajator.cshtml" />
     <Content Include="Views\Job\AprobaAplicatie.cshtml" />
     <Content Include="Views\Job\RespingeAplicatie.cshtml" />
+    <Content Include="Views\Account\AmUitatParolaAngajator.cshtml" />
+    <Content Include="Views\Account\ResetareParolaAngajator.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -163,7 +163,7 @@ namespace SistemRecrutare.Controllers
                            "<p> Te rugam sa dai click pe link-ul urmator pentru a finaliza inregistrarea :</p> <br/><a href = '" + link_angajator +
                            "'>" + link_angajator + "</a> ";
                     }
-                    else if (pentru == "ResetareParola")
+                    else if (pentru == "ResetareParolaAngajator")
                     {
                         email_titlu = "Resetare parolă";
                         body_angajator = "<br/><br/> Am primit o cerere pentru resetarea parolei tale. Te rugăm să intri pe " +
@@ -884,13 +884,96 @@ namespace SistemRecrutare.Controllers
             return View(model);
         }
 
-        //
-        // GET: /Account/ResetPasswordConfirmation
-        //[AllowAnonymous]
-        //public ActionResult ResetPasswordConfirmation()
-        //{
-        //    return View();
-        //}
+        [AllowAnonymous]
+        public ActionResult AmUitatParolaAngajator()
+        {
+            return View();
+        }
+
+        // POST: /Account/AmUitatParolaAngajator
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult AmUitatParolaAngajator(string Email)
+        {
+            string mesaj = "";
+            bool status = false;
+
+            using (DBrecrutare db = new DBrecrutare())
+            {
+                var cont = db.angajators.Where(c => c.email == Email).FirstOrDefault();
+                if (cont != null) // trimitere link resetare prin email 
+                {
+                    string cod_reset = Guid.NewGuid().ToString();
+                    trimiteLinkVerificareEmail(cont.email, cod_reset, "Angajator", "ResetareParolaAngajator");
+                    cont.cod_resetare_parola = cod_reset;
+
+                    db.Configuration.ValidateOnSaveEnabled = false; // nu trebuie validata confirmarea parolei
+                    db.SaveChanges();
+                    status = true;
+                    mesaj = "Un link ti-a fost trimis pe adresa de email";
+                }
+                else
+                {
+                    mesaj = "Email-ul nu corespunde unui cont valid";
+                }
+            }
+            ViewBag.Mesaj = mesaj;
+            ViewBag.Status = status;
+            return View();
+        }
+
+        // GET: /Account/ResetareParolaAngajator
+        [AllowAnonymous]
+        public ActionResult ResetareParolaAngajator(string id)
+        {
+            using (DBrecrutare db = new DBrecrutare())
+            {
+                var ang = db.angajators.Where(a => a.cod_resetare_parola == id).FirstOrDefault();
+                if (ang != null)
+                {
+                    ResetareParola resetareModel = new ResetareParola();
+                    resetareModel.CodReset = id;
+                    return View(resetareModel);
+                }
+                else
+                {
+                    return HttpNotFound();
+                }
+            }
+        }
+
+        // POST: /Account/ResetareParolaAngajator
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetareParolaAngajator(ResetareParola model)
+        {
+            var mesaj = "";
+
+            if (ModelState.IsValid)
+            {
+                using (DBrecrutare db = new DBrecrutare())
+                {
+                    var ang = db.angajators.Where(a => a.cod_resetare_parola == model.CodReset).FirstOrDefault();
+                    if (ang != null)
+                    {
+                        ang.parola = SistemRecrutare.CriptareParola.Hash(model.ParolaNoua);
+                        ang.cod_resetare_parola = ""; //resetare
+
+                        db.Configuration.ValidateOnSaveEnabled = false;
+                        db.SaveChanges();
+                        mesaj = "Parola a fost schimbata!";
+                    }
+                }
+            }
+            else
+            {
+                mesaj = "Datele introduse sunt invalide!";
+            }
+            ViewBag.Mesaj = mesaj;
+            return View(model);
+        }
 
         public ActionResult LoginFB(string returnUrl)
         {

@@ -16,6 +16,7 @@
     <Property Name="tara_sediu" Type="nvarchar" MaxLength="50" />
     <Property Name="adresa_sediu" Type="nvarchar" MaxLength="50" />
     <Property Name="id_rol" Type="int" />
+    <Property Name="cod_resetare_parola" Type="nchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="aplicare_job">
     <Key>
